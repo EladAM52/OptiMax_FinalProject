@@ -35,8 +35,6 @@ process.on('SIGINT', () => {
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-  
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax', {
@@ -52,9 +50,9 @@ const createUsers = async () => {
     try {
       // Creating a superuser
       const superUser = new User({
-        username: 'superuser',
-        email: 'superuser@example.com',
-        password: 'superuserPassword', // Consider hashing passwords with bcrypt for security
+        username: 'efrat',
+        email: 'efrat@gmail.com',
+        password: '1212', // Consider hashing passwords with bcrypt for security
         role: 'admin',
       });
   
@@ -62,9 +60,9 @@ const createUsers = async () => {
   
       // Creating another example user
       const user = new User({
-        username: 'exampleUser',
-        email: 'user@example.com',
-        password: 'userPassword', // Hash passwords in real applications
+        username: 'elad',
+        email: 'elad@gmail.com',
+        password: '1212', // Hash passwords in real applications
         role: 'user',
       });
   
@@ -76,7 +74,7 @@ const createUsers = async () => {
     }
   };
 
-//   createUsers();
+  createUsers();
 
 app.use(bodyParser.json());
 app.post('/login', async (req, res) => {
