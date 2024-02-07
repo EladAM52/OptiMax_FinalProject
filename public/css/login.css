@@ -1,0 +1,77 @@
+body {
+    background-image: url('/images/background.png'); /* Adjust with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    width: 400px;
+    padding: 50px 35px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.2); /* Adjusted opacity */
+}
+
+form * {
+    font-family: 'Poppins', sans-serif;
+    color: #000; /* Improved visibility */
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+input {
+    display: block;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(255,255,255,0.5); /* More opaque */
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #000; /* Darker text */
+    border: 1px solid rgba(255,255,255,0.3); /* Subtle border */
+}
+
+::placeholder {
+    color: #000; /* Darker placeholder for visibility */
+}
+
+button {
+    margin-top: 50px;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #080710;
+    border: none;
+}
