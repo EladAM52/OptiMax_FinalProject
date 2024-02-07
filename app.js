@@ -74,7 +74,7 @@ const createUsers = async () => {
     }
   };
 
-  createUsers();
+  // createUsers();
 
 app.use(bodyParser.json());
 app.post('/login', async (req, res) => {
