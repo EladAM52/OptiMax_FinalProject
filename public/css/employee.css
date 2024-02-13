@@ -75,7 +75,7 @@ body {
 }
 
 h1, p {
-    color: #ffffff; /* For better visibility against the background */
+    color: #080808; /* For better visibility against the background */
 }
 
 .sidebar-logo {
@@ -87,4 +87,39 @@ h1, p {
     width: 120px; /* Adjust logo size as needed */
     height: auto; /* Maintain aspect ratio */
     margin-bottom: 20px; /* Optional: add more space below the logo if needed */
+}
+
+.welcome-window {
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 700px; /* Adjust width as necessary */
+    position: fixed; /* Fixed position to keep it in view while scrolling */
+    top: 20px; /* Adjust distance from the top */
+    right: 300px; /* Adjust distance from the right */
+    text-align: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling if the window is positioned off the main content area */
+}
+
+h1 {
+    margin-bottom: 20px; /* Space between the title and description */
+    color: #333; /* Dark color for the title */
+    font-size: 24px; /* Adjusted font size for prominence */
+}
+
+p {
+    color: #666; /* Lighter color for the description */
+    font-size: 16px; /* Readable font size for the description */
+    line-height: 1.5; /* Increased line height for better readability */
 }

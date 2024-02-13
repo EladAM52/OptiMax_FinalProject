@@ -1,3 +1,4 @@
+
 document.getElementById('logoutbutton').addEventListener('click', () => {
     fetch('/logout', {
         method: 'POST',
@@ -13,8 +14,8 @@ document.getElementById('logoutbutton').addEventListener('click', () => {
     })
     .then(data => {
         if (data.success) {
-            console.log('byebye');
-            window.location.href = '/login.html';
+            console.log(data)
+            window.location.href = '/login';
         }
     })
     .catch(error => {
