@@ -12,7 +12,9 @@ app.use(session({
   secret: 'optimax',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } 
+  cookie: {    
+    httpOnly: true, // Recommended setting for security
+    secure: false } 
 }));
 
 const requireAuth = (req, res, next) => {
@@ -68,6 +70,7 @@ app.get('/manager',requireAuth, (req, res) => {
       app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
       app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
       app.use(bodyParser.json());
+      app.use(express.urlencoded({ extended: true }));
       
       
 
@@ -129,7 +132,7 @@ app.post('/logout', (req, res) => {
         console.log(err);
           return res.status(500).json({ success: false, message: 'Could not log out' });
       }
-      res.clearCookie('connect.sid', { path: '/', secure: false, httpOnly: false });
+      res.clearCookie('connect.sid', { path: '/' });
       res.json({ success: true, message: 'Logged out successfully' });
   });
 });
