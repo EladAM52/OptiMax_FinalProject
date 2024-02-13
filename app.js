@@ -1,5 +1,4 @@
 
-const bootstrap = require('bootstrap');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -9,10 +8,10 @@ const session = require('express-session');
 let server;
 
 app.use(session({
-  secret: 'OptiMaxfinalproject', 
+  secret: 'optimax',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true, maxAge: 3600000 } 
+  saveUninitialized: true,
+  cookie: { secure: true } 
 }));
 
 
@@ -23,6 +22,16 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
   });
+
+  // app.get('/manager', (req, res) => {
+  //   if (req.session.isLoggedIn && req.session.role=="admin") {
+  //     // res.send(`Welcome to your dashboard, ${req.session.username}!`);
+  //     res.sendFile(path.join(__dirname, 'public', 'manager.html'));
+  //   } else {
+  //     res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  //     // console.log(res.status(401).send('Please log in as admin to view this page.'));
+  //   }
+  // });
 
 const PORT = process.env.PORT || 3000;
 server = app.listen(PORT, () => {
@@ -45,6 +54,9 @@ process.on('SIGINT', () => {
 
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+
 
 const mongoose = require('mongoose');
 
@@ -91,11 +103,10 @@ app.use(bodyParser.json());
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-
     if (user && user.password === password) {
-        req.session.userId = user._id;
-        req.session.username = user.username; 
-        res.json({success: true, message: 'Login successful', username:user.username });
+      req.session.isLoggedIn = true;
+      req.session.role = user.role;
+        res.json({success: true, message: 'Login successful', username:user.username , role:user.role });
     } else {
         res.json({ success: false, message: 'Invalid credentials' });
     }
