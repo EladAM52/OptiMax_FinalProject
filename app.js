@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -7,14 +8,20 @@ const bodyParser = require('body-parser');
 const User = require('./models/User');
 const session = require('express-session');
 let server;
+const mongoDbUrl = 'mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax';
 
 app.use(session({
   secret: 'optimax',
   resave: false,
   saveUninitialized: true,
+  store: MongoStore.create({
+    mongoUrl: mongoDbUrl,
+    collectionName: 'sessions'
+  }),
   cookie: {    
     httpOnly: true, // Recommended setting for security
-    secure: false } 
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 24 } 
 }));
 
 const requireAuth = (req, res, next) => {
@@ -133,6 +140,7 @@ app.post('/logout', (req, res) => {
           return res.status(500).json({ success: false, message: 'Could not log out' });
       }
       res.clearCookie('connect.sid', { path: '/' });
+      console.log('Logged out successfully');
       res.json({ success: true, message: 'Logged out successfully' });
   });
 });
