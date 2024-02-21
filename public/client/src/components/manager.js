@@ -7,7 +7,7 @@ function Manager() {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/get-username')
+    fetch('http://localhost:5000/manager')
       .then(response => {
         if (!response.ok) {
           // This will handle HTTP errors such as 404 or 500 responses.
