@@ -7,7 +7,7 @@ function Employee() {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/get-username')
+    fetch('http://localhost:5000/employee')
       .then(response => response.json())
       .then(data => {
         setUsername(data.username);
