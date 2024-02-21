@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/manager.css'; // Adjust the path as necessary
+import Menu from './Menu';
 
 function Manager() {
   const navigate = useNavigate();
   const [authorized, setAuthorized] = useState(false);
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-      fetch('/get-username')
-      .then(response => response.json())
-      .then(data => {
-          setUsername(data.username);
-        })
-        .catch(error => console.error('Error:', error));
-    }, []);
-    
+  const [activeMenuItem, setActiveMenuItem] = useState('');
+  const username=localStorage.getItem('username');
+
     const handleLogout = () => {
         fetch('/logout', {
             method: 'POST',
@@ -70,18 +64,7 @@ function Manager() {
       <div className="user-info">
         <button id="logoutbutton" className="logout-button" onClick={handleLogout}>התנתקות</button>
       </div>
-      <div className="sidebar">
-        <div className="sidebar-logo">
-          <img src="../images/logo.png" alt="Logo" className="logo" />
-        </div>
-        {/* <ul>
-          <li><a href="#">פרטים אישיים</a></li>
-          <li><a href="#">יומן משימות</a></li>
-          <li><a href="#">רשימת עובדים</a></li>
-          <li><a href="#">רשימת ספקים</a></li>
-          <li><a href="#">סידור עבודה</a></li>
-        </ul> */}
-      </div>
+      <Menu />
       <div className="welcome-window">
         <h1 id="welcomeMessage">Welcome, {username}</h1>
         <p id="description">Here is a brief description of the dashboard and what you can do here. Feel free to explore the features and functionalities tailored for you.</p>

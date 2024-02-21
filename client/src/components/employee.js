@@ -5,16 +5,9 @@ import '../css/employee.css'; // Adjust the path as necessary
 function Employee() {
   const navigate = useNavigate();
   const [authorized, setAuthorized] = useState(false);
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-      fetch('/get-username')
-      .then(response => response.json())
-      .then(data => {
-          setUsername(data.username);
-        })
-        .catch(error => console.error('Error:', error));
-    }, []);
-    
+  const username=localStorage.getItem('username');
+
+
     const handleLogout = () => {
         fetch('/logout', {
             method: 'POST',
@@ -58,7 +51,7 @@ function Employee() {
           console.error('Error:', error);
           navigate('/login');
         });
-    }, [navigate]);
+    }, []);
   
     if (!authorized) {
       return <div>Loading or not authorized...</div>;

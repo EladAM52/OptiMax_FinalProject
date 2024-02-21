@@ -116,14 +116,6 @@ const createUsers = async () => {
         }
       });
 
-  app.get('/get-username', (req, res) => {
-    if (req.session.isLoggedIn) {
-        res.json({ username: req.session.username });
-    } else {
-        res.status(401).json({ message: 'Not logged in' });
-    }
-  });
-
   app.get('/registration',requireAuth, (req, res) => {
     if (req.session.role === "admin") {
         res.sendFile(path.join(__dirname, 'public', 'html/registration.html'));
