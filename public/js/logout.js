@@ -14,7 +14,6 @@ document.getElementById('logoutbutton').addEventListener('click', () => {
     })
     .then(data => {
         if (data.success) {
-            console.log('User Logout!');
             window.location.href = '/login';
         }
     })
