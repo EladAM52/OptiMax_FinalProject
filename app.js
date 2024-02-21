@@ -100,42 +100,38 @@ const createUsers = async () => {
     }
   }
 
-  app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html/login.html'));
-  });
-
   app.get('/employee',requireAuth, (req, res) => {
     if (req.session.role === "user") {
-        res.sendFile(path.join(__dirname, 'public', 'html/employee.html'));
+      res.json({ success: true, message: 'Authorized as employee' });
       } else {
-          console.log(res.status(401).send('Please log in as employee to view this page.'));
+          res.status(401).send('Please log in as employee to view this page.');
         }
       });
 
-      app.get('/manager',requireAuth, (req, res) => {
-        if (req.session.role === "admin") {
-            res.sendFile(path.join(__dirname, 'public', 'html/manager.html'));
-          } else {
-              console.log(res.status(401).send('Please log in as admin to view this page.'));
-            }
-          });
-
-      app.get('/get-username', (req, res) => {
-        if (req.session.isLoggedIn) {
-            res.json({ username: req.session.username });
-        } else {
-            res.status(401).json({ message: 'Not logged in' });
+  app.get('/manager',requireAuth, (req, res) => {
+    if (req.session.role === "admin") {
+        res.json({ success: true, message: 'Authorized as admin' });
+      } else {
+          res.status(401).send('Please log in as admin to view this page.');
         }
       });
 
-      app.get('/registration',requireAuth, (req, res) => {
-        if (req.session.role === "admin") {
-            res.sendFile(path.join(__dirname, 'public', 'html/registration.html'));
-          } else {
-              console.log(res.status(401).send('Please log in as admin to view this page.'));
-            }
-          });
-      
+  app.get('/get-username', (req, res) => {
+    if (req.session.isLoggedIn) {
+        res.json({ username: req.session.username });
+    } else {
+        res.status(401).json({ message: 'Not logged in' });
+    }
+  });
+
+  app.get('/registration',requireAuth, (req, res) => {
+    if (req.session.role === "admin") {
+        res.sendFile(path.join(__dirname, 'public', 'html/registration.html'));
+      } else {
+          console.log(res.status(401).send('Please log in as admin to view this page.'));
+        }
+      });
+  
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
