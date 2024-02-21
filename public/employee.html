@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiMax</title>
+    <link rel="stylesheet" href="/css/employee.css">
+     <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">  -->
+</head>
+<body>
+         <div class="user-info">
+            <button id= "logoutbutton" class="logout-button">התנתקות</button>
+        </div> 
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <img src="/images/logo.png" alt="Logo" class="logo">
+        </div>
+        <ul>
+            <li><a href="#">פרטים אישיים</a></li>
+            <li><a href="#">יומן משימות</a></li>
+            <li><a href="#">רשימת עובדים</a></li>
+            <li><a href="#">רשימת ספקים</a></li>
+            <li><a href="#">סידור עבודה</a></li>
+        </ul>
+    </div>
+    <div class="welcome-window">
+        <h1 id="welcomeMessage">Welcome, </h1>
+        <p id="description">Here is a brief description of the dashboard and what you can do here. Feel free to explore the features and functionalities tailored for you.</p>
+    </div>
+    <script>
+        fetch('/get-username')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('welcomeMessage').innerText += data.username;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+    <!-- <script src="/js/bootstrap.bundle.min.js"></script> -->
+    <script src="/js/logout.js"></script>
+</body>
+</html>
+
