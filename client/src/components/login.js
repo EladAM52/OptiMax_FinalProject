@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import '../css/login.css';
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -20,6 +22,7 @@ function Login() {
         const data = await response.json();
 
         if (data.success) {
+            localStorage.setItem('username',data.username)
             Swal.fire({
                 icon: 'success',
                 title: 'התחברות מוצלחת',
@@ -30,10 +33,10 @@ function Login() {
                 setEmail('');
                 setPassword('');
                 if(data.role === 'admin'){
-                    window.location.href = '/manager';
+                    navigate('/manager');
                 }
                 else{
-                    window.location.href = '/employee';
+                    navigate('/employee');
                 }
             });
         }
