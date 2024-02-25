@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/employee.css";
-import Menu from "./Menu";
-import LogoutButton from "./LogoutButton";
-import WelcomeContainer from "./welcomeContainer";
+import "../css/homePage.css";
 
-function Employee() {
+import WelcomeContainer from "./welcomeContainer";
+import Navbar from "./navbar";
+
+function HomePage() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
   const [userName, setUserName] = useState("");
   const [authorized, setAuthorized] = useState(false);
-  
   useEffect(() => {
     const userRoleFromLocal = localStorage.getItem("UserRole");
     setUserRole(userRoleFromLocal);
@@ -22,7 +21,7 @@ function Employee() {
   }, []);
 
   useEffect(() => {
-    fetch("/employee")
+    fetch("/homepage")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -49,11 +48,10 @@ function Employee() {
 
   return (
     <div>
-      <LogoutButton />
-      <Menu userRole={userRole} />
+      <Navbar userRole={userRole}/>
       <WelcomeContainer userName={userName} />
     </div>
   );
 }
 
-export default Employee;
+export default HomePage;

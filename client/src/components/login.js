@@ -33,11 +33,8 @@ function Login() {
       }).then(() => {
         setEmail("");
         setPassword("");
-        if (data.role === "admin") {
-          navigate("/manager");
-        } else {
-          navigate("/employee");
-        }
+        navigate("/homepage");
+    
       });
     } else {
       Swal.fire({

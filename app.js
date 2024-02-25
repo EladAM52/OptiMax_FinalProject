@@ -100,30 +100,26 @@ const createUsers = async () => {
     }
   }
 
-  app.get('/employee',requireAuth, (req, res) => {
-    if (req.session.role === "user") {
-      res.json({ success: true, message: 'Authorized as employee' });
-      } else {
-          res.status(401).send('Please log in as employee to view this page.');
-        }
+  // app.get('/employee',requireAuth, (req, res) => {
+  //   if (req.session.role === "user") {
+  //     res.json({ success: true, message: 'Authorized as employee' });
+  //     } else {
+  //         res.status(401).send('Please log in as employee to view this page.');
+  //       }
+  //     });
+
+  // app.get('/manager',requireAuth, (req, res) => {
+  //   if (req.session.role === "admin") {
+  //       res.json({ success: true, message: 'Authorized as admin' });
+  //     } else {
+  //         res.status(401).send('Please log in as admin to view this page.');
+  //       }
+  //     });
+
+      app.get('/homepage', requireAuth, (req, res) => {
+        res.json({ success: true, message: 'Authorized for homepage.' });
       });
 
-  app.get('/manager',requireAuth, (req, res) => {
-    if (req.session.role === "admin") {
-        res.json({ success: true, message: 'Authorized as admin' });
-      } else {
-          res.status(401).send('Please log in as admin to view this page.');
-        }
-      });
-
-  app.get('/registration',requireAuth, (req, res) => {
-    if (req.session.role === "admin") {
-        res.sendFile(path.join(__dirname, 'public', 'html/registration.html'));
-      } else {
-          console.log(res.status(401).send('Please log in as admin to view this page.'));
-        }
-      });
-  
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });

@@ -1,48 +1,47 @@
 import React from "react";
-
-const Menu = ({ userRole }) => {
-  // Retrieve the user role from localStorage
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faHandshake,faCalendarDays,faUsers,faUser, faTasks } from "@fortawesome/free-solid-svg-icons";
+import "../css/Menu.css";
+const Menu = ({ userRole, isOpen}) => {
   return (
-    <div className="sidebar" dir="rtl">
+    <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
       <div className="sidebar-logo">
         <img src="../images/logo.png" alt="Logo" className="logo" />
       </div>
       <ul>
         <li>
-          <a href="#">פרטים אישיים</a>
+        <a ><FontAwesomeIcon icon={faUser} />  פרטים אישיים</a>
         </li>
 
         {userRole === "admin" && (
           <>
             <li>
-              <a href="#">יומן משימות</a>
+              <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
             </li>
             <li>
-              <a href="#">ניהול עובדים</a>
+              <a><FontAwesomeIcon icon={faUsers} />ניהול עובדים </a>
             </li>
             <li>
-              <a href="#">ניהול ספקים</a>
+            <a><FontAwesomeIcon icon={faHandshake} /> ניהול ספקים</a>
             </li>
             <li>
-              <a href="#">סידור עבודה</a>
+            <a><FontAwesomeIcon icon={faCalendarDays} />סידור עבודה</a>
             </li>
           </>
         )}
-
         {userRole === "user" && (
           <>
             <li>
-              <a href="#">יומן משימות</a>
+              <a>יומן משימות</a>
             </li>
             <li>
-              <a href="#">אילוצים</a>
+              <a>אילוצים</a>
             </li>
             <li>
-              <a href="#">העלת מסמכים</a>
+              <a>העלת מסמכים</a>
             </li>
             <li>
-              <a href="#">סידור עבודה</a>
+              <a>סידור עבודה</a>
             </li>
           </>
         )}
