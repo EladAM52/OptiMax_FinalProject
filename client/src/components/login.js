@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 
 function Login() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
-
+    setIsLoading(true);
     const response = await fetch("/login", {
       method: "POST",
       headers: {
@@ -20,6 +21,7 @@ function Login() {
     });
 
     const data = await response.json();
+    setIsLoading(false);
 
     if (data.success) {
       localStorage.setItem("Username", data.username);
@@ -34,7 +36,6 @@ function Login() {
         setEmail("");
         setPassword("");
         navigate("/homepage");
-    
       });
     } else {
       Swal.fire({
@@ -80,8 +81,8 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" id="loginButton">
-          התחברות
+        <button type="submit" id="loginButton" disabled={isLoading}>
+          {isLoading ? <div className="spinner"></div> : "התחברות"}
         </button>
       </form>
     </div>

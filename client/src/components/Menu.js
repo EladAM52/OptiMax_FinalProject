@@ -2,6 +2,9 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faHandshake,faCalendarDays,faUsers,faUser, faTasks } from "@fortawesome/free-solid-svg-icons";
 import "../css/Menu.css";
+import { Link } from "react-router-dom";
+
+
 const Menu = ({ userRole, isOpen}) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
@@ -19,7 +22,9 @@ const Menu = ({ userRole, isOpen}) => {
               <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
             </li>
             <li>
-              <a><FontAwesomeIcon icon={faUsers} />ניהול עובדים </a>
+              <Link to="/getusers" >
+              <FontAwesomeIcon icon={faUsers}/>ניהול עובדים 
+              </Link>
             </li>
             <li>
             <a><FontAwesomeIcon icon={faHandshake} /> ניהול ספקים</a>

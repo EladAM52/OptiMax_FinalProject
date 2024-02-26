@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/homePage.css";
-
 import WelcomeContainer from "./welcomeContainer";
 import Navbar from "./navbar";
 
@@ -39,12 +38,12 @@ function HomePage() {
       .catch((error) => {
         console.error("Error:", error);
         navigate("/login");
-      });
+      })
   });
 
   if (!authorized) {
-    return <div>Loading...</div>;
-  }
+    return <div className="loading-container"><div className="spinner"></div></div>;
+}
 
   return (
     <div>
