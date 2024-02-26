@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import "../css/login.css";
+import logo from "../images/logo.png";
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    document.body.classList.add("login");
+    return () => {
+      document.body.classList.remove("login");
+    };
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -54,7 +62,7 @@ function Login() {
     <div>
       <form id="loginForm" onSubmit={handleLogin} dir="rtl">
         <div className="text-center mb-4">
-          <img src="../images/logo.png" alt="Logo" className="logo" />
+          <img src={logo} alt="Logo" className="logo" />
         </div>
         <h3>כניסה למערכת</h3>
         <span className="input-group-text" id="basic-addon1">

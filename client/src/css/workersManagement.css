@@ -59,7 +59,7 @@
   }
   
   .add-user-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #080710; /* Green */
     color: white;
     padding: 10px 20px;
     margin: 10px 0;
@@ -69,7 +69,7 @@
   }
   
   .add-user-button:hover {
-    background-color: #45a049;
+    background-color: #4caf50;
   }
 
   .spinner {

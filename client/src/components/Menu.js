@@ -1,15 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faHandshake,faCalendarDays,faUsers,faUser, faTasks } from "@fortawesome/free-solid-svg-icons";
+import {faHandshake,faCalendarDays,faUsers,faUser, faTasks,faClipboard,faFileImport } from "@fortawesome/free-solid-svg-icons";
 import "../css/Menu.css";
 import { Link } from "react-router-dom";
+import logo from '../images/logo.png'; 
 
 
 const Menu = ({ userRole, isOpen}) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
       <div className="sidebar-logo">
-        <img src="../images/logo.png" alt="Logo" className="logo" />
+        <img src={logo} alt="Logo" className="logo" />
       </div>
       <ul>
         <li>
@@ -37,16 +38,16 @@ const Menu = ({ userRole, isOpen}) => {
         {userRole === "user" && (
           <>
             <li>
-              <a>יומן משימות</a>
+            <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
             </li>
             <li>
-              <a>אילוצים</a>
+              <a> <FontAwesomeIcon icon={faClipboard}  /> אילוצים</a>
             </li>
             <li>
-              <a>העלת מסמכים</a>
+              <a> <FontAwesomeIcon icon={faFileImport} />העלת מסמכים</a>
             </li>
             <li>
-              <a>סידור עבודה</a>
+            <a><FontAwesomeIcon icon={faCalendarDays} />סידור עבודה</a>
             </li>
           </>
         )}
