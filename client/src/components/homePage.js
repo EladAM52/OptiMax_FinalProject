@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/homePage.css";
 import WelcomeContainer from "./welcomeContainer";
-import Navbar from "./navbar";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -47,8 +46,7 @@ function HomePage() {
 
   return (
     <div>
-      <Navbar userRole={userRole}/>
-      <WelcomeContainer userName={userName} />
+      <WelcomeContainer userName={userName} userRole={userRole}/>
     </div>
   );
 }
