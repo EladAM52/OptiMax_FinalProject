@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");
 const express = require("express");
-const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
@@ -58,10 +57,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB with Mongoose"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
-// app.use(express.static("public"));
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-// app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
