@@ -10,7 +10,7 @@ let server;
 const mongoDbUrl =
   "mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
