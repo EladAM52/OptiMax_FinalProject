@@ -17,7 +17,7 @@ const Menu = ({ userRole, isOpen}) => {
         <a ><FontAwesomeIcon icon={faUser} />  פרטים אישיים</a>
         </li>
 
-        {userRole === "admin" && (
+        {userRole === "מנהל" && (
           <>
             <li>
               <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
@@ -35,7 +35,7 @@ const Menu = ({ userRole, isOpen}) => {
             </li>
           </>
         )}
-        {userRole === "user" && (
+        {userRole === "עובד" && (
           <>
             <li>
             <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>

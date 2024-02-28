@@ -11,15 +11,33 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  password: {
+  idNumber: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  }
+    enum: ['עובד', 'מנהל','בעלים'],
+  },
+  phoneNumber: {
+    type: String,
+    required: false, 
+    unique: false 
+  },
+    dateOfBirth: {
+      type: Date,
+      required: false 
+    },
+    familyStatus: {
+      type: String,
+      required: false, 
+      enum:['רווק/ה', 'נשוי/ה', 'גרוש/ה', 'אלמן/ה'] 
+    },
+    address: {
+      street: { type: String, required: false },
+      city: { type: String, required: false },
+    }
 });
 
 const User = mongoose.model('User', userSchema);

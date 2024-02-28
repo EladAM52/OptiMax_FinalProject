@@ -66,8 +66,15 @@ const createUsers = async () => {
     const superUser = new User({
       username: "efrat",
       email: "efrat@gmail.com",
-      password: "1212", // Consider hashing passwords with bcrypt for security
-      role: "admin",
+      idNumber: "123456789", // Example ID Number
+      role: "מנהל", // Updated role based on the new enum values
+      phoneNumber: "0501234567", // Example Phone Number
+      dateOfBirth: new Date("1990-01-01"), // Example Date of Birth
+      familyStatus: "נשוי/ה", // Example Family Status
+      address: { // Example Address
+        street: "רחוב השלום 15",
+        city: "תל אביב",
+      }
     });
 
     await superUser.save();
@@ -77,7 +84,15 @@ const createUsers = async () => {
       username: "elad",
       email: "elad@gmail.com",
       password: "1212", // Hash passwords in real applications
-      role: "user",
+      idNumber: "987654321", // Example ID Number
+      role: "עובד", // Updated role based on the new enum values
+      phoneNumber: "0507654321", // Example Phone Number
+      dateOfBirth: new Date("1992-02-02"), // Example Date of Birth
+      familyStatus: "רווק/ה", // Example Family Status
+      address: { // Example Address
+        street: "רחוב גאולה 20",
+        city: "ירושלים",
+      }
     });
 
     await user.save();
@@ -101,9 +116,9 @@ app.get("/homepage", requireAuth, (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, idNumber } = req.body;
   const user = await User.findOne({ email });
-  if (user && user.password === password) {
+  if (user && user.idNumber === idNumber) {
     req.session.isLoggedIn = true;
     req.session.role = user.role;
     req.session.userId = user._id;
@@ -141,5 +156,26 @@ app.get("/getusers", async (req, res) => {
   } catch (error) {
     console.error("Failed to fetch users:", error);
     res.status(500).json({ message: "Failed to fetch users" });
+  }
+});
+
+app.post('/adduser', async (req, res) => {
+  const { username, email, idNumber, role, dateOfBirth, familyStatus, address } = req.body;
+
+  try {
+    const newUser = new User({
+      username,
+      email,
+      idNumber, 
+      role,
+      dateOfBirth,
+      familyStatus,
+      address
+    });
+    await newUser.save();
+    res.status(201).json({ success: true, message: 'User added successfully', user: newUser });
+  } catch (error) {
+    console.error('Error adding user:', error);
+    res.status(500).json({ success: false, message: 'Error adding user', error: error.message });
   }
 });
