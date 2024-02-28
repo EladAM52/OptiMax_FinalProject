@@ -1,6 +1,6 @@
 import React from 'react'
 const WelcomeContainer = ({userName ,userRole}) => {
-  if(userRole === "admin"){
+  if(userRole === "מנהל"){
     return (
       <div className="welcome-window" dir='rtl'>
       <h1 id="welcomeMessage">שלום, {userName}</h1>

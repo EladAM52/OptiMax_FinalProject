@@ -8,7 +8,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [idNumber, setidNumber] = useState("");
 
   useEffect(() => {
     document.body.classList.add("login");
@@ -25,7 +25,7 @@ function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, idNumber }),
     });
 
     const data = await response.json();
@@ -42,7 +42,7 @@ function Login() {
         timer: 1500,
       }).then(() => {
         setEmail("");
-        setPassword("");
+        setidNumber("");
         navigate("/homepage");
       });
     } else {
@@ -53,7 +53,7 @@ function Login() {
         confirmButtonText: "סגור",
       }).then(() => {
         setEmail("");
-        setPassword("");
+        setidNumber("");
       });
     }
   };
@@ -81,13 +81,13 @@ function Login() {
           <i className="fas fa-lock"></i>
         </span>
         <input
-          type="password"
-          placeholder="סיסמה"
-          id="password"
-          name="password"
+          type="text"
+          placeholder="תעודת זהות"
+          id="idNumber"
+          name="idNumber"
           required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={idNumber}
+          onChange={(e) => setidNumber(e.target.value)}
         />
         <button type="submit" id="loginButton" disabled={isLoading}>
           {isLoading ? <div className="spinner"></div> : "התחברות"}

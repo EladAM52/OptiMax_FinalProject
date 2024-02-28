@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/workersManagement.css";
 
 const UsersTable = () => {
+  const navigate = useNavigate();
+  const navigateToAddUser = () => {
+    navigate("/adduser");
+  };
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +35,9 @@ const UsersTable = () => {
   return (
     <>
       <div className="add-user-container">
-        <button className="add-user-button">הוסף משתמש חדש</button>
+      <button className="add-user-button" onClick={navigateToAddUser}>
+      הוסף משתמש חדש
+    </button>
       </div>
       <div className="tablescroll">
         <div className="users-table-container">
