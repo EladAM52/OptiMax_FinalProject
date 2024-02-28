@@ -64,6 +64,12 @@
 
   }
 
+  .homepageButtom:hover{
+    background-color: rgba(161, 158, 158, 0.2);
+
+  }
+
+
   .menu-toggle:hover{
     background-color: rgba(161, 158, 158, 0.2);
   }
