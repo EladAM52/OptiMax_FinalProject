@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
 const session = require("express-session");
+const sgMail = require('@sendgrid/mail')
 let server;
 const mongoDbUrl =
   "mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax";
@@ -124,11 +125,30 @@ app.post("/login", async (req, res) => {
     req.session.userId = user._id;
     req.session.username = user.username;
     console.log(req.session);
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    sgMail.setApiKey('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')
+    const msg = {
+      to: 'eladamir46@gmail.com', 
+      from: 'optimax58@gmail.com', 
+      subject: 'קוד אימות',
+      text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
+    }
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
     res.json({
       success: true,
       message: "Login successful",
       username: user.username,
       role: user.role,
+      code: verificationCode,
     });
   } else {
     res.json({ success: false, message: "Invalid credentials" });
@@ -138,6 +158,7 @@ app.post("/login", async (req, res) => {
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
+      console.log('err');
       console.log(err);
       return res
         .status(500)
@@ -179,3 +200,8 @@ app.post('/adduser', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error adding user', error: error.message });
   }
 });
+
+
+
+
+
