@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 import logo from "../images/logo.png";
+import VerificationCodeInput from "./VerificationCodeInput";
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [idNumber, setidNumber] = useState("");
-
+  const [showVerificationInput, setShowVerificationInput] = useState(false);
   useEffect(() => {
     document.body.classList.add("login");
     return () => {
@@ -34,16 +35,18 @@ function Login() {
     if (data.success) {
       localStorage.setItem("Username", data.username);
       localStorage.setItem("UserRole", data.role);
+      localStorage.setItem("UserCode", data.code);
       Swal.fire({
         icon: "success",
         title: "התחברות מוצלחת",
-        text: "תועבר בקרוב.",
+        text: ` ${email} : קוד אימות נשלח אלייך למייל `,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       }).then(() => {
         setEmail("");
         setidNumber("");
-        navigate("/homepage");
+        setShowVerificationInput(true);
+        
       });
     } else {
       Swal.fire({
@@ -57,6 +60,11 @@ function Login() {
       });
     }
   };
+
+
+  if (showVerificationInput) {
+    return <VerificationCodeInput/>;
+  }
 
   return (
     <div>
