@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
 const session = require("express-session");
+require('dotenv').config();
 const sgMail = require('@sendgrid/mail')
 let server;
 const mongoDbUrl =
@@ -118,6 +119,7 @@ app.get("/homepage", requireAuth, (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, idNumber } = req.body;
+  const SenderEmail='optimax58@gmail.com';
   const user = await User.findOne({ email });
   if (user && user.idNumber === idNumber) {
     req.session.isLoggedIn = true;
@@ -126,11 +128,14 @@ app.post("/login", async (req, res) => {
     req.session.username = user.username;
     console.log(req.session);
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
+    const verificationCodeTimestamp = new Date();
+    await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
 
-    sgMail.setApiKey('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')
+
+    sgMail.setApiKey('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')
     const msg = {
-      to: 'eladamir46@gmail.com', 
-      from: 'optimax58@gmail.com', 
+      to: email, 
+      from: SenderEmail, 
       subject: 'קוד אימות',
       text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
     }
@@ -148,14 +153,16 @@ app.post("/login", async (req, res) => {
       message: "Login successful",
       username: user.username,
       role: user.role,
-      code: verificationCode,
     });
   } else {
     res.json({ success: false, message: "Invalid credentials" });
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post("/logout", async (req, res) => {
+  const userId= req.session.userId;
+  await User.updateOne({ _id: userId }, { $unset: { verificationCode: "", verificationCodeTimestamp: "" } });
+
   req.session.destroy((err) => {
     if (err) {
       console.log('err');
@@ -189,6 +196,7 @@ app.post('/adduser', async (req, res) => {
       email,
       idNumber, 
       role,
+      phoneNumber,
       dateOfBirth,
       familyStatus,
       address
@@ -200,6 +208,30 @@ app.post('/adduser', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error adding user', error: error.message });
   }
 });
+
+
+app.post("/verifyCode", async (req, res) => {
+  const { code } = req.body;
+
+  const user = await User.findById(req.session.userId);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  const isCodeValid = user.verificationCode === code;
+  const isCodeExpired = Date.now() - new Date(user.verificationCodeTimestamp).getTime() > 10 * 60 * 1000;
+
+  if (isCodeValid && !isCodeExpired) {
+
+    await User.updateOne({ _id: user._id }, { $unset: { verificationCode: "", verificationCodeTimestamp: "" } });
+
+    res.json({ success: true, message: "Verification successful." });
+  } else {
+    res.json({ success: false, message: "Invalid or expired verification code." });
+  }
+});
+
 
 
 

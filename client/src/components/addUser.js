@@ -7,6 +7,7 @@ const AddUserForm = () => {
     email: "",
     idNumber: "",
     role: "",
+    phoneNumber: "",
     dateOfBirth: "",
     familyStatus: "",
     address: {
@@ -99,6 +100,15 @@ const AddUserForm = () => {
           <option value="עובד">עובד</option>
           <option value="מנהל">מנהל</option>
         </select>
+      </div>
+      <div className="form-field">
+        <input
+          type="text"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+          placeholder="מספר טלפון"
+        />
       </div>
       <div className="form-field">
         <input

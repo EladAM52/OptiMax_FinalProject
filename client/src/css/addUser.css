@@ -4,11 +4,12 @@
     justify-content: space-between;
     width: 900px;
     margin: 20px auto;
-    padding: 25px;
+    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
     position: relative;
+    max-height: 450px;
     left: 370px;
     top:270px;
   }
@@ -21,7 +22,7 @@
   .add-user-wide-form input, 
   .add-user-wide-form select {
     width: 80%;
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }

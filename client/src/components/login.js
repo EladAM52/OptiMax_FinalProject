@@ -35,7 +35,6 @@ function Login() {
     if (data.success) {
       localStorage.setItem("Username", data.username);
       localStorage.setItem("UserRole", data.role);
-      localStorage.setItem("UserCode", data.code);
       Swal.fire({
         icon: "success",
         title: "התחברות מוצלחת",
