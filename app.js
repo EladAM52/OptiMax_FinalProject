@@ -9,7 +9,7 @@ const session = require("express-session");
 const sgMail = require('@sendgrid/mail')
 let server;
 const mongoDbUrl =
-  "mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax";
+process.env.MONGO_DB_URL;
 
 const PORT = process.env.PORT || 3000;
 server = app.listen(PORT, () => {
@@ -50,7 +50,7 @@ app.use(
 
 mongoose
   .connect(
-    "mongodb+srv://eladamir46:Ea86451200@optimax-finalproject.phqfbz4.mongodb.net/OptiMax",
+    mongoDbUrl,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -159,8 +159,6 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/logout", async (req, res) => {
-  const userId= req.session.userId;
-  await User.updateOne({ _id: userId }, { $unset: { verificationCode: "", verificationCodeTimestamp: "" } });
 
   req.session.destroy((err) => {
     if (err) {
