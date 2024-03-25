@@ -132,6 +132,7 @@ app.post("/login", async (req, res) => {
     await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
 
 
+    
     sgMail.setApiKey('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')
     const msg = {
       to: email, 
