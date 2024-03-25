@@ -1,3 +1,6 @@
+require('dotenv').config({ path: 'sendgrid.env' });
+const sendGridApiKey = process.env.SENDGRID_API_KEY;
+console.log(sendGridApiKey);
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");
 const express = require("express");
@@ -5,7 +8,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
 const session = require("express-session");
-require('dotenv').config();
 const sgMail = require('@sendgrid/mail')
 let server;
 const mongoDbUrl =
@@ -130,10 +132,10 @@ app.post("/login", async (req, res) => {
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
     const verificationCodeTimestamp = new Date();
     await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
-
-
-
-    sgMail.setApiKey('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')
+    
+    // SENDGRID_API_KEY='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'
+    // sgMail.setApiKey('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')
+    sgMail.setApiKey(sendGridApiKey)
     const msg = {
       to: email, 
       from: SenderEmail, 
