@@ -185,7 +185,7 @@ app.get("/getusers", async (req, res) => {
 });
 
 app.post('/adduser', async (req, res) => {
-  const { username, email, idNumber, role, dateOfBirth, familyStatus, address } = req.body;
+  const { username, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
 
   try {
     const newUser = new User({
