@@ -117,46 +117,60 @@ app.get("/homepage", requireAuth, (req, res) => {
   res.json({ success: true, message: "Authorized for homepage." });
 });
 
+const validateEmail = (email) => {
+  // Regular expression for email validation
+  const emailPattern = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+  return emailPattern.test(email);
+};
+
+const validateId = (id) => {
+  const IdPattern = /^\d{9}$/;
+  return IdPattern.test(id);
+};
+
 app.post("/login", async (req, res) => {
   const { email, idNumber } = req.body;
   const SenderEmail='optimax58@gmail.com';
-  const user = await User.findOne({ email });
-  if (user && user.idNumber === idNumber) {
-    req.session.isLoggedIn = true;
-    req.session.role = user.role;
-    req.session.userId = user._id;
-    req.session.username = user.username;
-    console.log(req.session);
-    const verificationCode = Math.floor(100000 + Math.random() * 900000);
-    const verificationCodeTimestamp = new Date();
-    await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
-    
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-      to: email, 
-      from: SenderEmail, 
-      subject: 'קוד אימות',
-      text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
-    }
-    sgMail
-      .send(msg)
-      .then(() => {
-        console.log('Email sent')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+  const lowercaseUsername = email.toLowerCase();
+  const user = await User.findOne({ email:lowercaseUsername});
+  if(validateEmail(email) && validateId(idNumber)){
+    if (user && user.idNumber === idNumber) {
+      req.session.isLoggedIn = true;
+      req.session.role = user.role;
+      req.session.userId = user._id;
+      req.session.username = user.username;
+      console.log(req.session);
+      const verificationCode = Math.floor(100000 + Math.random() * 900000);
+      const verificationCodeTimestamp = new Date();
+      await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
+      
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      const msg = {
+        to: email, 
+        from: SenderEmail, 
+        subject: 'קוד אימות',
+        text:`קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
 
-    res.json({
-      success: true,
-      message: "Login successful",
-      username: user.username,
-      role: user.role,
-    });
-  } else {
-    res.json({ success: false, message: "Invalid credentials" });
-  }
-});
+      res.json({
+        success: true,
+        message: "Login successful",
+        username: user.username,
+        role: user.role,
+      });
+    } else {
+      res.json({ success: false, message: "Invalid credentials" });
+    }
+  }});
+
 
 app.post("/logout", async (req, res) => {
 

@@ -20,6 +20,30 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
+    if (!validateEmail(email)) {
+      Swal.fire({
+        icon: "error",
+        title: "התחברות נכשלה",
+        text: "כתובת אימייל אינה תקינה  , אנא נסה שנית",
+        confirmButtonText: "סגור",
+      }).then(() => {
+        setEmail("");
+        setidNumber("");
+      });
+      return;
+    }
+    if (!validateId(idNumber)) {
+      Swal.fire({
+        icon: "error",
+        title: "התחברות נכשלה",
+        text: "תעודת זהות אינה תקינה  , אנא נסה שנית",
+        confirmButtonText: "סגור",
+      }).then(() => {
+        setEmail("");
+        setidNumber("");
+      });
+      return;
+    }
     setIsLoading(true);
     const response = await fetch("/login", {
       method: "POST",
@@ -60,6 +84,17 @@ function Login() {
     }
   };
 
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailPattern = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+    return emailPattern.test(email);
+  };
+  const validateId = (idNumber) => {
+    // Regular expression for id validation
+    const idPattern = /^\d{9}$/;
+    return idPattern.test(idNumber);
+  };
+  
 
   if (showVerificationInput) {
     return <VerificationCodeInput/>;
@@ -104,4 +139,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Login;
