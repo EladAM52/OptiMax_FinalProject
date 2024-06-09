@@ -62,7 +62,7 @@ function Login() {
       Swal.fire({
         icon: "success",
         title: "התחברות מוצלחת",
-        text: ` ${email} : קוד אימות נשלח אלייך למייל `,
+        text: ` ${email.toLowerCase()} : קוד אימות נשלח אלייך למייל `,
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
