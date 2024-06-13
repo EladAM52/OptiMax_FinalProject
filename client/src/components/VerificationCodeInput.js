@@ -1,23 +1,33 @@
-import React, { useState, createRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function VerificationCodeInput() {
   const navigate = useNavigate();
   const [digits, setDigits] = useState(Array(6).fill(""));
-  const inputRefs = Array(6)
-    .fill()
-    .map(() => createRef());
+  const inputRefs = useRef([]);
 
   const handleChange = (index, event) => {
-    const newDigits = [...digits];
-    newDigits[index] = event.target.value.slice(0, 1).replace(/[^0-9]/g, "");
-    setDigits(newDigits);
+    const value = event.target.value.slice(0, 1).replace(/[^0-9]/g, "");
+    setDigits((prevDigits) => {
+      const newDigits = [...prevDigits];
+      newDigits[index] = value;
+      return newDigits;
+    });
 
-    if (event.target.value && index < 5) {
-      inputRefs[index + 1].current.focus();
-    } else if (!event.target.value && index > 0) {
-      inputRefs[index - 1].current.focus();
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (index, event) => {
+    if (event.key === "Backspace" && !digits[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+      setDigits((prevDigits) => {
+        const newDigits = [...prevDigits];
+        newDigits[index - 1] = "";
+        return newDigits;
+      });
     }
   };
 
@@ -44,8 +54,10 @@ function VerificationCodeInput() {
           title: "התחברות נכשלה",
           text: "קוד האימות שלך לא תקין. אנא נסה שנית.",
           confirmButtonText: "סגור",
+        }).then(() => {
+          setDigits(Array(6).fill(""));
+          inputRefs.current[0].focus();
         });
-        setDigits(Array(6).fill(""));
       }
     } catch (error) {
       console.error("Error during verification process:", error);
@@ -75,10 +87,11 @@ function VerificationCodeInput() {
         {digits.map((digit, index) => (
           <input
             key={index}
-            ref={inputRefs[index]}
+            ref={(el) => (inputRefs.current[index] = el)}
             type="text"
             value={digit}
             onChange={(e) => handleChange(index, e)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
             maxLength="1"
             style={{
               textAlign: "center",
