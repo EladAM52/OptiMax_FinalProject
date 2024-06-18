@@ -34,6 +34,7 @@ const UsersTable = () => {
 
   return (
     <>
+    <h1 className="h1"> פאנל ניהול עובדים</h1>
       <div className="add-user-container">
       <button className="add-user-button" onClick={navigateToAddUser}>
       הוסף משתמש חדש
@@ -44,7 +45,8 @@ const UsersTable = () => {
           <table className="users-table" dir="rtl">
             <thead>
               <tr>
-                <th>שם משתמש</th>
+                <th>שם פרטי</th>
+                <th>שם משפחה</th>
                 <th>אימייל</th>
                 <th>תפקיד</th>
                 <th>פעולות</th>
@@ -53,7 +55,8 @@ const UsersTable = () => {
             <tbody>
               {users.map((user) => (
                 <tr key={user._id}>
-                  <td>{user.username}</td>
+                  <td>{user.FirstName}</td>
+                  <td>{user.LastName}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>

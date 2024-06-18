@@ -6,6 +6,11 @@
   margin-right:250px;
 }
 
+.h1{
+  text-align: right;
+  position: relative;
+  right: 250px;
+}
 
 
 .users-table {

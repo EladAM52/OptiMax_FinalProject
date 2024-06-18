@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faHandshake,faCalendarDays,faUsers,faUser, faTasks,faClipboard,faFileImport } from "@fortawesome/free-solid-svg-icons";
 import "../css/Menu.css";
 import { Link } from "react-router-dom";
-import logo from '../images/logo.png'; 
+import logo from '../images/logo1.png'; 
 
 
 const Menu = ({ userRole, isOpen}) => {
@@ -14,7 +14,9 @@ const Menu = ({ userRole, isOpen}) => {
       </div>
       <ul>
         <li>
-        <a ><FontAwesomeIcon icon={faUser} />  פרטים אישיים</a>
+          <Link to="/UserProfile" >
+          <FontAwesomeIcon icon={faUser} />פרופיל אישי
+          </Link>
         </li>
 
         {userRole === "מנהל" && (

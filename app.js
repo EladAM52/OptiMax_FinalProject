@@ -118,7 +118,6 @@ app.get("/homepage", requireAuth, (req, res) => {
 });
 
 const validateEmail = (email) => {
-  // Regular expression for email validation
   const emailPattern = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
   return emailPattern.test(email);
 };
@@ -138,7 +137,8 @@ app.post("/login", async (req, res) => {
       req.session.isLoggedIn = true;
       req.session.role = user.role;
       req.session.userId = user._id;
-      req.session.username = user.username;
+      req.session.idNumber = user.idNumber;
+      req.session.FirstName = user.FirstName;
       console.log(req.session);
       const verificationCode = Math.floor(100000 + Math.random() * 900000);
       const verificationCodeTimestamp = new Date();
@@ -163,8 +163,9 @@ app.post("/login", async (req, res) => {
       res.json({
         success: true,
         message: "Login successful",
-        username: user.username,
+        FirstName: user.FirstName,
         role: user.role,
+        userId: user._id
       });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
@@ -198,12 +199,24 @@ app.get("/getusers", async (req, res) => {
   }
 });
 
+app.get("/getuserprofile", async (req, res) => {
+  try {
+    const userId = req.header('UserId');
+    const user = await User.findOne({_id:userId});
+    res.json(user);
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    res.status(500).json({ message: "Failed to fetch user" });
+  }
+});
+
 app.post('/adduser', async (req, res) => {
-  const { username, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
+  const { FirstName, LastName, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
 
   try {
     const newUser = new User({
-      username,
+      FirstName,
+      LastName,
       email,
       idNumber, 
       role,
