@@ -3,7 +3,8 @@ import "../css/addUser.css";
 
 const AddUserForm = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    FirstName: "",
+    LastName: "",
     email: "",
     idNumber: "",
     role: "",
@@ -67,10 +68,20 @@ const AddUserForm = () => {
       <div className="form-field">
         <input
           type="text"
-          name="username"
-          value={formData.username}
+          name="FirstName"
+          value={formData.FirstName}
           onChange={handleChange}
-          placeholder="שם העובד"
+          placeholder="שם פרטי"
+          required
+        />
+      </div>
+      <div className="form-field">
+        <input
+          type="text"
+          name="LastName"
+          value={formData.LastName}
+          onChange={handleChange}
+          placeholder="שם משפחה"
           required
         />
       </div>
@@ -137,7 +148,7 @@ const AddUserForm = () => {
           name="street"
           value={formData.address.street}
           onChange={handleChange}
-          placeholder="רחוב"
+          placeholder="כתובת"
         />
       </div>
       <div className="form-field">
@@ -146,7 +157,7 @@ const AddUserForm = () => {
           name="city"
           value={formData.address.city}
           onChange={handleChange}
-          placeholder="עיר"
+          placeholder=" עיר מגורים"
         />
       </div>
       <div className="form-field">

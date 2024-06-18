@@ -6,7 +6,7 @@ import WelcomeContainer from "./welcomeContainer";
 function HomePage() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
-  const [userName, setUserName] = useState("");
+  const [FirstName, setUserName] = useState("");
   const [authorized, setAuthorized] = useState(false);
   useEffect(() => {
     const userRoleFromLocal = localStorage.getItem("UserRole");
@@ -14,7 +14,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    const userNameFromLocal = localStorage.getItem("Username");
+    const userNameFromLocal = localStorage.getItem("FirstName");
     setUserName(userNameFromLocal);
   }, []);
 
@@ -46,7 +46,7 @@ function HomePage() {
 
   return (
     <div>
-      <WelcomeContainer userName={userName} userRole={userRole}/>
+      <WelcomeContainer FirstName={FirstName} userRole={userRole}/>
     </div>
   );
 }

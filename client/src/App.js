@@ -4,6 +4,7 @@ import HomePage from './components/homePage';
 import UsersTable from './components/workersManagement';
 import Layout from './components/layout';
 import AddUserForm from './components/addUser';
+import UserProflie from './components/Profile';
 function App() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function App() {
           <Route path="/homepage" element={<Layout><HomePage /></Layout>} />
           <Route path="/getusers" element={<Layout><UsersTable /></Layout>} />
           <Route path="/adduser" element={<Layout><AddUserForm /></Layout>} />
+          <Route path="/UserProfile" element={<Layout><UserProflie /></Layout>} />
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </div>
