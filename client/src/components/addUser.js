@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/addUser.css";
 
 const AddUserForm = () => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
+    gender: "",
     email: "",
     idNumber: "",
     role: "",
@@ -16,6 +18,13 @@ const AddUserForm = () => {
       city: "",
     },
   });
+
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1); // This will take you back one page
+  };
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,6 +93,13 @@ const AddUserForm = () => {
           placeholder="שם משפחה"
           required
         />
+      </div>
+      <div className="form-field">
+        <select name="gender" value={formData.role} onChange={handleChange}>
+          <option value="">בחר מין</option>
+          <option value="זכר">זכר</option>
+          <option value="נקבה">נקבה</option>
+        </select>
       </div>
       <div className="form-field">
         <input
@@ -162,6 +178,7 @@ const AddUserForm = () => {
       </div>
       <div className="form-field">
         <button type="submit">הוסף עובד</button>
+        <button type="button" onClick={goBack}>חזור</button>
       </div>
     </form>
   );

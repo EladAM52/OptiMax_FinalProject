@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  gender: {
+    type: String,
+    enum: ["נקבה", "זכר"],
+  },
   email: {
     type: String,
     required: true,
@@ -23,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["עובד", "מנהל", "בעלים"],
+    enum: ["עובד", "מנהל"],
   },
   phoneNumber: {
     type: String,

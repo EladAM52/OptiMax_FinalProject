@@ -211,12 +211,13 @@ app.get("/getuserprofile", async (req, res) => {
 });
 
 app.post('/adduser', async (req, res) => {
-  const { FirstName, LastName, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
+  const { FirstName, LastName, gender, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
 
   try {
     const newUser = new User({
       FirstName,
       LastName,
+      gender,
       email,
       idNumber, 
       role,
