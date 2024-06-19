@@ -60,8 +60,8 @@ const UsersTable = () => {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <button className="edit-button">ערוך</button>
-                    <button className="delete-button">מחק</button>
+                    <button className="edit-button">פרופיל העובד</button>
+                    <button className="delete-button">הסר עובד</button>
                   </td>
                 </tr>
               ))}

@@ -1,55 +1,71 @@
 import React, { useState, useEffect } from "react";
 import "../css/Profile.css";
 
-
 const Profile = () => {
-    const [user, setUser] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    
-    useEffect(() => {
-        setIsLoading(true);
-        fetch("/getuserprofile", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "UserId": localStorage.getItem("UserId"),
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setUser(data);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error fetching users:", error);
-            setIsLoading(false);
-          });
-      }, []);
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-    
-    if (isLoading) {
-      return (
-        <div className="loading-container">
-          <div className="spinner"></div>
-        </div>
-      );
-    }
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("/getuserprofile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        UserId: localStorage.getItem("UserId"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const userDateOfBirth = new Date(user.dateOfBirth).toLocaleDateString(
+    "he-IL",
+    options
+  );
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container" >
+    <div className="container">
+      <button className="editprofile-button">עריכת הפרופיל</button>
       <h1 className="heading">פרופיל אישי</h1>
       <section className="section">
         <h2 className="sub-heading">פרטים אישיים</h2>
         <ul>
-        <li>שם: {user.FirstName}</li>
-        <li>אימייל: {user.email}</li>
-        <li>טלפון: {user.phoneNumber}</li>
-        {/* Add more fields as needed */}
-      </ul>
+          <li>שם פרטי: {user.FirstName}</li>
+          <li>שם משפחה: {user.LastName}</li>
+          <li> תעודת זהות: {user.idNumber}</li>
+          <li>סטטוס משפחתי: {user.familyStatus}</li>
+          <li> תפקיד: {user.role}</li>
+          <li> מין: {user.gender}</li>
+          <li> תאריך לידה: {userDateOfBirth}</li>
+        </ul>
       </section>
-      
       <section className="section">
         <h2 className="sub-heading">פרטי התקשרות</h2>
+        <ul>
+          <li>אימייל: {user.email}</li>
+          <li>טלפון: {user.phoneNumber}</li>
+          {user.address && (
+            <li>
+              כתובת מגורים: {user.address.street}, {user.address.city}
+            </li>
+          )}
+        </ul>
       </section>
     </div>
   );
