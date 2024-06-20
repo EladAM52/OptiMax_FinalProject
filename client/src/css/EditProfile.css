@@ -1,0 +1,59 @@
+.edit-user-wide-form{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:baseline;
+    width: 800px;
+    margin: 5px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    position: relative;
+    max-height: 450px;
+    left: 370px;
+    top:270px;
+  }
+  
+  .edit-user-wide-form .form-field {
+    flex-basis: calc(50% - 20px); /* Adjust the spacing based on your preference */
+    margin-bottom: 20px;
+  }
+  
+  .edit-user-wide-form input, 
+  .edit-user-wide-form select {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-user-wide-form button[type="submit"] {
+    flex-basis: 100%; /* Full width */
+    padding: 10px 20px;
+    width: 150px;
+    background-color: #080710;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .edit-user-wide-form button[type="button"]{
+    flex-basis: 100%; /* Full width */
+    padding: 10px 20px;
+    width: 150px;
+    background-color: #080710;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    position:relative;
+    right: 20px;
+  }
+  
+  .edit-user-wide-form button[type="submit"]:hover {
+    background-color: #4caf50;
+  }
+  
