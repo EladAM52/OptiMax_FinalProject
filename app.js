@@ -210,6 +210,21 @@ app.get("/getuserprofile", async (req, res) => {
   }
 });
 
+app.put('/updateuserprofile', async (req, res) => {
+  try {
+    const { userId, ...profileData } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(userId, profileData, { new: true });
+    
+    if (updatedUser) {
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 app.post('/adduser', async (req, res) => {
   const { FirstName, LastName, gender, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
 

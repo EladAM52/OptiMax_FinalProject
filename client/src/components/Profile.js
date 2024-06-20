@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/Profile.css";
 
 const Profile = () => {
@@ -31,6 +32,11 @@ const Profile = () => {
     options
   );
 
+  const navigate = useNavigate();
+  const editprofile = () => {
+    navigate("/EditProfile");
+  };
+
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -41,7 +47,7 @@ const Profile = () => {
 
   return (
     <div className="container">
-      <button className="editprofile-button">עריכת הפרופיל</button>
+      <button className="editprofile-button" onClick={editprofile}>עריכת הפרופיל</button>
       <h1 className="heading">פרופיל אישי</h1>
       <section className="section">
         <h2 className="sub-heading">פרטים אישיים</h2>
