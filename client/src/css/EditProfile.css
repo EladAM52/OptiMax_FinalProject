@@ -1,28 +1,29 @@
 .edit-user-wide-form{
-    display:flex;
-    flex-wrap: wrap;
-    justify-content:baseline;
-    width: 800px;
-    margin: 5px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    position: relative;
-    max-height: 450px;
-    left: 370px;
-    top:270px;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content:baseline;
+  width: 800px;
+  height: 800px;
+  margin: 5px auto;
+  padding: 23px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  position: relative;
+  max-height: 450px;
+  left: 370px;
+  top:270px;
   }
   
   .edit-user-wide-form .form-field {
-    flex-basis: calc(50% - 20px); /* Adjust the spacing based on your preference */
-    margin-bottom: 20px;
+    flex-basis: calc(50% - 5px); /* Adjust the spacing based on your preference */
+    margin-bottom: 6px;
   }
   
   .edit-user-wide-form input, 
   .edit-user-wide-form select {
     width: 80%;
-    padding: 5px;
+    padding: 2px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
@@ -57,3 +58,10 @@
     background-color: #4caf50;
   }
   
+  .error-message {
+    right: 0;
+    top: 100%;
+    color: red;
+    font-size: 12px;
+    margin-top: 2px; /* Adjust margin as needed */
+  }
