@@ -1,24 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../css/EditProfile.css";
 
 const EditProfile = () => {
-  const [formData, setFormData] = useState({
-    FirstName: "",
-    LastName: "",
-    gender: "",
-    email: "",
-    idNumber: "",
-    role: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-    familyStatus: "",
-    address: {
-      street: "",
-      city: "",
-    },
-  });
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const navigate = useNavigate();
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero
+    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,56 +21,42 @@ const EditProfile = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "UserId": localStorage.getItem("UserId"),
+          UserId: localStorage.getItem("UserId"),
         },
       });
       const data = await response.json();
-      setFormData(data);
+      
+      // Set form values using react-hook-form setValue
+      Object.keys(data).forEach((key) => {
+        setValue(key, data[key]);
+      });
     };
 
     fetchUserProfile();
-  }, []);
+  }, [setValue]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name in formData.address) {
-      setFormData({
-        ...formData,
-        address: {
-          ...formData.address,
-          [name]: value,
-        },
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     const endpoint = "/updateuserprofile";
     const options = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId: localStorage.getItem("UserId"), ...formData }),
+      body: JSON.stringify({ userId: localStorage.getItem("UserId"), ...data }),
     };
 
     try {
       const response = await fetch(endpoint, options);
-      const data = await response.json();
+      const responseData = await response.json();
 
       if (response.ok) {
-        console.log(data);
+        console.log(responseData);
         alert("פרופיל העובד עודכן בהצלחה");
         navigate("/UserProfile");
       } else {
-        console.error(data.message);
-        alert("עדכון פרופיל העובד נכשל,נסה שנית");
+        console.error(responseData.message);
+        alert("עדכון פרופיל העובד נכשל, נסה שנית");
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -84,83 +65,110 @@ const EditProfile = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="edit-user-wide-form" dir="rtl">
+    <form onSubmit={handleSubmit(onSubmit)} className="edit-user-wide-form" dir="rtl">
       <div className="form-field">
         <input
           type="text"
-          name="FirstName"
-          value={formData.FirstName}
-          onChange={handleChange}
+          {...register("FirstName", { required: "שם פרטי הוא שדה חובה" })}
           placeholder="שם פרטי"
-          required
+          aria-describedby="FirstName-error"
         />
+        {errors.FirstName && <p id="FirstName-error" className="error-message">{errors.FirstName.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="text"
-          name="LastName"
-          value={formData.LastName}
-          onChange={handleChange}
+          {...register("LastName", { required: "שם משפחה הוא שדה חובה" })}
           placeholder="שם משפחה"
-          required
+          aria-describedby="LastName-error"
         />
+        {errors.LastName && <p id="LastName-error" className="error-message">{errors.LastName.message}</p>}
       </div>
       <div className="form-field">
-        <select name="gender" value={formData.gender} onChange={handleChange}>
+        <select name="gender" {...register("gender", { required: "בחר מין" })}>
           <option value="">בחר מין</option>
           <option value="זכר">זכר</option>
           <option value="נקבה">נקבה</option>
         </select>
+        {errors.gender && <p id="gender-error" className="error-message">{errors.gender.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          {...register("email", {
+            required: "אימייל הוא שדה חובה",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              message: "נא להכניס כתובת אימייל תקינה",
+            },
+          })}
           placeholder="אימייל"
-          required
+          aria-describedby="email-error"
         />
+        {errors.email && <p id="email-error" className="error-message">{errors.email.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="text"
-          name="idNumber"
-          value={formData.idNumber}
-          onChange={handleChange}
+          {...register("idNumber", {
+            required: "תעודת זהות היא שדה חובה",
+            minLength: {
+              value: 9,
+              message: "תעודת זהות צריכה להכיל 9 תווים",
+            },
+            maxLength: {
+              value: 9,
+              message: "תעודת זהות צריכה להכיל 9 תווים",
+            },
+          })}
           placeholder="תעודת זהות"
-          required
+          aria-describedby="idNumber-error"
         />
+        {errors.idNumber && <p id="idNumber-error" className="error-message">{errors.idNumber.message}</p>}
       </div>
       <div className="form-field">
-        <select name="role" value={formData.role} onChange={handleChange}>
+        <select name="role" {...register("role", { required: "בחר תפקיד" })}>
           <option value="">בחר תפקיד</option>
           <option value="עובד">עובד</option>
           <option value="מנהל">מנהל</option>
         </select>
+        {errors.role && <p id="role-error" className="error-message">{errors.role.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="text"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
+          {...register("phoneNumber", {
+            required: "מספר טלפון הוא שדה חובה",
+            pattern: {
+              value: /^\d{10}$/,
+              message: "מספר טלפון צריך להיות 10 ספרות",
+            },
+          })}
           placeholder="מספר טלפון"
+          aria-describedby="phoneNumber-error"
         />
+        {errors.phoneNumber && <p id="phoneNumber-error" className="error-message">{errors.phoneNumber.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="date"
-          name="dateOfBirth"
-          value={formData.dateOfBirth}
-          onChange={handleChange}
+          {...register("dateOfBirth", {
+            required: "תאריך לידה הוא שדה חובה",
+            validate: (value) => {
+              return (
+                new Date(value) <= new Date() || "תאריך הלידה לא יכול להיות בעתיד"
+              );
+            },
+          })}
+          max={getCurrentDate()}
+          aria-describedby="dateOfBirth-error"
         />
+        {errors.dateOfBirth && <p id="dateOfBirth-error" className="error-message">{errors.dateOfBirth.message}</p>}
       </div>
       <div className="form-field">
         <select
           name="familyStatus"
-          value={formData.familyStatus}
-          onChange={handleChange}
+          {...register("familyStatus", { required: "סטטוס משפחתי הוא שדה חובה" })}
         >
           <option value="">בחר סטטוס משפחתי</option>
           <option value="רווק/ה">רווק/ה</option>
@@ -168,24 +176,37 @@ const EditProfile = () => {
           <option value="גרוש/ה">גרוש/ה</option>
           <option value="אלמן/ה">אלמן/ה</option>
         </select>
+        {errors.familyStatus && <p id="familyStatus-error" className="error-message">{errors.familyStatus.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="text"
-          name="street"
-          value={formData.address.street}
-          onChange={handleChange}
+          {...register("address.street", {
+            required: "כתובת היא שדה חובה",
+            pattern: {
+              value: /^[\u0590-\u05FF0-9\s]+$/,
+              message: "נא להזין כתובת בעברית ומספרים בלבד",
+            },
+          })}
           placeholder="כתובת"
+          aria-describedby="address-street-error"
         />
+        {errors.address?.street && <p id="address-street-error" className="error-message">{errors.address.street.message}</p>}
       </div>
       <div className="form-field">
         <input
           type="text"
-          name="city"
-          value={formData.address.city}
-          onChange={handleChange}
-          placeholder=" עיר מגורים"
+          {...register("address.city", {
+            required: "עיר מגורים היא שדה חובה",
+            pattern: {
+              value: /^[\u0590-\u05FF\s]+$/,
+              message: "נא להזין עיר בעברית בלבד",
+            },
+          })}
+          placeholder="עיר מגורים"
+          aria-describedby="address-city-error"
         />
+        {errors.address?.city && <p id="address-city-error" className="error-message">{errors.address.city.message}</p>}
       </div>
       <div className="form-buttons">
         <button type="submit">שמירת שינויים</button>
