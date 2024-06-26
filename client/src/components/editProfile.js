@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import "../css/EditProfile.css";
 
 const EditProfile = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const { userId } = useParams();
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -21,7 +22,7 @@ const EditProfile = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          UserId: localStorage.getItem("UserId"),
+          UserId: userId,
         },
       });
       const data = await response.json();
@@ -33,7 +34,7 @@ const EditProfile = () => {
     };
 
     fetchUserProfile();
-  }, [setValue]);
+  }, [setValue,userId]);
 
 
   const onSubmit = async (data) => {
@@ -43,7 +44,7 @@ const EditProfile = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId: localStorage.getItem("UserId"), ...data }),
+      body: JSON.stringify({ userId, ...data }),
     };
 
     try {
@@ -53,7 +54,7 @@ const EditProfile = () => {
       if (response.ok) {
         console.log(responseData);
         alert("פרופיל העובד עודכן בהצלחה");
-        navigate("/UserProfile");
+        navigate(`/UserProfile/${userId}`);
       } else {
         console.error(responseData.message);
         alert("עדכון פרופיל העובד נכשל, נסה שנית");
@@ -210,7 +211,7 @@ const EditProfile = () => {
       </div>
       <div className="form-buttons">
         <button type="submit">שמירת שינויים</button>
-        <button type="button" onClick={() => navigate("/UserProfile")}>חזור</button>
+        <button type="button" onClick={() => navigate(`/UserProfile/${userId}`)}>חזור</button>
       </div>
     </form>
   );

@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
+const Task = require("./models/Task");
 const session = require("express-session");
 const sgMail = require('@sendgrid/mail')
 let server;
@@ -250,6 +251,16 @@ app.post('/adduser', async (req, res) => {
 });
 
 
+app.delete('/deleteUser/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted User' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 app.post("/verifyCode", async (req, res) => {
   const { code } = req.body;
 
@@ -271,6 +282,56 @@ app.post("/verifyCode", async (req, res) => {
     res.json({ success: false, message: "Invalid or expired verification code." });
   }
 });
+
+app.get('/getTasks', async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+app.post('/newTask', async (req, res) => {
+  const { title, description } = req.body;
+
+  try {
+    const task = new Task({
+      title,
+      description
+    });
+
+    const newTask = await task.save();
+    res.status(201).json(newTask);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.put('/editTask/:id', async (req, res) => {
+  try {
+    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!task) {
+      return res.status(404).send({ message: 'Task not found' });
+    }
+    res.send(task);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+
+
+app.delete('/deleteTask/:id', async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted task' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 
 

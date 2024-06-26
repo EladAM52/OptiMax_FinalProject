@@ -1,0 +1,105 @@
+.task-log-container {
+    position: relative;
+    /* max-width: 600px; */
+    width: 700px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    left:10px;
+    border: 2px solid #2f4050;
+    top: 25px;
+  }
+  .task-tablescroll{
+    max-height: 300px;
+    max-width: 620px;
+    padding: 0 10px 20px 250px;
+    overflow:auto;
+  }
+  
+  .task-form {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .task-form input[type="text"], .task-form button {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .task-form button {
+    background-color: #080710;
+    color: #ffffff;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+    position: relative;
+    right: 15px;
+    bottom:7px;
+  }
+
+  .task-form button:hover{
+    background-color: #4caf50;
+  }
+  
+  .task-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    margin-bottom: 10px;
+    padding: 20px;
+    width: 600px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .task-item h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .task-item p {
+    margin-bottom: 5px;
+    color: #666;
+  }
+  
+  .task-item button {
+    background-color: #080710;
+    color: #ffffff;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+  }
+  .task-item button.complete {
+    background-color: #080710;
+    color: #ffffff;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+  }
+  .task-item button:hover{
+    background-color: rgba(255, 76, 76, 0.8); 
+  }
+  .task-item button.complete:hover{
+    background-color: #4caf50;
+  }
+  
+  .completed {
+    text-decoration: line-through;
+    color: gray;
+  }

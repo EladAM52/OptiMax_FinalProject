@@ -7,7 +7,7 @@ body {
     align-items: center;
     justify-content: center;
 }
-body.login{
+body{
     background-image: url('../images/background.png');
     background-size: cover;
     background-position: center;

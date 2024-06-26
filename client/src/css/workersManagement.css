@@ -3,14 +3,15 @@
   max-width: 620px;
   padding: 0 50px 20px 250px;
   overflow:auto;
-  margin-right:250px;
+  margin-right:0px;
 }
 
 .h1{
+  color: #020202;
   text-align: right;
   position: relative;
-  right: 250px;
-  top: 20px;
+  right: 100px;
+  top: 5px;
 }
 
 
@@ -83,6 +84,8 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    position: relative;
+    left: 200px;
   }
   
   .add-user-button:hover {
@@ -102,4 +105,16 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-  
+  .workers-container{
+    background-color: #ffffff;
+    border: 2px solid #2f4050;
+    padding: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 900px;
+    position: relative;
+    top: 25px;
+    right: 100px;
+    text-align: center;
+    
+  }

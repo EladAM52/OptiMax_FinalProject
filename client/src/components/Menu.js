@@ -14,7 +14,7 @@ const Menu = ({ userRole, isOpen}) => {
       </div>
       <ul>
         <li>
-          <Link to="/UserProfile" >
+          <Link to={`/UserProfile/${localStorage.getItem('UserId')}`} >
           <FontAwesomeIcon icon={faUser} />פרופיל אישי
           </Link>
         </li>
@@ -22,7 +22,9 @@ const Menu = ({ userRole, isOpen}) => {
         {userRole === "מנהל" && (
           <>
             <li>
-              <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
+              <Link to="/TaskLog" >
+              <FontAwesomeIcon icon={faTasks} /> יומן משימות
+              </Link>
             </li>
             <li>
               <Link to="/getusers" >

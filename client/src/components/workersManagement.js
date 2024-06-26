@@ -11,6 +11,10 @@ const UsersTable = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = () => {
     setIsLoading(true);
     fetch("/getusers")
       .then((response) => response.json())
@@ -22,7 +26,39 @@ const UsersTable = () => {
         console.error("Error fetching users:", error);
         setIsLoading(false);
       });
-  }, []);
+  };
+
+
+  const navigateTouserprofile = (userid) =>{
+    navigate(`/UserProfile/${userid}`);
+  }
+
+  const deleteUser = async (userid) => {
+    const endpoint = `/deleteUser/${userid}`;
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    try {
+        const response = await fetch(endpoint, options);
+
+        if (response.ok) {
+            alert("User deleted successfully!");
+            fetchUsers();
+        } else {
+            const responseData = await response.json();
+            console.error(responseData.message);
+            alert("Failed to delete User. Please try again.");
+        }
+    } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+        alert("Failed to delete User. Please check your network and try again.");
+    }
+};
+
 
   if (isLoading) {
     return (
@@ -33,7 +69,7 @@ const UsersTable = () => {
   }
 
   return (
-    <>
+    <div className="workers-container">
     <h1 className="h1"> פאנל ניהול עובדים</h1>
       <div className="add-user-container">
       <button className="add-user-button" onClick={navigateToAddUser}>
@@ -60,8 +96,8 @@ const UsersTable = () => {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <button className="edit-button">פרופיל העובד</button>
-                    <button className="delete-button">הסר עובד</button>
+                    <button className="edit-button" onClick={() => navigateTouserprofile(user._id)}>פרופיל העובד</button>
+                    <button className="delete-button" onClick={() => deleteUser(user._id)}>הסר עובד</button>
                   </td>
                 </tr>
               ))}
@@ -69,7 +105,7 @@ const UsersTable = () => {
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
