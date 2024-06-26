@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import "../css/Profile.css";
 
 const Profile = () => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const { userId } = useParams();
 
   useEffect(() => {
     setIsLoading(true);
@@ -12,7 +13,7 @@ const Profile = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        UserId: localStorage.getItem("UserId"),
+        UserId: userId,
       },
     })
       .then((response) => response.json())
@@ -24,7 +25,7 @@ const Profile = () => {
         console.error("Error fetching user:", error);
         setIsLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   const options = { year: "numeric", month: "long", day: "numeric" };
   const userDateOfBirth = new Date(user.dateOfBirth).toLocaleDateString(
@@ -34,7 +35,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const editprofile = () => {
-    navigate("/EditProfile");
+    navigate(`/EditProfile/${userId}`);
   };
 
   if (isLoading) {
@@ -46,7 +47,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="container">
+    <div className="profile-container">
       <button className="editprofile-button" onClick={editprofile}>עריכת הפרופיל</button>
       <h1 className="heading">פרופיל אישי</h1>
       <section className="section">

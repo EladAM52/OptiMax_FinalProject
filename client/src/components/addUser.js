@@ -38,6 +38,7 @@ const AddUserForm = () => {
         console.log(responseData);
         alert("User added successfully!");
         reset(); // Reset the form after successful submission
+        navigate("/getusers");
       } else {
         console.error(responseData.message);
         alert("Failed to add user. Please try again.");
