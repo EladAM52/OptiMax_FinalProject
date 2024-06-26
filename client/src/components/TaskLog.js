@@ -6,8 +6,15 @@ const TaskLog = () => {
     const [newTask, setNewTask] = useState({ title: "", description: "" });
     const [editingTask, setEditingTask] = useState(false);
     const [updateTask, setupdateTask] = useState({ title: "", description: "" });
-    const [newTaskError, setNewTaskError] = useState({ title: "", description: "" });
-    const [updateTaskError, setUpdateTaskError] = useState({ title: "", description: "" });
+    const [newTaskError, setNewTaskError] = useState({
+        title: "",
+        description: "",
+    });
+    const [updateTaskError, setUpdateTaskError] = useState({
+        title: "",
+        description: "",
+    });
+    const [selectedTab, setSelectedTab] = useState("pending");
 
     useEffect(() => {
         fetchTasks();
@@ -25,14 +32,13 @@ const TaskLog = () => {
     };
 
     const addTask = async () => {
-      if (!newTask.title || !newTask.description) {
-        setNewTaskError({
-            title: !updateTask.title ? "יש להזין כותרת" : "",
-            description: !updateTask.description ? "יש להזין תיאור משימה" : "",
-        });
-        return;
-    }
-
+        if (!newTask.title || !newTask.description) {
+            setNewTaskError({
+                title: !updateTask.title ? "יש להזין כותרת" : "",
+                description: !updateTask.description ? "יש להזין תיאור משימה" : "",
+            });
+            return;
+        }
 
         const endpoint = "/newTask";
         const options = {
@@ -90,14 +96,13 @@ const TaskLog = () => {
     };
 
     const UpdateTask = async (task) => {
-
-      if (!updateTask.title || !updateTask.description) {
-        setUpdateTaskError({
-            title: !updateTask.title ? "יש להזין כותרת" : "",
-            description: !updateTask.description ? "יש להזין תיאור משימה" : "",
-        });
-        return;
-    }
+        if (!updateTask.title || !updateTask.description) {
+            setUpdateTaskError({
+                title: !updateTask.title ? "יש להזין כותרת" : "",
+                description: !updateTask.description ? "יש להזין תיאור משימה" : "",
+            });
+            return;
+        }
         const endpoint = `/editTask/${task._id}`;
         const options = {
             method: "PUT",
@@ -113,7 +118,7 @@ const TaskLog = () => {
             if (response.ok) {
                 alert("Task updated successfully!");
                 setEditingTask(null);
-                setupdateTask({title:"", description:""});
+                setupdateTask({ title: "", description: "" });
                 setUpdateTaskError({ title: "", description: "" }); // Clear error messages
                 fetchTasks();
             } else {
@@ -153,90 +158,130 @@ const TaskLog = () => {
         }
     };
 
-    return (
-      <div className="task-log-container" dir="rtl">
-          <h2>יומן משימות</h2>
-          <div className="task-form">
-              <div className="form-group">
-                  <input
-                      required
-                      type="text"
-                      placeholder="כותרת"
-                      value={newTask.title}
-                      onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                  />
-                  {newTaskError.title && <div className="error-message">{newTaskError.title}</div>}
-              </div>
-              <div className="form-group">
-                  <input
-                      required
-                      type="text"
-                      placeholder="תיאור משימה"
-                      value={newTask.description}
-                      onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                  />
-                  {newTaskError.description && <div className="error-message">{newTaskError.description}</div>}
-              </div>
-              <button onClick={addTask}>הוסף משימה</button>
-          </div>
-          <div className="task-tablescroll">
-              <ul className="task-list">
-                  {tasks.map((task) => (
-                      <li key={task._id} className="task-item">
-                          <div>
-                              {editingTask && editingTask._id === task._id ? (
-                                  <div className="task-form">
-                                      <div className="form-group">
-                                          <input
-                                              type="text"
-                                              required
-                                              placeholder="כותרת"
-                                              value={updateTask.title}
-                                              onChange={(e) =>
-                                                  setupdateTask({ ...updateTask, title: e.target.value })
-                                              }
-                                          />
-                                          {updateTaskError.title && (
-                                              <div className="error-message">{updateTaskError.title}</div>
-                                          )}
-                                      </div>
-                                      <div className="form-group">
-                                          <input
-                                              type="text"
-                                              required
-                                              placeholder="תיאור משימה"
-                                              value={updateTask.description}
-                                              onChange={(e) =>
-                                                  setupdateTask({ ...updateTask, description: e.target.value })
-                                              }
-                                          />
-                                          {updateTaskError.description && (
-                                              <div className="error-message">{updateTaskError.description}</div>
-                                          )}
-                                      </div>
-                                      <button onClick={() => UpdateTask(editingTask)}>שמירה</button>
-                                  </div>
-                              ) : (
-                                  <>
-                                      <h3 className={task.completed ? "completed" : ""}>
-                                          {task.title}
-                                      </h3>
-                                      <p>{task.description}</p>
-                                      <button onClick={() => deleteTask(task._id)}>מחיקה</button>
-                                      <button onClick={() => setEditingTask(task)}>עריכה</button>
-                                      {!task.completed && (
-                                          <button onClick={() => markTaskAsDone(task._id)}>בוצע</button>
-                                      )}
-                                  </>
-                              )}
-                          </div>
-                      </li>
-                  ))}
-              </ul>
-          </div>
-      </div>
-  );
-};
+    const renderTasks = (tasksToRender) => (
+        <ul className="task-list">
+            {tasksToRender.map((task) => (
+                <li key={task._id} className="task-item">
+                    <div>
+                        {editingTask && editingTask._id === task._id ? (
+                            <div className="task-form">
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        required
+                                        placeholder="כותרת"
+                                        value={updateTask.title}
+                                        onChange={(e) =>
+                                            setupdateTask({
+                                                ...updateTask,
+                                                title: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    {updateTaskError.title && (
+                                        <div className="error-message">
+                                            {updateTaskError.title}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        required
+                                        placeholder="תיאור משימה"
+                                        value={updateTask.description}
+                                        onChange={(e) =>
+                                            setupdateTask({
+                                                ...updateTask,
+                                                description: e.target.value,
+                                            })
+                                        }
+                                    />
+                                    {updateTaskError.description && (
+                                        <div className="error-message">
+                                            {updateTaskError.description}
+                                        </div>
+                                    )}
+                                </div>
+                                <button onClick={() => UpdateTask(editingTask)}>
+                                    שמירה
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <h3 className={task.completed ? "completed" : ""}>
+                                    {task.title}
+                                </h3>
+                                <p>{task.description}</p>
+                                <button onClick={() => deleteTask(task._id)}>מחיקה</button>
+                                <button onClick={() => setEditingTask(task)}>עריכה</button>
+                                {!task.completed && (
+                                    <button onClick={() => markTaskAsDone(task._id)}>
+                                        בוצע
+                                    </button>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </li>
+            ))}
+        </ul>
+    );
 
+    const pendingTasks = tasks.filter((task) => !task.completed);
+    const completedTasks = tasks.filter((task) => task.completed);
+
+    return (
+        <div className="task-log-container" dir="rtl">
+            <h2>יומן משימות</h2>
+            <div className="task-form">
+                <div className="form-group">
+                    <input
+                        required
+                        type="text"
+                        placeholder="כותרת"
+                        value={newTask.title}
+                        onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                    />
+                    {newTaskError.title && (
+                        <div className="error-message">{newTaskError.title}</div>
+                    )}
+                </div>
+                <div className="form-group">
+                    <input
+                        required
+                        type="text"
+                        placeholder="תיאור משימה"
+                        value={newTask.description}
+                        onChange={(e) =>
+                            setNewTask({ ...newTask, description: e.target.value })
+                        }
+                    />
+                    {newTaskError.description && (
+                        <div className="error-message">{newTaskError.description}</div>
+                    )}
+                </div>
+                <button onClick={addTask}>הוסף משימה</button>
+            </div>
+            <div className="tab-container">
+                <button
+                    className={`tab-button ${selectedTab === "pending" ? "active" : ""}`}
+                    onClick={() => setSelectedTab("pending")}
+                >
+                    משימות ממתינות
+                </button>
+                <button
+                    className={`tab-button ${selectedTab === "completed" ? "active" : ""}`}
+                    onClick={() => setSelectedTab("completed")}
+                >
+                    משימות שבוצעו
+                </button>
+            </div>
+            <div className="task-tablescroll">
+                {selectedTab === "pending" ? renderTasks(pendingTasks) : renderTasks(completedTasks)}
+            </div>
+        </div>
+    );
+};
 
 export default TaskLog;

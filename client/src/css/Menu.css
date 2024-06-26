@@ -21,6 +21,7 @@
     width: 200px; /* Sidebar width when open */
     padding: 10px 20px 20px; /* Sidebar padding when open */
     background-color: #c3c7c7;
+    transform: translateX(100%);
 }
 
 /* Hide logo when sidebar is closed */

@@ -10,7 +10,7 @@
   color: #020202;
   text-align: right;
   position: relative;
-  right: 100px;
+  right: 10px;
   top: 5px;
 }
 
@@ -108,13 +108,13 @@
   .workers-container{
     background-color: #ffffff;
     border: 2px solid #2f4050;
-    padding: 2px;
+    padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     width: 900px;
     position: relative;
     top: 25px;
-    right: 100px;
+    right: 80px;
     text-align: center;
     
   }

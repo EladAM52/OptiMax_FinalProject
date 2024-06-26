@@ -2,7 +2,7 @@
     width: 650px;
     max-height: 400px;
     margin-bottom: 20px;
-    padding: 25px 50px;  /* Adjust the padding as needed */
+    padding: 40px 50px;  /* Adjust the padding as needed */
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -10,7 +10,7 @@
     direction: rtl;
     position:relative;
     left: 10px;
-    top: 10px;
+    top: 30px;
     overflow: hidden;
     border: 2px solid #2f4050;
     /* z-index: -1; */

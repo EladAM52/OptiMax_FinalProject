@@ -18,7 +18,7 @@ const Navbar = ({ userRole }) => {
   return (
     <nav className="navbar">
       <button className="menu-toggle" onClick={handleMenuToggle}>
-        <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
+        <FontAwesomeIcon icon={isMenuOpen ? faBars : faTimes} />
       </button>
       <button className="homepageButtom" onClick={handleMenuHomePage}>
         <FontAwesomeIcon icon={faHouse} />

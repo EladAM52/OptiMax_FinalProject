@@ -1,26 +1,30 @@
 .task-log-container {
     position: relative;
     /* max-width: 600px; */
-    width: 700px;
+    width: 1000px;
     margin: 0 auto;
-    padding: 15px;
+    padding: 5px;
     background-color: #f0f0f0;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    left:10px;
+    right:40px;
     border: 2px solid #2f4050;
     top: 25px;
+   
+
   }
   .task-tablescroll{
     max-height: 300px;
-    max-width: 620px;
+    /* max-width: 620px; */
     padding: 0 10px 20px 250px;
     overflow:auto;
+    width: 700px;
   }
   
   .task-form {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    width: 500px;
   }
   
   .task-form input[type="text"], .task-form button {
@@ -56,7 +60,7 @@
   .task-item {
     margin-bottom: 10px;
     padding: 20px;
-    width: 600px;
+    width: 900px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -103,3 +107,20 @@
     text-decoration: line-through;
     color: gray;
   }
+  .tab-button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    /* position: relative;
+    bottom: 20px; */
+}
+
+.tab-button.active {
+    background-color: #080710;
+    color: white;
+}
