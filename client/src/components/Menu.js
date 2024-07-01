@@ -40,7 +40,7 @@ const Menu = ({ userRole, isOpen }) => {
             </li>
             <li>
               <Link to="/Documents">
-                <FontAwesomeIcon icon={faHandshake} /> ניהול מסמכים
+                <FontAwesomeIcon icon={faFileImport} /> ניהול מסמכים
               </Link>
             </li>
             <li>

@@ -129,6 +129,9 @@ const FileUpload = () => {
       ) : (
         <h3>מסמכים קיימים בתיק האישי:</h3>
       )}
+      {documents.length === 0 && (
+        <div className="no-documents-message">אין מסמכים לתצוגה כרגע.</div>
+      )}
       <div className="documents-list-container">
         <ul className="documents-list">
           {documents.map((doc) => (

@@ -274,9 +274,18 @@ const TaskLog = () => {
         </button>
       </div>
       <div className="task-tablescroll">
-        {selectedTab === "pending"
-          ? renderTasks(pendingTasks)
-          : renderTasks(completedTasks)}
+        {selectedTab === "pending" && pendingTasks.length === 0 && (
+          <div className="no-tasks-message">אין משימות ממתינות כרגע.</div>
+        )}
+        {selectedTab === "completed" && completedTasks.length === 0 && (
+          <div className="no-tasks-message">אין משימות שבוצעו כרגע.</div>
+        )}
+        {selectedTab === "pending" &&
+          pendingTasks.length > 0 &&
+          renderTasks(pendingTasks)}
+        {selectedTab === "completed" &&
+          completedTasks.length > 0 &&
+          renderTasks(completedTasks)}
       </div>
     </div>
   );
