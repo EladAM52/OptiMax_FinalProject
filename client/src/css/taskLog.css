@@ -19,6 +19,7 @@
     padding: 0 10px 20px 250px;
     overflow:auto;
     width: 700px;
+    max-height: 250px;
   }
   
   .task-form {

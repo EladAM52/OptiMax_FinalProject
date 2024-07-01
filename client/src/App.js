@@ -7,6 +7,7 @@ import AddUserForm from './components/addUser';
 import UserProflie from './components/Profile';
 import EditProfile from "./components/editProfile";
 import TaskLog from "./components/TaskLog";
+import Documents from "./components/UploadDocuments";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
           <Route path="/UserProfile/:userId" element={<Layout><UserProflie /></Layout>} />
           <Route path="/EditProfile/:userId" element={<Layout><EditProfile /></Layout>} />
           <Route path="/TaskLog" element={<Layout><TaskLog /></Layout>} />
+          <Route path="/Documents" element={<Layout><Documents /></Layout>} />
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </div>

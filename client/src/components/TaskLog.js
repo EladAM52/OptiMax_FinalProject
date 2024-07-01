@@ -210,7 +210,7 @@ const TaskLog = () => {
                         ) : (
                             <>
                                 <h3 className={task.completed ? "completed" : ""}>
-                                    {task.title}
+                                     כותרת: {task.title}
                                 </h3>
                                 <p>{task.description}</p>
                                 <button onClick={() => deleteTask(task._id)}>מחיקה</button>

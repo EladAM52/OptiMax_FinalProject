@@ -1,57 +1,75 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faHandshake,faCalendarDays,faUsers,faUser, faTasks,faClipboard,faFileImport } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHandshake,
+  faCalendarDays,
+  faUsers,
+  faUser,
+  faTasks,
+  faClipboard,
+  faFileImport,
+} from "@fortawesome/free-solid-svg-icons";
 import "../css/Menu.css";
 import { Link } from "react-router-dom";
-import logo from '../images/logo1.png'; 
+// import logo from "../images/logo1.png";
 
-
-const Menu = ({ userRole, isOpen}) => {
+const Menu = ({ userRole, isOpen }) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
       <div className="sidebar-logo">
-        <img src={logo} alt="Logo" className="logo" />
       </div>
       <ul>
         <li>
-          <Link to={`/UserProfile/${localStorage.getItem('UserId')}`} >
-          <FontAwesomeIcon icon={faUser} />פרופיל אישי
+          <Link to={`/UserProfile/${localStorage.getItem("UserId")}`}>
+            <FontAwesomeIcon icon={faUser} />
+            פרופיל אישי
           </Link>
         </li>
 
         {userRole === "מנהל" && (
           <>
             <li>
-              <Link to="/TaskLog" >
-              <FontAwesomeIcon icon={faTasks} /> יומן משימות
+              <Link to="/TaskLog">
+                <FontAwesomeIcon icon={faTasks} /> יומן משימות
               </Link>
             </li>
             <li>
-              <Link to="/getusers" >
-              <FontAwesomeIcon icon={faUsers}/>ניהול עובדים 
+              <Link to="/getusers">
+                <FontAwesomeIcon icon={faUsers} />
+                ניהול עובדים
               </Link>
             </li>
             <li>
-            <a><FontAwesomeIcon icon={faHandshake} /> ניהול ספקים</a>
+              <Link to="/Documents">
+                <FontAwesomeIcon icon={faHandshake} /> ניהול מסמכים
+              </Link>
             </li>
             <li>
-            <a><FontAwesomeIcon icon={faCalendarDays} />סידור עבודה</a>
+              <a>
+                <FontAwesomeIcon icon={faCalendarDays} />
+                סידור עבודה
+              </a>
             </li>
           </>
         )}
         {userRole === "עובד" && (
           <>
             <li>
-            <a><FontAwesomeIcon icon={faTasks} /> יומן משימות</a>
+              <a>
+                {" "}
+                <FontAwesomeIcon icon={faClipboard} /> אילוצים
+              </a>
             </li>
             <li>
-              <a> <FontAwesomeIcon icon={faClipboard}  /> אילוצים</a>
+            <Link to="/Documents">
+                <FontAwesomeIcon icon={faHandshake} /> העלאת מסמכים
+              </Link>
             </li>
             <li>
-              <a> <FontAwesomeIcon icon={faFileImport} />העלת מסמכים</a>
-            </li>
-            <li>
-            <a><FontAwesomeIcon icon={faCalendarDays} />סידור עבודה</a>
+              <a>
+                <FontAwesomeIcon icon={faCalendarDays} />
+                סידור עבודה
+              </a>
             </li>
           </>
         )}

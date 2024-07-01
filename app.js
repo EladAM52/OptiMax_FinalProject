@@ -6,11 +6,12 @@ const app = express();
 const bodyParser = require("body-parser");
 const User = require("./models/User");
 const Task = require("./models/Task");
+const Document = require("./models/documentModel");
 const session = require("express-session");
 const sgMail = require('@sendgrid/mail')
+const path = require('path');
 let server;
-const mongoDbUrl =
-process.env.MONGO_DB_URL;
+const mongoURI=process.env.MONGO_DB_URL;
 
 const PORT = process.env.PORT || 3000;
 server = app.listen(PORT, () => {
@@ -38,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: mongoDbUrl,
+      mongoUrl: mongoURI,
       collectionName: "sessions",
     }),
     cookie: {
@@ -51,7 +52,7 @@ app.use(
 
 mongoose
   .connect(
-    mongoDbUrl,
+    mongoURI,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -62,49 +63,6 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-
-const createUsers = async () => {
-  try {
-    // Creating a superuser
-    const superUser = new User({
-      username: "efrat",
-      email: "efrat@gmail.com",
-      idNumber: "123456789", // Example ID Number
-      role: "מנהל", // Updated role based on the new enum values
-      phoneNumber: "0501234567", // Example Phone Number
-      dateOfBirth: new Date("1990-01-01"), // Example Date of Birth
-      familyStatus: "נשוי/ה", // Example Family Status
-      address: { // Example Address
-        street: "רחוב השלום 15",
-        city: "תל אביב",
-      }
-    });
-
-    await superUser.save();
-
-    // Creating another example user
-    const user = new User({
-      username: "elad",
-      email: "elad@gmail.com",
-      password: "1212", // Hash passwords in real applications
-      idNumber: "987654321", // Example ID Number
-      role: "עובד", // Updated role based on the new enum values
-      phoneNumber: "0507654321", // Example Phone Number
-      dateOfBirth: new Date("1992-02-02"), // Example Date of Birth
-      familyStatus: "רווק/ה", // Example Family Status
-      address: { // Example Address
-        street: "רחוב גאולה 20",
-        city: "ירושלים",
-      }
-    });
-
-    await user.save();
-
-    console.log("Users created");
-  } catch (error) {
-    console.error("Error creating users:", error);
-  }
-};
 
 const requireAuth = (req, res, next) => {
   if (req.session.isLoggedIn) {
@@ -292,7 +250,6 @@ app.get('/getTasks', async (req, res) => {
   }
 });
 
-
 app.post('/newTask', async (req, res) => {
   const { title, description } = req.body;
 
@@ -321,8 +278,6 @@ app.put('/editTask/:id', async (req, res) => {
   }
 });
 
-
-
 app.delete('/deleteTask/:id', async (req, res) => {
   try {
     await Task.findByIdAndDelete(req.params.id);
@@ -332,9 +287,90 @@ app.delete('/deleteTask/:id', async (req, res) => {
   }
 });
 
+const multer  = require('multer')
+app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './files');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null,uniqueSuffix + file.originalname);
+  }
+})
+
+const upload = multer({ storage: storage });
+app.use(express.static('public'));
+app.use('/files', express.static('files'));
 
 
+app.post("/upload-files", upload.single("file"), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: 'No file uploaded' });
+  }
 
+  const fileName = req.file.filename;
+  const optionalFileName = req.body.filename;
+  const uploadedBy = req.body.userId;
+  const originalfileName=req.file.originalname;
+
+  
+  try {
+    const user = await User.findById(uploadedBy);
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    const firstName=user.FirstName;
+    const lastName=user.LastName;
+    const idNumber=user.idNumber;
+  
+
+    const newDocument = new Document({
+      fileName,
+      originalfileName,
+      optionalFileName,
+      uploadedBy: {
+        userId: uploadedBy,
+        firstName,
+        lastName,
+        idNumber
+      },
+    });
+
+    await newDocument.save();
+    return res.status(201).send({ message: 'PDF has been added to database' });
+  } catch (error) {
+    console.error('Error saving document:', error); // Log error for debugging
+    return res.status(500).json({ message: 'PDF has not been added to database', error });
+  }
+});
+
+app.get('/getfiles', async (req, res) => {
+  try {
+    const files = await Document.find();
+    res.json(files)
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching documents', error });
+  }
+});
+
+app.delete("/deleteDocument/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedDocument = await Document.findByIdAndDelete(id);
+
+    if (!deletedDocument) {
+      return res.status(404).json({ message: "Document not found" });
+    }
+
+    res.status(200).json({ message: "Document deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 

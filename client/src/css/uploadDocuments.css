@@ -1,0 +1,127 @@
+.upload-documents-container {
+  position: relative;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid #2f4050;
+  top: 15px;
+}
+
+.upload-form {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.upload-form input[type="file"] {
+  display: none;
+}
+
+.upload-form .file-upload-button {
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #080710;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.upload-form .file-upload-button:hover {
+  background-color: #4caf50;
+}
+
+.upload-form input[type="text"] {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.upload-form button {
+  padding: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #080710;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.upload-form button:hover {
+  background-color: #4caf50;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.file-selected-message {
+  color: green;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.documents-list-container {
+  max-height: 300px;
+  overflow: auto;
+  width: 100%;
+  max-height: 230px;
+
+}
+
+.documents-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.document-item {
+  margin-bottom: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.document-item ul,
+.document-item ul ul {
+  list-style-type:disc;
+  padding: 0;
+  margin-right: 20px;
+}
+
+
+.document-item .dot {
+  display:inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-top: 10px; /* Adjust as needed */
+}
+
+.document-item button {
+  background-color: #080710;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.document-item button:hover {
+  background-color: rgba(255, 76, 76, 0.8);
+}
