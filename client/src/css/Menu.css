@@ -2,7 +2,8 @@
 .sidebar {
     width: 110px; /* Adjust as needed */
     overflow: hidden;
-    transition: width 0.8s ease;
+    /* transition: width 0.3s ease; */
+    transition: all 1s ease-out;
     position: fixed;
     top: 50px;
     bottom: 0;
@@ -18,8 +19,6 @@
 
 /* Open state with padding and background adjustments */
 .sidebar.open {
-    width: 200px; /* Sidebar width when open */
-    padding: 10px 20px 20px; /* Sidebar padding when open */
     background-color: #c3c7c7;
     transform: translateX(100%);
 }
@@ -29,11 +28,11 @@
     display: none;
 }
 
-/* Menu item adjustments */
+
 .sidebar ul {
     list-style: none;
-    padding: 0; /* Removes default padding */
-    width: 100%; /* Ensure ul spans the entire width of sidebar */
+    padding: 0; 
+    width: 100%; 
     padding-top: 20px;
 
 }
@@ -46,6 +45,8 @@
     align-items:center;
     gap: 10px; /* Space between icon and text */
     font-size: 15px;
+    flex-direction: column; /* Stack icon and text vertically */
+    margin-bottom: 10px; /* Reduced gap between items */
   
 }
 
