@@ -28,37 +28,35 @@ const UsersTable = () => {
       });
   };
 
-
-  const navigateTouserprofile = (userid) =>{
+  const navigateTouserprofile = (userid) => {
     navigate(`/UserProfile/${userid}`);
-  }
+  };
 
   const deleteUser = async (userid) => {
     const endpoint = `/deleteUser/${userid}`;
     const options = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
 
     try {
-        const response = await fetch(endpoint, options);
+      const response = await fetch(endpoint, options);
 
-        if (response.ok) {
-            alert("User deleted successfully!");
-            fetchUsers();
-        } else {
-            const responseData = await response.json();
-            console.error(responseData.message);
-            alert("Failed to delete User. Please try again.");
-        }
+      if (response.ok) {
+        alert("User deleted successfully!");
+        fetchUsers();
+      } else {
+        const responseData = await response.json();
+        console.error(responseData.message);
+        alert("Failed to delete User. Please try again.");
+      }
     } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
-        alert("Failed to delete User. Please check your network and try again.");
+      console.error("There was a problem with the fetch operation:", error);
+      alert("Failed to delete User. Please check your network and try again.");
     }
-};
-
+  };
 
   if (isLoading) {
     return (
@@ -70,11 +68,11 @@ const UsersTable = () => {
 
   return (
     <div className="workers-container">
-    <h1 className="h1"> פאנל ניהול עובדים</h1>
+      <h1 className="h1"> פאנל ניהול עובדים</h1>
       <div className="add-user-container">
-      <button className="add-user-button" onClick={navigateToAddUser}>
-      הוסף משתמש חדש
-    </button>
+        <button className="add-user-button" onClick={navigateToAddUser}>
+          הוסף משתמש חדש
+        </button>
       </div>
       <div className="tablescroll">
         <div className="users-table-container">
@@ -96,8 +94,18 @@ const UsersTable = () => {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <button className="edit-button" onClick={() => navigateTouserprofile(user._id)}>פרופיל העובד</button>
-                    <button className="delete-button" onClick={() => deleteUser(user._id)}>הסר עובד</button>
+                    <button
+                      className="edit-button"
+                      onClick={() => navigateTouserprofile(user._id)}
+                    >
+                      פרופיל העובד
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => deleteUser(user._id)}
+                    >
+                      הסר עובד
+                    </button>
                   </td>
                 </tr>
               ))}

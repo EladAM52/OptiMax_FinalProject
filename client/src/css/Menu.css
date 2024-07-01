@@ -1,64 +1,59 @@
 /* Adjusted sidebar styles for icon visibility when closed */
 .sidebar {
-    width: 110px; /* Adjust as needed */
-    overflow: hidden;
-    /* transition: width 0.3s ease; */
-    transition: all 1s ease-out;
-    position: fixed;
-    top: 50px;
-    bottom: 0;
-    right: 0;
-    z-index: 1000;
-    background-color: #c3c7c7;
-    display: flex;
-    flex-direction: column; /* Ensure vertical stacking */
-    align-items: center; /* Center items horizontally */
-    /* border: 2px solid #2f4050; */
-    border: 2px solid #2f4050;
+  width: 110px; /* Adjust as needed */
+  overflow: hidden;
+  /* transition: width 0.3s ease; */
+  transition: all 1s ease-out;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #c3c7c7;
+  display: flex;
+  flex-direction: column; /* Ensure vertical stacking */
+  align-items: center; /* Center items horizontally */
+  /* border: 2px solid #2f4050; */
+  border: 2px solid #2f4050;
 }
 
 /* Open state with padding and background adjustments */
 .sidebar.open {
-    background-color: #c3c7c7;
-    transform: translateX(100%);
+  background-color: #c3c7c7;
+  transform: translateX(100%);
 }
 
 /* Hide logo when sidebar is closed */
 .sidebar:not(.open) .sidebar-logo {
-    display: none;
+  display: none;
 }
 
-
 .sidebar ul {
-    list-style: none;
-    padding: 0; 
-    width: 100%; 
-    padding-top: 20px;
-
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  padding-top: 20px;
 }
 
 .sidebar ul li a {
-    color: #080710;
-    text-decoration: none;
-    padding: 10px 0;
-    display: flex;
-    align-items:center;
-    gap: 10px; /* Space between icon and text */
-    font-size: 15px;
-    flex-direction: column; /* Stack icon and text vertically */
-    margin-bottom: 10px; /* Reduced gap between items */
-  
+  color: #080710;
+  text-decoration: none;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  font-size: 15px;
+  flex-direction: column; /* Stack icon and text vertically */
+  margin-bottom: 10px; /* Reduced gap between items */
 }
 
 /* Adjust direction when sidebar is closed to stack icon above text */
 .sidebar:not(.open) ul li a {
-    flex-direction: column; /* Stack icon and text vertically */
-    margin-bottom: 10px; /* Reduced gap between items */
-
+  flex-direction: column; /* Stack icon and text vertically */
+  margin-bottom: 10px; /* Reduced gap between items */
 }
 
 /* Hover effect for menu items */
 .sidebar ul li a:hover {
-    background-color: #2f40506a;
-    
+  background-color: #2f40506a;
 }

@@ -15,8 +15,8 @@ const AddUserForm = () => {
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero
-    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero
+    const day = String(today.getDate()).padStart(2, "0"); // Add leading zero
     return `${year}-${month}-${day}`;
   };
 
@@ -54,7 +54,11 @@ const AddUserForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="add-user-wide-form" dir="rtl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="add-user-wide-form"
+      dir="rtl"
+    >
       <div className="form-field">
         <input
           type="text"
@@ -62,7 +66,11 @@ const AddUserForm = () => {
           placeholder="שם פרטי"
           aria-describedby="FirstName-error"
         />
-        {errors.FirstName && <p id="FirstName-error" className="error-message">{errors.FirstName.message}</p>}
+        {errors.FirstName && (
+          <p id="FirstName-error" className="error-message">
+            {errors.FirstName.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -71,7 +79,11 @@ const AddUserForm = () => {
           placeholder="שם משפחה"
           aria-describedby="LastName-error"
         />
-        {errors.LastName && <p id="LastName-error" className="error-message">{errors.LastName.message}</p>}
+        {errors.LastName && (
+          <p id="LastName-error" className="error-message">
+            {errors.LastName.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select name="gender" {...register("gender", { required: "בחר מין" })}>
@@ -79,7 +91,11 @@ const AddUserForm = () => {
           <option value="זכר">זכר</option>
           <option value="נקבה">נקבה</option>
         </select>
-        {errors.gender && <p id="gender-error" className="error-message">{errors.gender.message}</p>}
+        {errors.gender && (
+          <p id="gender-error" className="error-message">
+            {errors.gender.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -94,7 +110,11 @@ const AddUserForm = () => {
           placeholder="אימייל"
           aria-describedby="email-error"
         />
-        {errors.email && <p id="email-error" className="error-message">{errors.email.message}</p>}
+        {errors.email && (
+          <p id="email-error" className="error-message">
+            {errors.email.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -113,7 +133,11 @@ const AddUserForm = () => {
           placeholder="תעודת זהות"
           aria-describedby="idNumber-error"
         />
-        {errors.idNumber && <p id="idNumber-error" className="error-message">{errors.idNumber.message}</p>}
+        {errors.idNumber && (
+          <p id="idNumber-error" className="error-message">
+            {errors.idNumber.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select name="role" {...register("role", { required: "בחר תפקיד" })}>
@@ -121,7 +145,11 @@ const AddUserForm = () => {
           <option value="עובד">עובד</option>
           <option value="מנהל">מנהל</option>
         </select>
-        {errors.role && <p id="role-error" className="error-message">{errors.role.message}</p>}
+        {errors.role && (
+          <p id="role-error" className="error-message">
+            {errors.role.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -136,7 +164,11 @@ const AddUserForm = () => {
           placeholder="מספר טלפון"
           aria-describedby="phoneNumber-error"
         />
-        {errors.phoneNumber && <p id="phoneNumber-error" className="error-message">{errors.phoneNumber.message}</p>}
+        {errors.phoneNumber && (
+          <p id="phoneNumber-error" className="error-message">
+            {errors.phoneNumber.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -145,19 +177,26 @@ const AddUserForm = () => {
             required: "תאריך לידה הוא שדה חובה",
             validate: (value) => {
               return (
-                new Date(value) <= new Date() || "תאריך הלידה לא יכול להיות בעתיד"
+                new Date(value) <= new Date() ||
+                "תאריך הלידה לא יכול להיות בעתיד"
               );
             },
           })}
           max={getCurrentDate()}
           aria-describedby="dateOfBirth-error"
         />
-        {errors.dateOfBirth && <p id="dateOfBirth-error" className="error-message">{errors.dateOfBirth.message}</p>}
+        {errors.dateOfBirth && (
+          <p id="dateOfBirth-error" className="error-message">
+            {errors.dateOfBirth.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select
           name="familyStatus"
-          {...register("familyStatus", { required: "סטטוס משפחתי הוא שדה חובה" })}
+          {...register("familyStatus", {
+            required: "סטטוס משפחתי הוא שדה חובה",
+          })}
         >
           <option value="">בחר סטטוס משפחתי</option>
           <option value="רווק/ה">רווק/ה</option>
@@ -165,7 +204,11 @@ const AddUserForm = () => {
           <option value="גרוש/ה">גרוש/ה</option>
           <option value="אלמן/ה">אלמן/ה</option>
         </select>
-        {errors.familyStatus && <p id="familyStatus-error" className="error-message">{errors.familyStatus.message}</p>}
+        {errors.familyStatus && (
+          <p id="familyStatus-error" className="error-message">
+            {errors.familyStatus.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -180,7 +223,11 @@ const AddUserForm = () => {
           placeholder="כתובת"
           aria-describedby="address-street-error"
         />
-        {errors.address?.street && <p id="address-street-error" className="error-message">{errors.address.street.message}</p>}
+        {errors.address?.street && (
+          <p id="address-street-error" className="error-message">
+            {errors.address.street.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -195,11 +242,17 @@ const AddUserForm = () => {
           placeholder="עיר מגורים"
           aria-describedby="address-city-error"
         />
-        {errors.address?.city && <p id="address-city-error" className="error-message">{errors.address.city.message}</p>}
+        {errors.address?.city && (
+          <p id="address-city-error" className="error-message">
+            {errors.address.city.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <button type="submit">הוסף עובד</button>
-        <button type="button" onClick={goBack}>חזור</button>
+        <button type="button" onClick={goBack}>
+          חזור
+        </button>
       </div>
     </form>
   );

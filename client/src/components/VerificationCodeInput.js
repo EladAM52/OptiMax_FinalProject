@@ -7,25 +7,25 @@ function VerificationCodeInput() {
   const [digits, setDigits] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(0); 
+  const [timeLeft, setTimeLeft] = useState(0);
   const UserId = localStorage.getItem("UserId");
 
   useEffect(() => {
-    const timerDuration = 60; 
+    const timerDuration = 60;
     if (isResendDisabled) {
       setTimeLeft(timerDuration);
       const intervalId = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             clearInterval(intervalId);
-            setIsResendDisabled(false); 
+            setIsResendDisabled(false);
             return 0;
           }
           return prev - 1;
         });
       }, 1000);
 
-      return () => clearInterval(intervalId); 
+      return () => clearInterval(intervalId);
     }
   }, [isResendDisabled]);
 
@@ -94,7 +94,7 @@ function VerificationCodeInput() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ UserId }), 
+        body: JSON.stringify({ UserId }),
       });
 
       const data = await response.json();
@@ -122,7 +122,8 @@ function VerificationCodeInput() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3 dir="rtl"
+      <h3
+        dir="rtl"
         style={{
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -141,7 +142,6 @@ function VerificationCodeInput() {
       >
         {digits.map((digit, index) => (
           <input
-            
             key={index}
             ref={(el) => (inputRefs.current[index] = el)}
             type="text"
@@ -172,7 +172,8 @@ function VerificationCodeInput() {
       >
         כניסה
       </button>
-      <p dir="rtl"
+      <p
+        dir="rtl"
         style={{
           fontSize: "14px",
           color: "#555",
@@ -181,7 +182,8 @@ function VerificationCodeInput() {
       >
         קוד זה תקף ל-10 דקות.
       </p>
-      <p dir="rtl"
+      <p
+        dir="rtl"
         style={{
           marginTop: "20px",
           fontSize: "14px",
@@ -192,7 +194,11 @@ function VerificationCodeInput() {
         onClick={!isResendDisabled ? handleResendCode : null}
         disabled={isResendDisabled}
       >
-        {isResendDisabled ? `לא קיבלת קוד? שליחה חוזרת לאחר ${Math.floor(timeLeft / 60)}:${String(timeLeft % 60).padStart(2, '0')}` : "לא קיבלת קוד? לחץ כאן לשליחה חוזרת"}
+        {isResendDisabled
+          ? `לא קיבלת קוד? שליחה חוזרת לאחר ${Math.floor(
+              timeLeft / 60
+            )}:${String(timeLeft % 60).padStart(2, "0")}`
+          : "לא קיבלת קוד? לחץ כאן לשליחה חוזרת"}
       </p>
     </form>
   );

@@ -1,19 +1,18 @@
-.tablescroll{
+.tablescroll {
   max-height: 330px;
   max-width: 620px;
   padding: 0 50px 20px 250px;
-  overflow:auto;
-  margin-right:0px;
+  overflow: auto;
+  margin-right: 0px;
 }
 
-.h1{
+.h1 {
   color: #020202;
   text-align: right;
   position: relative;
   right: 10px;
   top: 5px;
 }
-
 
 .users-table {
   background-color: #ffffff;
@@ -61,60 +60,63 @@
 }
 
 .delete-button:hover {
-  background-color: rgba(255, 76, 76, 0.8); 
+  background-color: rgba(255, 76, 76, 0.8);
 }
 
 .table-container {
-    position: relative;
-    margin: auto;
-    width: 90%;
-  }
+  position: relative;
+  margin: auto;
+  width: 90%;
+}
 
-  .add-user-container {
-    text-align: right;
-    padding: 10px 0;
-    margin-right: 250px;
-  }
-  
-  .add-user-button {
-    background-color: #080710;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    position: relative;
-    left: 200px;
-  }
-  
-  .add-user-button:hover {
-    background-color: #4caf50;
-  }
+.add-user-container {
+  text-align: right;
+  padding: 10px 0;
+  margin-right: 250px;
+}
 
-    .spinner {
-      border: 4px solid rgba(0,0,0,.1);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border-left-color: #09f;
-      animation: spin 1s ease infinite;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  .workers-container{
-    background-color: #ffffff;
-    border: 2px solid #2f4050;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    width: 900px;
-    position: relative;
-    top: 25px;
-    right: 80px;
-    text-align: center;
-    
+.add-user-button {
+  background-color: #080710;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  left: 200px;
+}
+
+.add-user-button:hover {
+  background-color: #4caf50;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #09f;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.workers-container {
+  background-color: #ffffff;
+  border: 2px solid #2f4050;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 900px;
+  position: relative;
+  top: 25px;
+  right: 80px;
+  text-align: center;
+}

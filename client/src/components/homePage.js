@@ -38,16 +38,20 @@ function HomePage() {
       .catch((error) => {
         console.error("Error:", error);
         navigate("/login");
-      })
+      });
   });
 
   if (!authorized) {
-    return <div className="loading-container"><div className="spinner"></div></div>;
-}
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <WelcomeContainer FirstName={FirstName} userRole={userRole}/>
+      <WelcomeContainer FirstName={FirstName} userRole={userRole} />
       {userRole === "מנהל" && <HomePendingTasks />}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../css/uploadDocuments.css";
 
 const FileUpload = () => {
@@ -15,7 +15,7 @@ const FileUpload = () => {
         `/getfiles?role=${userRole}&userId=${userId}`
       );
       const data = await response.json();
-  
+
       if (Array.isArray(data)) {
         setDocuments(data);
         console.log("Fetched documents:", data);
@@ -26,14 +26,13 @@ const FileUpload = () => {
       console.error("Error fetching documents:", error);
     }
   }, [userRole, userId]);
-  
+
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-
   };
 
   const handleUpload = async () => {
@@ -97,8 +96,6 @@ const FileUpload = () => {
     }
   };
 
-
-
   return (
     <div className="upload-documents-container" dir="rtl">
       <h2>העלאת מסמכים</h2>
@@ -127,28 +124,35 @@ const FileUpload = () => {
       <div className="file-selected-message">
         {file ? `המסמך שנבחר : ${file.name}` : "לא נבחר מסמך עדיין"}
       </div>
-      {(userRole === "מנהל") ? 
-      <h3>מסמכים קיימים:</h3> : <h3>מסמכים קיימים בתיק האישי:</h3> }
+      {userRole === "מנהל" ? (
+        <h3>מסמכים קיימים:</h3>
+      ) : (
+        <h3>מסמכים קיימים בתיק האישי:</h3>
+      )}
       <div className="documents-list-container">
         <ul className="documents-list">
           {documents.map((doc) => (
             <li key={doc._id} className="document-item">
               <div>
-              <ul>
-          <li>כותרת : {doc.optionalFileName}</li>
-          <li>שם המסמך: {doc.originalfileName}</li>
-          {(userRole === "מנהל") &&
-          <li>
-            הועלה על ידי:
-            <ul>
-            <li>תעודת זהות: {doc.uploadedBy.idNumber}</li>
-            <li>שם מלא: {doc.uploadedBy.firstName} {doc.uploadedBy.lastName}</li>
-            </ul>
-          </li>}
-          <li>תאריך העלאה: {doc.dateOfUpload}</li>
-        </ul>
-                <button 
-                className="watch-button"
+                <ul>
+                  <li>כותרת : {doc.optionalFileName}</li>
+                  <li>שם המסמך: {doc.originalfileName}</li>
+                  {userRole === "מנהל" && (
+                    <li>
+                      הועלה על ידי:
+                      <ul>
+                        <li>תעודת זהות: {doc.uploadedBy.idNumber}</li>
+                        <li>
+                          שם מלא: {doc.uploadedBy.firstName}{" "}
+                          {doc.uploadedBy.lastName}
+                        </li>
+                      </ul>
+                    </li>
+                  )}
+                  <li>תאריך העלאה: {doc.dateOfUpload}</li>
+                </ul>
+                <button
+                  className="watch-button"
                   onClick={() =>
                     handleOpenDocument(
                       `http://localhost:3000/files/${doc.fileName}`
@@ -157,8 +161,14 @@ const FileUpload = () => {
                 >
                   הצגת מסמך
                 </button>
-                {userRole === "מנהל" &&
-                <button className="delete-button" onClick={() => handleDelete(doc._id)}>מחיקה</button>}
+                {userRole === "מנהל" && (
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(doc._id)}
+                  >
+                    מחיקה
+                  </button>
+                )}
               </div>
             </li>
           ))}

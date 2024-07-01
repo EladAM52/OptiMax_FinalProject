@@ -11,16 +11,16 @@ const HomePendingTasks = () => {
 
   const fetchTasks = async () => {
     try {
-        const response = await fetch("/getTasks"); // Replace with your endpoint
-        const data = await response.json();
-        setTasks(data.filter(task => !task.completed));
+      const response = await fetch("/getTasks"); // Replace with your endpoint
+      const data = await response.json();
+      setTasks(data.filter((task) => !task.completed));
     } catch (error) {
-        console.error("Error fetching tasks:", error);
-        // Handle error
+      console.error("Error fetching tasks:", error);
+      // Handle error
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   const renderTasks = (tasksToRender) => (
     <ul className="hometask-list">
@@ -39,18 +39,18 @@ const HomePendingTasks = () => {
 
   return (
     <div className="hometask-log-container" dir="rtl">
-        <h2 className="hometask-h2">משימות הממתינות לטיפולך:</h2>
-        <div className="hometask-tablescroll">
-            {loading ? (
-                <p>טוען משימות...</p>
-            ) : tasks.length === 0 ? (
-                <p>אין משימות ממתינות.</p>
-            ) : (
-                renderTasks(tasks)
-            )}
-        </div>
+      <h2 className="hometask-h2">משימות הממתינות לטיפולך:</h2>
+      <div className="hometask-tablescroll">
+        {loading ? (
+          <p>טוען משימות...</p>
+        ) : tasks.length === 0 ? (
+          <p>אין משימות ממתינות.</p>
+        ) : (
+          renderTasks(tasks)
+        )}
+      </div>
     </div>
-);
+  );
 };
 
 export default HomePendingTasks;
