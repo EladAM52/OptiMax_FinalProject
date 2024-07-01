@@ -1,18 +1,23 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../css/EditProfile.css";
 
 const EditProfile = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const { userId } = useParams();
 
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero
-    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero
+    const day = String(today.getDate()).padStart(2, "0"); // Add leading zero
     return `${year}-${month}-${day}`;
   };
 
@@ -26,7 +31,7 @@ const EditProfile = () => {
         },
       });
       const data = await response.json();
-      
+
       // Set form values using react-hook-form setValue
       Object.keys(data).forEach((key) => {
         setValue(key, data[key]);
@@ -34,8 +39,7 @@ const EditProfile = () => {
     };
 
     fetchUserProfile();
-  }, [setValue,userId]);
-
+  }, [setValue, userId]);
 
   const onSubmit = async (data) => {
     const endpoint = "/updateuserprofile";
@@ -61,12 +65,18 @@ const EditProfile = () => {
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert("Failed to update profile. Please check your network and try again.");
+      alert(
+        "Failed to update profile. Please check your network and try again."
+      );
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="edit-user-wide-form" dir="rtl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="edit-user-wide-form"
+      dir="rtl"
+    >
       <div className="form-field">
         <input
           type="text"
@@ -74,7 +84,11 @@ const EditProfile = () => {
           placeholder="שם פרטי"
           aria-describedby="FirstName-error"
         />
-        {errors.FirstName && <p id="FirstName-error" className="error-message">{errors.FirstName.message}</p>}
+        {errors.FirstName && (
+          <p id="FirstName-error" className="error-message">
+            {errors.FirstName.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -83,7 +97,11 @@ const EditProfile = () => {
           placeholder="שם משפחה"
           aria-describedby="LastName-error"
         />
-        {errors.LastName && <p id="LastName-error" className="error-message">{errors.LastName.message}</p>}
+        {errors.LastName && (
+          <p id="LastName-error" className="error-message">
+            {errors.LastName.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select name="gender" {...register("gender", { required: "בחר מין" })}>
@@ -91,7 +109,11 @@ const EditProfile = () => {
           <option value="זכר">זכר</option>
           <option value="נקבה">נקבה</option>
         </select>
-        {errors.gender && <p id="gender-error" className="error-message">{errors.gender.message}</p>}
+        {errors.gender && (
+          <p id="gender-error" className="error-message">
+            {errors.gender.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -106,7 +128,11 @@ const EditProfile = () => {
           placeholder="אימייל"
           aria-describedby="email-error"
         />
-        {errors.email && <p id="email-error" className="error-message">{errors.email.message}</p>}
+        {errors.email && (
+          <p id="email-error" className="error-message">
+            {errors.email.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -125,7 +151,11 @@ const EditProfile = () => {
           placeholder="תעודת זהות"
           aria-describedby="idNumber-error"
         />
-        {errors.idNumber && <p id="idNumber-error" className="error-message">{errors.idNumber.message}</p>}
+        {errors.idNumber && (
+          <p id="idNumber-error" className="error-message">
+            {errors.idNumber.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select name="role" {...register("role", { required: "בחר תפקיד" })}>
@@ -133,7 +163,11 @@ const EditProfile = () => {
           <option value="עובד">עובד</option>
           <option value="מנהל">מנהל</option>
         </select>
-        {errors.role && <p id="role-error" className="error-message">{errors.role.message}</p>}
+        {errors.role && (
+          <p id="role-error" className="error-message">
+            {errors.role.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -148,7 +182,11 @@ const EditProfile = () => {
           placeholder="מספר טלפון"
           aria-describedby="phoneNumber-error"
         />
-        {errors.phoneNumber && <p id="phoneNumber-error" className="error-message">{errors.phoneNumber.message}</p>}
+        {errors.phoneNumber && (
+          <p id="phoneNumber-error" className="error-message">
+            {errors.phoneNumber.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -157,19 +195,26 @@ const EditProfile = () => {
             required: "תאריך לידה הוא שדה חובה",
             validate: (value) => {
               return (
-                new Date(value) <= new Date() || "תאריך הלידה לא יכול להיות בעתיד"
+                new Date(value) <= new Date() ||
+                "תאריך הלידה לא יכול להיות בעתיד"
               );
             },
           })}
           max={getCurrentDate()}
           aria-describedby="dateOfBirth-error"
         />
-        {errors.dateOfBirth && <p id="dateOfBirth-error" className="error-message">{errors.dateOfBirth.message}</p>}
+        {errors.dateOfBirth && (
+          <p id="dateOfBirth-error" className="error-message">
+            {errors.dateOfBirth.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <select
           name="familyStatus"
-          {...register("familyStatus", { required: "סטטוס משפחתי הוא שדה חובה" })}
+          {...register("familyStatus", {
+            required: "סטטוס משפחתי הוא שדה חובה",
+          })}
         >
           <option value="">בחר סטטוס משפחתי</option>
           <option value="רווק/ה">רווק/ה</option>
@@ -177,7 +222,11 @@ const EditProfile = () => {
           <option value="גרוש/ה">גרוש/ה</option>
           <option value="אלמן/ה">אלמן/ה</option>
         </select>
-        {errors.familyStatus && <p id="familyStatus-error" className="error-message">{errors.familyStatus.message}</p>}
+        {errors.familyStatus && (
+          <p id="familyStatus-error" className="error-message">
+            {errors.familyStatus.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -192,7 +241,11 @@ const EditProfile = () => {
           placeholder="כתובת"
           aria-describedby="address-street-error"
         />
-        {errors.address?.street && <p id="address-street-error" className="error-message">{errors.address.street.message}</p>}
+        {errors.address?.street && (
+          <p id="address-street-error" className="error-message">
+            {errors.address.street.message}
+          </p>
+        )}
       </div>
       <div className="form-field">
         <input
@@ -207,11 +260,20 @@ const EditProfile = () => {
           placeholder="עיר מגורים"
           aria-describedby="address-city-error"
         />
-        {errors.address?.city && <p id="address-city-error" className="error-message">{errors.address.city.message}</p>}
+        {errors.address?.city && (
+          <p id="address-city-error" className="error-message">
+            {errors.address.city.message}
+          </p>
+        )}
       </div>
       <div className="form-buttons">
         <button type="submit">שמירת שינויים</button>
-        <button type="button" onClick={() => navigate(`/UserProfile/${userId}`)}>חזור</button>
+        <button
+          type="button"
+          onClick={() => navigate(`/UserProfile/${userId}`)}
+        >
+          חזור
+        </button>
       </div>
     </form>
   );

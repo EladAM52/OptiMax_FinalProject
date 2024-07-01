@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");
 const express = require("express");
@@ -8,10 +8,10 @@ const User = require("./models/User");
 const Task = require("./models/Task");
 const Document = require("./models/documentModel");
 const session = require("express-session");
-const sgMail = require('@sendgrid/mail')
-const path = require('path');
+const sgMail = require("@sendgrid/mail");
+const path = require("path");
 let server;
-const mongoURI=process.env.MONGO_DB_URL;
+const mongoURI = process.env.MONGO_DB_URL;
 
 const PORT = process.env.PORT || 3000;
 server = app.listen(PORT, () => {
@@ -51,13 +51,10 @@ app.use(
 );
 
 mongoose
-  .connect(
-    mongoURI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Connected to MongoDB with Mongoose"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
@@ -88,10 +85,10 @@ const validateId = (id) => {
 
 app.post("/login", async (req, res) => {
   const { email, idNumber } = req.body;
-  const SenderEmail='optimax58@gmail.com';
+  const SenderEmail = "optimax58@gmail.com";
   const lowercaseUsername = email.toLowerCase();
-  const user = await User.findOne({ email:lowercaseUsername});
-  if(validateEmail(email) && validateId(idNumber)){
+  const user = await User.findOne({ email: lowercaseUsername });
+  if (validateEmail(email) && validateId(idNumber)) {
     if (user && user.idNumber === idNumber) {
       req.session.isLoggedIn = true;
       req.session.role = user.role;
@@ -101,77 +98,91 @@ app.post("/login", async (req, res) => {
       console.log(req.session);
       const verificationCode = Math.floor(100000 + Math.random() * 900000);
       const verificationCodeTimestamp = new Date();
-      await User.updateOne({ _id: user._id }, { $set: { verificationCode, verificationCodeTimestamp } });
-      
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { verificationCode, verificationCodeTimestamp } }
+      );
+
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       const msg = {
-        to: email, 
-        from: SenderEmail, 
-        subject: 'קוד אימות',
-        text:`קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
-      }
+        to: email,
+        from: SenderEmail,
+        subject: "קוד אימות",
+        text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
+      };
       sgMail
         .send(msg)
         .then(() => {
-          console.log('Email sent')
+          console.log("Email sent");
         })
         .catch((error) => {
-          console.error(error)
-        })
+          console.error(error);
+        });
 
       res.json({
         success: true,
         message: "Login successful",
         FirstName: user.FirstName,
         role: user.role,
-        userId: user._id
+        userId: user._id,
       });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
     }
-  }});
+  }
+});
 
-  app.post("/resendCode", async (req, res) => {
-    const { UserId } = req.body; 
-    
-  
-    try {
-    
-      const user = await User.findById(UserId);
-      if (!user) {
-        return res.status(404).json({ success: false, message: "User not found." });
-      }
-  
-      const email = user.email.toLowerCase(); 
-  
-      const verificationCode = Math.floor(100000 + Math.random() * 900000);
-      const verificationCodeTimestamp = new Date();
-      verificationCodeTimestamp.setMinutes(verificationCodeTimestamp.getMinutes() + 10);
+app.post("/resendCode", async (req, res) => {
+  const { UserId } = req.body;
 
-      await User.updateOne({ _id: UserId }, { $set: { verificationCode, verificationCodeTimestamp } });
-  
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-      const msg = {
-        to: email,
-        from: 'optimax58@gmail.com',
-        subject: 'קוד אימות',
-        text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
-      };
-  
-      await sgMail.send(msg);
-  
-      res.json({ success: true, message: "Verification code resent successfully." });
-    } catch (error) {
-      console.error("Error during resend code process:", error);
-      res.status(500).json({ success: false, message: "An error occurred. Please try again later." });
+  try {
+    const user = await User.findById(UserId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
-  });
 
+    const email = user.email.toLowerCase();
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+    const verificationCodeTimestamp = new Date();
+    verificationCodeTimestamp.setMinutes(
+      verificationCodeTimestamp.getMinutes() + 10
+    );
+
+    await User.updateOne(
+      { _id: UserId },
+      { $set: { verificationCode, verificationCodeTimestamp } }
+    );
+
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: email,
+      from: "optimax58@gmail.com",
+      subject: "קוד אימות",
+      text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
+    };
+
+    await sgMail.send(msg);
+
+    res.json({
+      success: true,
+      message: "Verification code resent successfully.",
+    });
+  } catch (error) {
+    console.error("Error during resend code process:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred. Please try again later.",
+    });
+  }
+});
 
 app.post("/logout", async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.log('err');
+      console.log("err");
       console.log(err);
       return res
         .status(500)
@@ -195,8 +206,8 @@ app.get("/getusers", async (req, res) => {
 
 app.get("/getuserprofile", async (req, res) => {
   try {
-    const userId = req.header('UserId');
-    const user = await User.findOne({_id:userId});
+    const userId = req.header("UserId");
+    const user = await User.findOne({ _id: userId });
     res.json(user);
   } catch (error) {
     console.error("Failed to fetch user:", error);
@@ -204,23 +215,36 @@ app.get("/getuserprofile", async (req, res) => {
   }
 });
 
-app.put('/updateuserprofile', async (req, res) => {
+app.put("/updateuserprofile", async (req, res) => {
   try {
     const { userId, ...profileData } = req.body;
-    const updatedUser = await User.findByIdAndUpdate(userId, profileData, { new: true });
-    
+    const updatedUser = await User.findByIdAndUpdate(userId, profileData, {
+      new: true,
+    });
+
     if (updatedUser) {
       res.status(200).json(updatedUser);
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
-app.post('/adduser', async (req, res) => {
-  const { FirstName, LastName, gender, email, idNumber, role, phoneNumber, dateOfBirth, familyStatus, address } = req.body;
+app.post("/adduser", async (req, res) => {
+  const {
+    FirstName,
+    LastName,
+    gender,
+    email,
+    idNumber,
+    role,
+    phoneNumber,
+    dateOfBirth,
+    familyStatus,
+    address,
+  } = req.body;
 
   try {
     const newUser = new User({
@@ -228,31 +252,37 @@ app.post('/adduser', async (req, res) => {
       LastName,
       gender,
       email,
-      idNumber, 
+      idNumber,
       role,
       phoneNumber,
       dateOfBirth,
       familyStatus,
-      address
+      address,
     });
     await newUser.save();
-    res.status(201).json({ success: true, message: 'User added successfully', user: newUser });
+    res.status(201).json({
+      success: true,
+      message: "User added successfully",
+      user: newUser,
+    });
   } catch (error) {
-    console.error('Error adding user:', error);
-    res.status(500).json({ success: false, message: 'Error adding user', error: error.message });
+    console.error("Error adding user:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error adding user",
+      error: error.message,
+    });
   }
 });
 
-
-app.delete('/deleteUser/:id', async (req, res) => {
+app.delete("/deleteUser/:id", async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted User' });
+    res.json({ message: "Deleted User" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 app.post("/verifyCode", async (req, res) => {
   const { code } = req.body;
@@ -264,19 +294,26 @@ app.post("/verifyCode", async (req, res) => {
   }
 
   const isCodeValid = user.verificationCode === code;
-  const isCodeExpired = Date.now() - new Date(user.verificationCodeTimestamp).getTime() > 10 * 60 * 1000;
+  const isCodeExpired =
+    Date.now() - new Date(user.verificationCodeTimestamp).getTime() >
+    10 * 60 * 1000;
 
   if (isCodeValid && !isCodeExpired) {
-
-    await User.updateOne({ _id: user._id }, { $unset: { verificationCode: "", verificationCodeTimestamp: "" } });
+    await User.updateOne(
+      { _id: user._id },
+      { $unset: { verificationCode: "", verificationCodeTimestamp: "" } }
+    );
 
     res.json({ success: true, message: "Verification successful." });
   } else {
-    res.json({ success: false, message: "Invalid or expired verification code." });
+    res.json({
+      success: false,
+      message: "Invalid or expired verification code.",
+    });
   }
 });
 
-app.get('/getTasks', async (req, res) => {
+app.get("/getTasks", async (req, res) => {
   try {
     const tasks = await Task.find();
     res.json(tasks);
@@ -285,13 +322,13 @@ app.get('/getTasks', async (req, res) => {
   }
 });
 
-app.post('/newTask', async (req, res) => {
+app.post("/newTask", async (req, res) => {
   const { title, description } = req.body;
 
   try {
     const task = new Task({
       title,
-      description
+      description,
     });
 
     const newTask = await task.save();
@@ -301,11 +338,13 @@ app.post('/newTask', async (req, res) => {
   }
 });
 
-app.put('/editTask/:id', async (req, res) => {
+app.put("/editTask/:id", async (req, res) => {
   try {
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!task) {
-      return res.status(404).send({ message: 'Task not found' });
+      return res.status(404).send({ message: "Task not found" });
     }
     res.send(task);
   } catch (err) {
@@ -313,55 +352,52 @@ app.put('/editTask/:id', async (req, res) => {
   }
 });
 
-app.delete('/deleteTask/:id', async (req, res) => {
+app.delete("/deleteTask/:id", async (req, res) => {
   try {
     await Task.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted task' });
+    res.json({ message: "Deleted task" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-const multer  = require('multer')
+const multer = require("multer");
 app.use(express.json());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './files');
+    cb(null, "./files");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
-    cb(null,uniqueSuffix + file.originalname);
-  }
-})
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
 
 const upload = multer({ storage: storage });
-app.use(express.static('public'));
-app.use('/files', express.static('files'));
-
+app.use(express.static("public"));
+app.use("/files", express.static("files"));
 
 app.post("/upload-files", upload.single("file"), async (req, res) => {
   if (!req.file) {
-    return res.status(400).send({ message: 'No file uploaded' });
+    return res.status(400).send({ message: "No file uploaded" });
   }
 
   const fileName = req.file.filename;
   const optionalFileName = req.body.filename;
   const uploadedBy = req.body.userId;
-  const originalfileName=req.file.originalname;
+  const originalfileName = req.file.originalname;
 
-  
   try {
     const user = await User.findById(uploadedBy);
 
     if (!user) {
-      return res.status(404).send({ message: 'User not found' });
+      return res.status(404).send({ message: "User not found" });
     }
 
-    const firstName=user.FirstName;
-    const lastName=user.LastName;
-    const idNumber=user.idNumber;
-  
+    const firstName = user.FirstName;
+    const lastName = user.LastName;
+    const idNumber = user.idNumber;
 
     const newDocument = new Document({
       fileName,
@@ -371,24 +407,26 @@ app.post("/upload-files", upload.single("file"), async (req, res) => {
         userId: uploadedBy,
         firstName,
         lastName,
-        idNumber
+        idNumber,
       },
     });
 
     await newDocument.save();
-    return res.status(201).send({ message: 'PDF has been added to database' });
+    return res.status(201).send({ message: "PDF has been added to database" });
   } catch (error) {
-    console.error('Error saving document:', error); // Log error for debugging
-    return res.status(500).json({ message: 'PDF has not been added to database', error });
+    console.error("Error saving document:", error); // Log error for debugging
+    return res
+      .status(500)
+      .json({ message: "PDF has not been added to database", error });
   }
 });
 
-app.get('/getfiles', async (req, res) => {
+app.get("/getfiles", async (req, res) => {
   try {
     const files = await Document.find();
-    res.json(files)
+    res.json(files);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching documents', error });
+    res.status(500).json({ message: "Error fetching documents", error });
   }
 });
 
@@ -406,6 +444,3 @@ app.delete("/deleteDocument/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
-

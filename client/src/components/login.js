@@ -70,7 +70,6 @@ function Login() {
         setEmail("");
         setidNumber("");
         setShowVerificationInput(true);
-        
       });
     } else {
       Swal.fire({
@@ -95,10 +94,9 @@ function Login() {
     const idPattern = /^\d{9}$/;
     return idPattern.test(idNumber);
   };
-  
 
   if (showVerificationInput) {
-    return <VerificationCodeInput/>;
+    return <VerificationCodeInput />;
   }
 
   return (
@@ -140,4 +138,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Login;

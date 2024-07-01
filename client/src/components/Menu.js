@@ -16,8 +16,7 @@ import { Link } from "react-router-dom";
 const Menu = ({ userRole, isOpen }) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
-      <div className="sidebar-logo">
-      </div>
+      <div className="sidebar-logo"></div>
       <ul>
         <li>
           <Link to={`/UserProfile/${localStorage.getItem("UserId")}`}>
@@ -61,7 +60,7 @@ const Menu = ({ userRole, isOpen }) => {
               </a>
             </li>
             <li>
-            <Link to="/Documents">
+              <Link to="/Documents">
                 <FontAwesomeIcon icon={faHandshake} /> העלאת מסמכים
               </Link>
             </li>

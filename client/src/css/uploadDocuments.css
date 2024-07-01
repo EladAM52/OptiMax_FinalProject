@@ -77,7 +77,6 @@
   overflow: auto;
   width: 100%;
   max-height: 230px;
-
 }
 
 .documents-list {
@@ -95,14 +94,13 @@
 
 .document-item ul,
 .document-item ul ul {
-  list-style-type:disc;
+  list-style-type: disc;
   padding: 0;
   margin-right: 20px;
 }
 
-
 .document-item .dot {
-  display:inline-block;
+  display: inline-block;
   width: 5px;
   height: 5px;
   background-color: black;
@@ -111,7 +109,7 @@
   margin-top: 10px; /* Adjust as needed */
 }
 
-.delete-button{
+.delete-button {
   background-color: #080710;
   color: #ffffff;
   border: none;
@@ -126,8 +124,8 @@
   background-color: rgba(255, 76, 76, 0.8);
 }
 
-.watch-button{
-   background-color: #080710;
+.watch-button {
+  background-color: #080710;
   color: #ffffff;
   border: none;
   padding: 10px;
@@ -136,6 +134,6 @@
   font-weight: bold;
   margin: 5px;
 }
-.watch-button:hover{
+.watch-button:hover {
   background-color: #4caf50;
 }

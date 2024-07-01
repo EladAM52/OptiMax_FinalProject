@@ -47,14 +47,14 @@ const userSchema = new mongoose.Schema({
     street: { type: String, required: false },
     city: { type: String, required: false },
   },
-  verificationCode: { 
-    type: String, 
-    default: null 
+  verificationCode: {
+    type: String,
+    default: null,
   },
-  verificationCodeTimestamp: { 
-    type: Date, 
-    default: null 
-  }
+  verificationCodeTimestamp: {
+    type: Date,
+    default: null,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

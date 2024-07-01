@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes,faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes, faHouse } from "@fortawesome/free-solid-svg-icons";
 import LogoutButton from "./LogoutButton";
 import Menu from "./Menu";
 import "../css/navbar.css";
