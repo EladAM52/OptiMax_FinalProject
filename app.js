@@ -131,9 +131,44 @@ app.post("/login", async (req, res) => {
     }
   }});
 
+  app.post("/resendCode", async (req, res) => {
+    const { UserId } = req.body; 
+    
+  
+    try {
+    
+      const user = await User.findById(UserId);
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found." });
+      }
+  
+      const email = user.email.toLowerCase(); 
+  
+      const verificationCode = Math.floor(100000 + Math.random() * 900000);
+      const verificationCodeTimestamp = new Date();
+      verificationCodeTimestamp.setMinutes(verificationCodeTimestamp.getMinutes() + 10);
+
+      await User.updateOne({ _id: UserId }, { $set: { verificationCode, verificationCodeTimestamp } });
+  
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      const msg = {
+        to: email,
+        from: 'optimax58@gmail.com',
+        subject: 'קוד אימות',
+        text: `קוד האימות שלך לכניסה למערכת הוא: ${verificationCode}`,
+      };
+  
+      await sgMail.send(msg);
+  
+      res.json({ success: true, message: "Verification code resent successfully." });
+    } catch (error) {
+      console.error("Error during resend code process:", error);
+      res.status(500).json({ success: false, message: "An error occurred. Please try again later." });
+    }
+  });
+
 
 app.post("/logout", async (req, res) => {
-
   req.session.destroy((err) => {
     if (err) {
       console.log('err');

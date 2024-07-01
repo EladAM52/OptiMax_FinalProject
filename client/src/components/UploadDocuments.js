@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import "../css/uploadDocuments.css";
 
 const FileUpload = () => {
@@ -9,17 +9,13 @@ const FileUpload = () => {
   const userId = localStorage.getItem("UserId");
   const userRole = localStorage.getItem("UserRole");
 
-  useEffect(() => {
-    fetchDocuments();
-  }, []);
-
-  const fetchDocuments = async () => {
+  const fetchDocuments = useCallback(async () => {
     try {
       const response = await fetch(
         `/getfiles?role=${userRole}&userId=${userId}`
       );
       const data = await response.json();
-
+  
       if (Array.isArray(data)) {
         setDocuments(data);
         console.log("Fetched documents:", data);
@@ -29,7 +25,11 @@ const FileUpload = () => {
     } catch (error) {
       console.error("Error fetching documents:", error);
     }
-  };
+  }, [userRole, userId]);
+  
+  useEffect(() => {
+    fetchDocuments();
+  }, [fetchDocuments]);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -147,7 +147,8 @@ const FileUpload = () => {
           </li>}
           <li>תאריך העלאה: {doc.dateOfUpload}</li>
         </ul>
-                <button
+                <button 
+                className="watch-button"
                   onClick={() =>
                     handleOpenDocument(
                       `http://localhost:3000/files/${doc.fileName}`
@@ -157,7 +158,7 @@ const FileUpload = () => {
                   הצגת מסמך
                 </button>
                 {userRole === "מנהל" &&
-                <button onClick={() => handleDelete(doc._id)}>מחיקה</button>}
+                <button className="delete-button" onClick={() => handleDelete(doc._id)}>מחיקה</button>}
               </div>
             </li>
           ))}

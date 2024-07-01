@@ -39,12 +39,12 @@ body {
 .welcome-window {
   background-color: #ffffff;
   border: 2px solid #2f4050;
-  padding: 40px;
+  padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 800px;
-  position: fixed;
-  top: 80px;
+  position: flex;
+  margin-top: 5px;
   right: 300px;
   text-align: center;
   z-index: 1000;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/homePage.css";
 import WelcomeContainer from "./welcomeContainer";
+import HomePendingTasks from "./HomePendingTasks";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ function HomePage() {
   return (
     <div>
       <WelcomeContainer FirstName={FirstName} userRole={userRole}/>
+      {userRole === "מנהל" && <HomePendingTasks />}
     </div>
   );
 }
