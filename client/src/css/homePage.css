@@ -35,28 +35,33 @@ body {
 }
 
 .welcome-window {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   border: 2px solid #2f4050;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  width: 800px;
+  width: 900px;
   position: flex;
   margin-top: 5px;
+  margin-left: 15px;
   right: 300px;
   text-align: center;
   z-index: 1000;
+  border-radius: 10px;
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 h1 {
   margin-bottom: 20px;
-  color: #333;
-  font-size: 24px;
+  color:  #080710;
+  font-size: 27px;
 }
 
 p {
-  color: #666;
-  font-size: 16px;
+  color:  #080710;
+  font-size: 20px;
   line-height: 1.5;
 }
 
