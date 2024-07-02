@@ -175,7 +175,7 @@ function VerificationCodeInput() {
       <p
         dir="rtl"
         style={{
-          fontSize: "14px",
+          fontSize: "15px",
           color: "#555",
           marginTop: "20px", // Move the description slightly down
         }}
@@ -186,7 +186,7 @@ function VerificationCodeInput() {
         dir="rtl"
         style={{
           marginTop: "20px",
-          fontSize: "14px",
+          fontSize: "15px",
           color: "#555",
           cursor: isResendDisabled ? "not-allowed" : "pointer",
           textDecoration: "underline",

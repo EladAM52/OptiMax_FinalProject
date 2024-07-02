@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/Menu.css";
 import { Link } from "react-router-dom";
-// import logo from "../images/logo1.png";
+import logo from "../images/logo2.png";
 
 const Menu = ({ userRole, isOpen }) => {
   return (
@@ -73,6 +73,9 @@ const Menu = ({ userRole, isOpen }) => {
           </>
         )}
       </ul>
+      <div className="sidebar-logo-bottom">
+        <img src={logo} alt="Optimax Logo" className="logo-image" />
+      </div>
     </div>
   );
 };

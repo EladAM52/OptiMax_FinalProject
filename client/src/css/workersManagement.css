@@ -1,5 +1,5 @@
 .tablescroll {
-  max-height: 330px;
+  max-height: 250px;
   max-width: 620px;
   padding: 0 50px 20px 250px;
   overflow: auto;
@@ -16,7 +16,7 @@
 
 .users-table {
   background-color: #ffffff;
-  border: 2px solid #2f4050;
+  border: 2px solid #f0f0f0;
   padding: 0 5px 5px 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -109,7 +109,7 @@
   }
 }
 .workers-container {
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   border: 2px solid #2f4050;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -117,6 +117,6 @@
   width: 900px;
   position: relative;
   top: 25px;
-  right: 80px;
+  right: 20px;
   text-align: center;
 }
