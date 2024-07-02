@@ -57,3 +57,15 @@
 .sidebar ul li a:hover {
   background-color: #2f40506a;
 }
+.sidebar-logo-bottom {
+  position: relative;
+  bottom: 80px; /* Adjust as needed */
+  width: 150px;
+  text-align: center;
+  padding: 60px;
+}
+
+.logo-image {
+  max-width: 100%; /* Adjust as needed */
+  height: auto;
+}
