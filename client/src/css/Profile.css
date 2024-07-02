@@ -4,7 +4,7 @@
   margin-bottom: 20px;
   padding: 40px 50px; /* Adjust the padding as needed */
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   direction: rtl;
@@ -14,6 +14,10 @@
   overflow: hidden;
   border: 2px solid #2f4050;
   /* z-index: -1; */
+  border-radius: 10px;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .heading {
