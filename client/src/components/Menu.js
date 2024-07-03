@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHandshake,
@@ -13,7 +13,13 @@ import "../css/Menu.css";
 import { Link } from "react-router-dom";
 import logo from "../images/logo2.png";
 
-const Menu = ({ userRole, isOpen }) => {
+const Menu = ({ isOpen }) => {
+  const [userrole, setUserRole] = useState("");
+  useEffect(() => {
+    const userRoleFromLocal = localStorage.getItem("UserRole");
+    setUserRole(userRoleFromLocal);
+  }, []);
+
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`} dir="rtl">
       <div className="sidebar-logo"></div>
@@ -25,7 +31,7 @@ const Menu = ({ userRole, isOpen }) => {
           </Link>
         </li>
 
-        {userRole === "מנהל" && (
+        {userrole === "מנהל" && (
           <>
             <li>
               <Link to="/TaskLog">
@@ -51,7 +57,7 @@ const Menu = ({ userRole, isOpen }) => {
             </li>
           </>
         )}
-        {userRole === "עובד" && (
+        {userrole === "עובד" && (
           <>
             <li>
               <a>
@@ -61,7 +67,7 @@ const Menu = ({ userRole, isOpen }) => {
             </li>
             <li>
               <Link to="/Documents">
-                <FontAwesomeIcon icon={faHandshake} /> העלאת מסמכים
+                <FontAwesomeIcon icon={faFileImport} /> העלאת מסמכים
               </Link>
             </li>
             <li>

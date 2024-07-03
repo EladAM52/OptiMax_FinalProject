@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "../css/uploadDocuments.css";
+import Swal from "sweetalert2";
 
 const FileUpload = () => {
   const [file, setFile] = useState("");
@@ -17,7 +18,14 @@ const FileUpload = () => {
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        setDocuments(data);
+        if (userRole !== "מנהל") {
+          const filteredDocuments = data.filter(
+            (doc) => doc.uploadedBy.userId === userId
+          );
+          setDocuments(filteredDocuments);
+        } else {
+          setDocuments(data);
+        }
         console.log("Fetched documents:", data);
       } else {
         console.error("Fetched data is not an array:", data);
@@ -26,7 +34,6 @@ const FileUpload = () => {
       console.error("Error fetching documents:", error);
     }
   }, [userRole, userId]);
-
   useEffect(() => {
     fetchDocuments();
   }, [fetchDocuments]);
@@ -42,7 +49,11 @@ const FileUpload = () => {
     }
 
     if (!file) {
-      alert("Please select a file to upload.");
+      Swal.fire({
+        icon: "error",
+        text: "יש לבחור קובץ ולנסות שנית",
+        confirmButtonText: "סגור",
+      });
       return;
     }
 
@@ -58,19 +69,35 @@ const FileUpload = () => {
       });
 
       if (response.ok) {
-        alert("File uploaded successfully!");
-        setFile(""); // Clear file state
-        setFileName(""); // Clear fileName state
-        setFileNameError(""); // Clear error message
-        fetchDocuments(); // Refresh the documents list
+        Swal.fire({
+          icon: "success",
+          text: "העלאת הקובץ הצליחה ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          setFile("");
+          setFileName("");
+          setFileNameError("");
+          fetchDocuments();
+        });
       } else {
         const errorMessage = await response.text();
         console.error("Failed to upload file:", errorMessage);
-        alert("Failed to upload file. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון העלאה שלך לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Failed to upload file. Please try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון העלאה שלך לא הצליח. אנא נסה שנית.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
@@ -86,13 +113,28 @@ const FileUpload = () => {
 
       if (response.ok) {
         setDocuments(documents.filter((doc) => doc._id !== docId));
-        alert("Document deleted successfully!");
+        Swal.fire({
+          icon: "success",
+          text: " הקובץ נמחק בהצלחה ",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } else {
-        alert("Failed to delete document.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון המחיקה שלך לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("Error deleting document:", error);
-      alert("Failed to delete document. Please try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון המחיקה שלך לא הצליח. אנא נסה שנית.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 

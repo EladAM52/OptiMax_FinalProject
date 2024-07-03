@@ -23,7 +23,7 @@ const Navbar = ({ userRole }) => {
       <button className="homepageButtom" onClick={handleMenuHomePage}>
         <FontAwesomeIcon icon={faHouse} />
       </button>
-      <Menu isOpen={isMenuOpen} userRole={userRole} />
+      <Menu isOpen={isMenuOpen}/>
       <LogoutButton />
     </nav>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/taskLog.css";
+import Swal from "sweetalert2";
 
 const TaskLog = () => {
   const [tasks, setTasks] = useState([]);
@@ -55,17 +56,33 @@ const TaskLog = () => {
 
       if (response.ok) {
         console.log(responseData);
-        alert("Task added successfully!");
-        setNewTask({ title: "", description: "" }); // Clear input fields
-        setNewTaskError({ title: "", description: "" });
-        fetchTasks(); // Refresh task list
+        Swal.fire({
+          icon: "success",
+          text: "הוספת המשימה הצליחה ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          setNewTask({ title: "", description: "" }); 
+          setNewTaskError({ title: "", description: "" });
+          fetchTasks(); 
+        });
       } else {
         console.error(responseData.message);
-        alert("Failed to add Task. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון הוספת משימה לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert("Failed to add Task. Please check your network and try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון הוספת משימה לא הצליח. אנא בדוק את החיבור לרשת ",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
@@ -82,16 +99,33 @@ const TaskLog = () => {
       const response = await fetch(endpoint, options);
 
       if (response.ok) {
-        alert("Task deleted successfully!");
-        fetchTasks(); // Refresh task list after deletion
+        Swal.fire({
+          icon: "success",
+          text: "מחיקת המשימה הצליחה ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          fetchTasks(); 
+        });
+        
       } else {
         const responseData = await response.json();
         console.error(responseData.message);
-        alert("Failed to delete Task. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון מחיקת משימה לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert("Failed to delete Task. Please check your network and try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון מחיקת משימה לא הצליח. אנא בדוק את החיבור לרשת ",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
@@ -116,16 +150,32 @@ const TaskLog = () => {
       const response = await fetch(endpoint, options);
 
       if (response.ok) {
-        alert("Task updated successfully!");
-        setEditingTask(null);
-        setupdateTask({ title: "", description: "" });
-        setUpdateTaskError({ title: "", description: "" }); // Clear error messages
-        fetchTasks();
+        Swal.fire({
+          icon: "success",
+          text: "עדכון המשימה הצליח ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          setEditingTask(null);
+          setupdateTask({ title: "", description: "" });
+          setUpdateTaskError({ title: "", description: "" }); 
+          fetchTasks();
+        });
       } else {
-        alert("Failed to update Task. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון עדכון משימה לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
-      alert("Failed to update Task. Please check your network and try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון עדכון משימה לא הצליח. אנא בדוק את החיבור לרשת ",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
@@ -143,18 +193,32 @@ const TaskLog = () => {
       const response = await fetch(endpoint, options);
 
       if (response.ok) {
-        alert("Task marked as done!");
-        fetchTasks(); // Refresh task list after marking as done
+        Swal.fire({
+          icon: "success",
+          text: " המשימה סומנה כבוצעה ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          fetchTasks();
+        });
       } else {
         const responseData = await response.json();
         console.error(responseData.message);
-        alert("Failed to mark task as done. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון סימון משימה לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert(
-        "Failed to mark task as done. Please check your network and try again."
-      );
+      Swal.fire({
+        icon: "error",
+        text: "נסיון סימון משימה לא הצליח. אנא בדוק את החיבור לרשת ",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 

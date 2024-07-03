@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/EditProfile.css";
+import Swal from "sweetalert2";
 
 const EditProfile = () => {
   const {
@@ -21,6 +22,14 @@ const EditProfile = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Add leading zero
+    const day = String(date.getDate()).padStart(2, "0"); // Add leading zero
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       const response = await fetch("/getuserprofile", {
@@ -32,6 +41,11 @@ const EditProfile = () => {
       });
       const data = await response.json();
 
+      // Format the dateOfBirth field
+      if (data.dateOfBirth) {
+        data.dateOfBirth = formatDate(data.dateOfBirth);
+      }
+
       // Set form values using react-hook-form setValue
       Object.keys(data).forEach((key) => {
         setValue(key, data[key]);
@@ -42,6 +56,8 @@ const EditProfile = () => {
   }, [setValue, userId]);
 
   const onSubmit = async (data) => {
+    if(data.role==="עובד"?  localStorage.setItem("UserRole", data.role): localStorage.setItem("UserRole", "מנהל"));
+
     const endpoint = "/updateuserprofile";
     const options = {
       method: "PUT",
@@ -57,17 +73,31 @@ const EditProfile = () => {
 
       if (response.ok) {
         console.log(responseData);
-        alert("פרופיל העובד עודכן בהצלחה");
-        navigate(`/UserProfile/${userId}`);
+        Swal.fire({
+          icon: "success",
+          text: "פרופיל העובד עודכן בהצלחה ",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          navigate(`/UserProfile/${userId}`);
+        });
       } else {
         console.error(responseData.message);
-        alert("עדכון פרופיל העובד נכשל, נסה שנית");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון עדכון פרופיל העובד לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert(
-        "Failed to update profile. Please check your network and try again."
-      );
+      Swal.fire({
+        icon: "error",
+        text: "נסיון עדכון פרופיל העובד לא הצליח. אנא בדוק את החיבור לרשת ",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 
