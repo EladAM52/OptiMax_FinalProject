@@ -6,6 +6,11 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useParams();
+  const [userRole, setUserRole] = useState("");
+  useEffect(() => {
+    const userRoleFromLocal = localStorage.getItem("UserRole");
+    setUserRole(userRoleFromLocal);
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -48,9 +53,10 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+      {userRole==="מנהל" &&
       <button className="editprofile-button" onClick={editprofile}>
         עריכת הפרופיל
-      </button>
+      </button>}
       <h1 className="heading">פרופיל אישי</h1>
       <section className="section">
         <h2 className="sub-heading">פרטים אישיים</h2>

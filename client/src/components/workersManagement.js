@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/workersManagement.css";
+import Swal from "sweetalert2";
 
 const UsersTable = () => {
   const navigate = useNavigate();
@@ -45,16 +46,33 @@ const UsersTable = () => {
       const response = await fetch(endpoint, options);
 
       if (response.ok) {
-        alert("User deleted successfully!");
-        fetchUsers();
+        Swal.fire({
+          icon: "success",
+          text: "עובד נמחק בהצלחה",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          fetchUsers();
+        });
+        
       } else {
         const responseData = await response.json();
         console.error(responseData.message);
-        alert("Failed to delete User. Please try again.");
+        Swal.fire({
+          icon: "error",
+          text: "נסיון מחיקת עובד לא הצליח. אנא נסה שנית.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert("Failed to delete User. Please check your network and try again.");
+      Swal.fire({
+        icon: "error",
+        text: "נסיון מחיקת עובד לא הצליח. אנא בדוק את החיבור לרשת.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
 

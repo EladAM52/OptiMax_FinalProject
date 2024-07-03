@@ -1,7 +1,7 @@
 .hometask-log-container {
   position: relative;
   /* max-width: 600px; */
-  width: 800px;
+  width: 930px;
   margin: 0 auto;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.2);
@@ -9,7 +9,7 @@
   backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
-  left: 15px;
+  left: 10px;
   border: 2px solid rgba(255, 255, 255, 0.1);
   top: 25px;
 }
@@ -18,7 +18,7 @@
   /* max-width: 620px; */
   padding: 0 10px 20px 250px;
   overflow: auto;
-  width: 500px;
+  width: 650px;
   max-height: 200px;
   
 }
@@ -65,7 +65,7 @@
   list-style-type: disc;
   margin-bottom: 10px;
   padding: 20px;
-  width: 700px;
+  width: 850px;
   border-radius: 10px;
   backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.1);
