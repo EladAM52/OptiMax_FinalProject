@@ -34,6 +34,11 @@ const Menu = ({ isOpen }) => {
         {userrole === "מנהל" && (
           <>
             <li>
+              <Link to="/ShiftSchedule">
+                <FontAwesomeIcon icon={faClipboard} /> אילוצים
+              </Link>
+            </li>
+            <li>
               <Link to="/TaskLog">
                 <FontAwesomeIcon icon={faTasks} /> יומן משימות
               </Link>
@@ -60,10 +65,9 @@ const Menu = ({ isOpen }) => {
         {userrole === "עובד" && (
           <>
             <li>
-              <a>
-                {" "}
+              <Link to="/ShiftSchedule">
                 <FontAwesomeIcon icon={faClipboard} /> אילוצים
-              </a>
+              </Link>
             </li>
             <li>
               <Link to="/Documents">
