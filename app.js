@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const User = require("./models/User");
 const Task = require("./models/Task");
 const Document = require("./models/documentModel");
+const Shift = require("./models/Shift");
 const session = require("express-session");
 const sgMail = require("@sendgrid/mail");
 const path = require("path");
@@ -442,5 +443,50 @@ app.delete("/deleteDocument/:id", async (req, res) => {
     res.status(200).json({ message: "Document deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+app.get("/getEmployeeShifts/:employeeId/:week", async (req, res) => {
+  const { employeeId, week } = req.params;
+  try {
+    const shift = await Shift.findOne({ employeeId, week });
+    res.json(shift ? shift.shifts : []);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/updateShifts/:employeeId/:week", async (req, res) => {
+  const { employeeId, week } = req.params;
+  const updatedShifts = req.body.shifts;
+
+  const hasSelectedShift = updatedShifts.some(shift => shift.morningShift || shift.noonShift || shift.nightShift);
+  if (!hasSelectedShift) {
+    return res.status(400).json({ message: 'You must select at least one shift before saving.' });
+  }
+
+  try {
+    let shift = await Shift.findOne({ employeeId, week });
+    if (shift) {
+      shift.shifts = updatedShifts;
+    } else {
+      shift = new Shift({ employeeId, week, shifts: updatedShifts });
+    }
+    await shift.save();
+    res.json({ message: 'Shifts updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete("/deleteShifts/:employeeId/:week", async (req, res) => {
+  const { employeeId, week } = req.params;
+  try {
+      await Shift.findOneAndDelete({ employeeId, week });
+      res.json({ message: 'Shift arrangement deleted successfully' });
+  } catch (err) {
+      res.status(500).json({ error: err.message });
   }
 });
