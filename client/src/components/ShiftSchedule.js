@@ -21,18 +21,19 @@ const ShiftSchedule = () => {
         return `${currentDate.getFullYear()}-${weekNumber.toString().padStart(2, '0')}`;
     }
 
-    // Get the dates of the current week
     function getWeekDates(currentDate) {
-        const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(startOfWeek.getDate());
         return Array.from({ length: 7 }, (_, i) => {
-            const date = new Date(startOfWeek.setDate(startOfWeek.getDate() + (i === 0 ? 0 : 1)));
+            const date = new Date(startOfWeek);
+            date.setDate(startOfWeek.getDate() + i);
             return date.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
         });
     }
 
     const getDefaultShiftsForWeek = useCallback(() => {
         return weekDates.map(date => ({
-            date, // Use the formatted date
+            date, 
             morningShift: false,
             noonShift: false,
             nightShift: false,
@@ -165,20 +166,21 @@ const ShiftSchedule = () => {
                 text: 'המשמרות נשמרו בהצלחה'
             });
             setShiftsExistInDb(true);
-            fetchShifts(); // Refresh the shifts after saving
+            fetchShifts(); 
         } catch (err) {
             console.error('Error saving shifts', err);
         }
     }
 
-    function handleWeekChange(direction) {
+    const handleWeekChange = (direction) => {
         const [year, week] = currentWeek.split('-').map(Number);
         const newWeek = direction === 'next' ? week + 1 : week - 1;
         const newYear = newWeek > 52 ? year + 1 : newWeek < 1 ? year - 1 : year;
         const validNewWeek = newWeek > 52 ? 1 : newWeek < 1 ? 52 : newWeek;
 
         setCurrentWeek(`${newYear}-${validNewWeek.toString().padStart(2, '0')}`);
-        setWeekDates(getWeekDates(new Date(newYear, 0, (validNewWeek - 1) * 7)));
+        const newDate = new Date(newYear, 0, 1 + (validNewWeek - 1) * 7);
+        setWeekDates(getWeekDates(newDate));
         setLoading(true);
         setNoShiftsMessage('');
     }

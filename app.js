@@ -8,6 +8,7 @@ const User = require("./models/User");
 const Task = require("./models/Task");
 const Document = require("./models/documentModel");
 const Shift = require("./models/Shift");
+const ShiftArrangement = require("./models/ShiftArrangement");
 const session = require("express-session");
 const sgMail = require("@sendgrid/mail");
 const path = require("path");
@@ -446,8 +447,6 @@ app.delete("/deleteDocument/:id", async (req, res) => {
   }
 });
 
-
-
 app.get("/getEmployeeShifts/:employeeId/:week", async (req, res) => {
   const { employeeId, week } = req.params;
   try {
@@ -462,9 +461,13 @@ app.post("/updateShifts/:employeeId/:week", async (req, res) => {
   const { employeeId, week } = req.params;
   const updatedShifts = req.body.shifts;
 
-  const hasSelectedShift = updatedShifts.some(shift => shift.morningShift || shift.noonShift || shift.nightShift);
+  const hasSelectedShift = updatedShifts.some(
+    (shift) => shift.morningShift || shift.noonShift || shift.nightShift
+  );
   if (!hasSelectedShift) {
-    return res.status(400).json({ message: 'You must select at least one shift before saving.' });
+    return res
+      .status(400)
+      .json({ message: "You must select at least one shift before saving." });
   }
 
   try {
@@ -475,7 +478,7 @@ app.post("/updateShifts/:employeeId/:week", async (req, res) => {
       shift = new Shift({ employeeId, week, shifts: updatedShifts });
     }
     await shift.save();
-    res.json({ message: 'Shifts updated successfully' });
+    res.json({ message: "Shifts updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -484,9 +487,63 @@ app.post("/updateShifts/:employeeId/:week", async (req, res) => {
 app.delete("/deleteShifts/:employeeId/:week", async (req, res) => {
   const { employeeId, week } = req.params;
   try {
-      await Shift.findOneAndDelete({ employeeId, week });
-      res.json({ message: 'Shift arrangement deleted successfully' });
+    await Shift.findOneAndDelete({ employeeId, week });
+    res.json({ message: "Shift arrangement deleted successfully" });
   } catch (err) {
-      res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/getAvailableEmployees/:week", async (req, res) => {
+  const week = req.params.week;
+  try {
+    const shifts = await Shift.find({ week });
+    const users = await User.find({});
+    
+    const data = shifts.reduce((acc, shift) => {
+      shift.shifts.forEach((shiftDetail) => {
+        const employeeId = shift.employeeId;
+        const date = shiftDetail.date.toISOString().split("T")[0];
+        if (!acc[date]) {
+          acc[date] = { morningShift: [], noonShift: [], nightShift: [] };
+        }
+
+        ["morningShift", "noonShift", "nightShift"].forEach((shiftType) => {
+          if (employeeId && shiftDetail[shiftType] === true) {
+            const user = users.find((user) => user._id.equals(employeeId));
+            if (user) {
+              acc[date][shiftType].push({
+                _id: user._id,
+                FirstName: user.FirstName,
+                LastName: user.LastName,
+              });
+            }
+          }
+        });
+      });
+      return acc;
+    }, {});
+
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/saveShiftArrangements/:week", async (req, res) => {
+  const { week } = req.params;
+  const { arrangements } = req.body;
+
+  try {
+    let arrangement = await ShiftArrangement.findOne({ week });
+    if (arrangement) {
+      arrangement.arrangements = arrangements;
+    } else {
+      arrangement = new ShiftArrangement({ week, arrangements });
+    }
+    await arrangement.save();
+    res.json({ message: "Shift arrangements saved successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
