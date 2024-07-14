@@ -9,6 +9,7 @@ import EditProfile from "./components/editProfile";
 import TaskLog from "./components/TaskLog";
 import Documents from "./components/UploadDocuments";
 import ShiftSchedule from "./components/ShiftSchedule";
+import ShiftArrangement from "./components/ShiftArrangement";
 function App() {
   return (
     <Router>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/TaskLog" element={<Layout><TaskLog /></Layout>} />
           <Route path="/Documents" element={<Layout><Documents /></Layout>} />
           <Route path="/ShiftSchedule" element={<Layout><ShiftSchedule /></Layout>} />
+          <Route path="/ShiftArrangement" element={<Layout><ShiftArrangement /></Layout>} />
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </div>

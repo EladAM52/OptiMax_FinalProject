@@ -59,10 +59,10 @@
 }
 .sidebar-logo-bottom {
   position: relative;
-  bottom: 80px; /* Adjust as needed */
+  bottom: 20px; /* Adjust as needed */
   width: 150px;
   text-align: center;
-  padding: 60px;
+  padding: 30px;
 }
 
 .logo-image {

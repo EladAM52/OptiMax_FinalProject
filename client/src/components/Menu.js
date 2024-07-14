@@ -55,10 +55,10 @@ const Menu = ({ isOpen }) => {
               </Link>
             </li>
             <li>
-              <a>
+              <Link to="/ShiftArrangement">
                 <FontAwesomeIcon icon={faCalendarDays} />
                 סידור עבודה
-              </a>
+              </Link>
             </li>
           </>
         )}
