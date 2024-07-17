@@ -12,15 +12,18 @@ const shiftArrangementSchema = new mongoose.Schema({
         },
         morningShift: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            default: null,
         },
         noonShift: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            default: null,
         },
         nightShift: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            default: null,
         }
     }]
 });

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHandshake,
   faCalendarDays,
   faUsers,
   faUser,
@@ -33,11 +32,11 @@ const Menu = ({ isOpen }) => {
 
         {userrole === "מנהל" && (
           <>
-            <li>
+             {/* <li>
               <Link to="/ShiftSchedule">
                 <FontAwesomeIcon icon={faClipboard} /> אילוצים
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/TaskLog">
                 <FontAwesomeIcon icon={faTasks} /> יומן משימות
@@ -70,15 +69,14 @@ const Menu = ({ isOpen }) => {
               </Link>
             </li>
             <li>
-              <Link to="/Documents">
-                <FontAwesomeIcon icon={faFileImport} /> העלאת מסמכים
+              <Link to="">
+                <FontAwesomeIcon icon={faCalendarDays} /> סידור עבודה
               </Link>
             </li>
             <li>
-              <a>
-                <FontAwesomeIcon icon={faCalendarDays} />
-                סידור עבודה
-              </a>
+              <Link to="/Documents">
+                <FontAwesomeIcon icon={faFileImport} /> העלאת מסמכים
+              </Link>
             </li>
           </>
         )}

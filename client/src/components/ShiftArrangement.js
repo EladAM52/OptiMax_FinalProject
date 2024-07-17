@@ -9,6 +9,17 @@ const ShiftArrangement = () => {
     const [currentWeek, setCurrentWeek] = useState("");
     const [weekDates, setWeekDates] = useState([]);
     const [availableEmployees, setAvailableEmployees] = useState({});
+    const [allEmployees, setAllEmployees] = useState([]);
+
+    const fetchAllEmployees = useCallback(async () => {
+        try {
+            const response = await fetch("/getusers");
+            const data = await response.json();
+            setAllEmployees(data);
+        } catch (err) {
+            setError(err);
+        }
+    }, []);
 
     function getCurrentWeek() {
         const currentDate = new Date();
@@ -22,11 +33,13 @@ const ShiftArrangement = () => {
             .padStart(2, "0")}`;
     }
 
+
     function getWeekDates(currentDate) {
         const startOfWeek = new Date(currentDate);
-        if (startOfWeek.getDay() === 1) {
-            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-        }
+        const dayOfWeek = startOfWeek.getDay();
+        const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 1); // adjust when day is sunday
+        startOfWeek.setDate(diff);
+    
         return Array.from({ length: 7 }, (_, i) => {
             const date = new Date(startOfWeek);
             date.setDate(startOfWeek.getDate() + i);
@@ -38,7 +51,6 @@ const ShiftArrangement = () => {
         try {
             const response = await fetch(`/getAvailableEmployees/${currentWeek}`);
             const data = await response.json();
-            // console.log('Fetched Data:', data);
             setAvailableEmployees(data);
             setLoading(false);
         } catch (err) {
@@ -55,22 +67,37 @@ const ShiftArrangement = () => {
 
     useEffect(() => {
         if (currentWeek) {
+            fetchAllEmployees();
             fetchAvailableEmployees();
         }
-    }, [currentWeek, fetchAvailableEmployees]);
+    }, [currentWeek, fetchAvailableEmployees, fetchAllEmployees]);
 
-    const handleShiftChange = (date, shiftType, employeeId) => {
-        setArrangements((prev) => {
-            const newArr = [...prev];
-            const index = newArr.findIndex((arr) => arr.date === date);
-            if (index !== -1) {
-                newArr[index][shiftType] = employeeId;
-            } else {
-                newArr.push({ date, [shiftType]: employeeId });
-            }
-            return newArr;
-        });
-    };
+    useEffect(() => {
+        if (!loading && !error && Object.keys(availableEmployees).length > 0) {
+            const shiftCounts = allEmployees.reduce((acc, emp) => {
+                acc[emp._id] = 0;
+                return acc;
+            }, {});
+
+            const initialArrangements = weekDates.reduce((acc, date) => {
+                const shifts = ["morningShift", "noonShift", "nightShift"];
+                const dailyArrangement = { date: new Date(date) };
+
+                shifts.forEach(shift => {
+                    const availableWorkers = availableEmployees[date]?.[shift] || [];
+                    if (availableWorkers.length > 0) {
+                        availableWorkers.sort((a, b) => shiftCounts[a._id] - shiftCounts[b._id]);
+                        const selectedEmployee = availableWorkers[0];
+                        shiftCounts[selectedEmployee._id]++;
+                        dailyArrangement[shift] = selectedEmployee._id;
+                    }
+                });
+
+                return [...acc, dailyArrangement];
+            }, []);
+            setArrangements(initialArrangements);
+        }
+    }, [loading, error, availableEmployees, weekDates, allEmployees]);
 
     const handleSaveChanges = async () => {
         try {
@@ -79,7 +106,7 @@ const ShiftArrangement = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ arrangements }),
+                body: JSON.stringify({ week: currentWeek, arrangements }),
             });
 
             if (!response.ok) {
@@ -95,34 +122,34 @@ const ShiftArrangement = () => {
         }
     };
 
-    // const handleWeekChange = (direction) => {
-    //     console.log(currentWeek);
-    //     const [year, week] = currentWeek.split('-').map(Number);
-    //     const newWeek = direction === 'next' ? week + 1 : week - 1;
-    //     const newYear = newWeek > 52 ? year + 1 : newWeek < 1 ? year - 1 : year;
-    //     const validNewWeek = newWeek > 52 ? 1 : newWeek < 1 ? 52 : newWeek;
-
-    //     setCurrentWeek(`${newYear}-${validNewWeek.toString().padStart(2, '0')}`);
-    //     const newDate = new Date(newYear, 0, (validNewWeek - 1) * 7);
-    //     setWeekDates(getWeekDates(newDate));
-    //     setLoading(true);
-    // };
-
     const handleWeekChange = (direction) => {
         const [year, week] = currentWeek.split("-").map(Number);
         const newWeek = direction === "next" ? week + 1 : week - 1;
         const newYear = newWeek > 52 ? year + 1 : newWeek < 1 ? year - 1 : year;
         const validNewWeek = newWeek > 52 ? 1 : newWeek < 1 ? 52 : newWeek;
         const newDate = new Date(weekDates[0]);
+        console.log(newDate);
         newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
+        console.log(newDate);
         const newWeekDates = getWeekDates(newDate);
         setWeekDates(newWeekDates);
+        console.log(newWeekDates);
         setCurrentWeek(`${newYear}-${validNewWeek.toString().padStart(2, "0")}`);
         setLoading(true);
     };
 
     const handleClearSelections = () => {
-        setArrangements([]);
+        const clearedArrangements = weekDates.map(date => ({
+            date: new Date(date),
+            morningShift: null,
+            noonShift: null,
+            nightShift: null
+        }));
+        setArrangements(clearedArrangements);
+    };
+
+    const handleDateClick = (date) => {
+        setArrangements((prev) => prev.filter((arr) => arr.date.toISOString().split("T")[0] !== date));
     };
 
     if (loading) return <div className="spinner"></div>;
@@ -145,7 +172,12 @@ const ShiftArrangement = () => {
                 <div className="shift-table-header">
                     <div className="shift-table-header-day">משמרות</div>
                     {daysOfWeek.map((day, index) => (
-                        <div key={index} className="shift-table-header-day">
+                        <div
+                            key={index}
+                            className="shift-table-header-day"
+                            onClick={() => handleDateClick(weekDates[index])}
+                            style={{ cursor: "pointer" }}
+                        >
                             {day}
                             <br />
                             {new Date(weekDates[index]).toLocaleDateString()}
@@ -162,26 +194,33 @@ const ShiftArrangement = () => {
                         {weekDates.map((date, index) => (
                             <div key={index} className="shift-table-cell">
                                 <select
-                                    value={
-                                        arrangements.find((arr) => arr.date === date)?.[
-                                        shiftType.key
-                                        ] || ""
-                                    }
-                                    onChange={(e) =>
-                                        handleShiftChange(date, shiftType.key, e.target.value)
-                                    }
+                                    value={arrangements.find((arr) => arr.date.toISOString().split("T")[0] === date)?.[shiftType.key] || ""}
+                                    onChange={(e) => {
+                                        const selectedEmployeeId = e.target.value;
+                                        setArrangements((prev) =>
+                                            prev.map((arr) => {
+                                                if (arr.date.toISOString().split("T")[0] === date) {
+                                                    return { ...arr, [shiftType.key]: selectedEmployeeId };
+                                                }
+                                                return arr;
+                                            })
+                                        );
+                                    }}
                                 >
                                     <option value="">בחר עובד</option>
-                                    {(availableEmployees[date]?.[shiftType.key] || []).map(
-                                        (emp) => (
-                                            <option
-                                                key={`${date}-${shiftType.key}-${emp._id}`}
-                                                value={emp._id}
-                                            >
-                                                {emp.FirstName} {emp.LastName}
-                                            </option>
-                                        )
-                                    )}
+                                    {allEmployees.map((emp) => (
+                                        <option
+                                            key={`${date}-${shiftType.key}-${emp._id}`}
+                                            value={emp._id}
+                                            style={{
+                                                color: availableEmployees[date]?.[shiftType.key]?.some((e) => e._id === emp._id)
+                                                    ? "black"
+                                                    : "red",
+                                            }}
+                                        >
+                                            {emp.FirstName} {emp.LastName}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         ))}
