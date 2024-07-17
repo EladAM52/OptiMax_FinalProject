@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../css/addUser.css";
 
 const AddUserForm = () => {
@@ -36,16 +37,30 @@ const AddUserForm = () => {
 
       if (response.ok) {
         console.log(responseData);
-        alert("User added successfully!");
-        reset(); // Reset the form after successful submission
-        navigate("/getusers");
+        Swal.fire({
+          icon: "success",
+          text: "העובד נוסף בהצלחה",
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          reset(); // Reset the form after successful submission
+          navigate("/getusers");
+        });
       } else {
         console.error(responseData.message);
-        alert("Failed to add user. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "הוספה נכשלה",
+          text: "העובד לא הוסף בהצלחה",
+        });
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
-      alert("Failed to add user. Please check your network and try again.");
+      Swal.fire({
+        icon: "error",
+        title: "הוספה נכשלה",
+        text: "העובד לא הוסף בהצלחה",
+      });
     }
   };
 

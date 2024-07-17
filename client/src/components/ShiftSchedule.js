@@ -26,9 +26,10 @@ const ShiftSchedule = () => {
 
     function getWeekDates(currentDate) {
         const startOfWeek = new Date(currentDate);
-        if (startOfWeek.getDay() === 1) {
-            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-        }
+        const dayOfWeek = startOfWeek.getDay();
+        const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 1); // adjust when day is sunday
+        startOfWeek.setDate(diff);
+    
         return Array.from({ length: 7 }, (_, i) => {
             const date = new Date(startOfWeek);
             date.setDate(startOfWeek.getDate() + i);
@@ -217,9 +218,12 @@ const ShiftSchedule = () => {
         const newYear = newWeek > 52 ? year + 1 : newWeek < 1 ? year - 1 : year;
         const validNewWeek = newWeek > 52 ? 1 : newWeek < 1 ? 52 : newWeek;
         const newDate = new Date(weekDates[0]);
+        console.log(newDate);
         newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
+        console.log(newDate);
         const newWeekDates = getWeekDates(newDate);
         setWeekDates(newWeekDates);
+        console.log(newWeekDates);
         setCurrentWeek(`${newYear}-${validNewWeek.toString().padStart(2, "0")}`);
         setLoading(true);
         setNoShiftsMessage("");
