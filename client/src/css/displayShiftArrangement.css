@@ -1,4 +1,4 @@
-.shift-schedule {
+.display-shift-schedule {
     padding: 20px;
     border-radius: 8px;
     min-width: 900px; /* Ensure fixed width */
@@ -16,12 +16,12 @@
     box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
-.shift-schedule h1 {
+.display-shift-schedule h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.no-shifts-message {
+.display-no-shifts-message {
     text-align: center;
     margin-bottom: 20px;
     color: #080710;
@@ -32,7 +32,7 @@
 }
 
 
-.week-navigation {
+.display-week-navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,7 +40,7 @@
     
 }
 
-.week-navigation button {
+.display-week-navigation button {
     background-color: #080710;
     color: white;
     border: none;
@@ -50,15 +50,15 @@
     font-size: medium;
 }
 
-.week-navigation button:hover {
+.display-week-navigation button:hover {
     background-color: #218838;
 }
 
-.week-navigation span {
+.display-week-navigation span {
     font-weight: bold;
 }
 
-.shift-table {
+.display-shift-table {
     display: table;
     width: 100%;
     border-collapse: collapse;
@@ -66,11 +66,11 @@
     
 }
 
-.shift-table-header, .shift-table-row {
+.display-shift-table-header, .shift-table-row {
     display: table-row;
 }
 
-.shift-table-header-day, .shift-table-row-label, .shift-table-cell {
+.display-shift-table-header-day, .shift-table-row-label, .shift-table-cell {
     display: table-cell;
     text-align: center;
     padding: 10px;
@@ -81,7 +81,7 @@
     
 }
 
-.shift-table-header-day {
+.display-shift-table-header-day {
     /* background-color: #007bff; */
     color: black;
     font-weight: bold;
@@ -89,11 +89,11 @@
     
 }
 
-.shift-table-header-day:hover {
+.display-shift-table-header-day:hover {
     background-color: rgba(255, 255, 255, 0.1)
 }
 
-.shift-table-row-label {
+.display-shift-table-row-label {
     /* background-color: #f1f1f1; */
     font-weight: bold;
     width: 150px; /* Ensure the label column is wide enough */
@@ -103,7 +103,7 @@
     box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
-.shift-table-cell {
+.display-shift-table-cell {
     /* background-color: white; */
     width: calc((100% - 150px) / 7); /* Ensure the cell columns fill the remaining space */
     backdrop-filter: blur(25px);
@@ -111,19 +111,19 @@
     box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
-.shift-table-cell input[type="checkbox"] {
+.display-shift-table-cell input[type="checkbox"] {
     transform: scale(1.5); /* Increase the size of the checkbox */
     margin: 10px; /* Adjust the margin as needed */
 }
 
-.button-container {
+.display-button-container {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 20px; /* Add space between the table and buttons */
 }
 
-.clear-button, .save-button {
+.display-clear-button, .save-button {
     padding: 10px 20px;
     background-color: #080710;
     color: white;
@@ -133,42 +133,11 @@
     font-size: medium;
 }
 
-.clear-button:disabled {
+.display-clear-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-.clear-button:hover:enabled, .save-button:hover {
+.display-clear-button:hover:enabled, .save-button:hover {
     background-color: #218838;
-}
-
-.no-arrangements-message {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #080710;
-}
-
-.shift-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.shift-card {
-    border: 1px solid #ddd;
-    padding: 16px;
-    border-radius: 8px;
-    width: 250px;
-}
-
-.shift-card-date {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.shift-card-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }

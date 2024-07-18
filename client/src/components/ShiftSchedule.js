@@ -27,7 +27,7 @@ const ShiftSchedule = () => {
     function getWeekDates(currentDate) {
         const startOfWeek = new Date(currentDate);
         const dayOfWeek = startOfWeek.getDay();
-        const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 1); // adjust when day is sunday
+        const diff = startOfWeek.getDate() - dayOfWeek; // adjust when day is sunday
         startOfWeek.setDate(diff);
     
         return Array.from({ length: 7 }, (_, i) => {
