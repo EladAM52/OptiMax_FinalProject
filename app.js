@@ -548,4 +548,32 @@ app.post("/saveShiftArrangements/:week", async (req, res) => {
   }
 });
 
+app.get('/getShiftArrangements/:week', async (req, res) => {
+  const { week } = req.params;
+  try {
+      const arrangements = await ShiftArrangement.findOne({ week }).populate('arrangements.morningShift arrangements.noonShift arrangements.nightShift').exec();
+      if (!arrangements) {
+          return res.status(404).json({ message: 'No shift arrangements found for this week.' });
+      }
+      res.json(arrangements);
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+});
+
+
+app.get("/getEmployeeShifts/:employeeId/:week", async (req, res) => {
+  const { employeeId, week } = req.params;
+  try {
+      const shift = await ShiftArrangement.findOne({ week });
+      res.json(shift ? shift.shifts : []);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
+
 

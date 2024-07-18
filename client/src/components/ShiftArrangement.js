@@ -33,16 +33,17 @@ const ShiftArrangement = () => {
             .padStart(2, "0")}`;
     }
 
-
     function getWeekDates(currentDate) {
         const startOfWeek = new Date(currentDate);
         const dayOfWeek = startOfWeek.getDay();
-        const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 1); // adjust when day is sunday
+        const diff = startOfWeek.getDate() - dayOfWeek ; // adjust when day is sunday
         startOfWeek.setDate(diff);
-    
+        
+
         return Array.from({ length: 7 }, (_, i) => {
             const date = new Date(startOfWeek);
             date.setDate(startOfWeek.getDate() + i);
+         
             return date.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
         });
     }
@@ -86,20 +87,155 @@ const ShiftArrangement = () => {
                 shifts.forEach(shift => {
                     const availableWorkers = availableEmployees[date]?.[shift] || [];
                     if (availableWorkers.length > 0) {
-                        availableWorkers.sort((a, b) => shiftCounts[a._id] - shiftCounts[b._id]);
-                        const selectedEmployee = availableWorkers[0];
-                        shiftCounts[selectedEmployee._id]++;
-                        dailyArrangement[shift] = selectedEmployee._id;
+                        let selectedEmployee = null;
+
+                        for (const worker of availableWorkers) {
+                            const previousDate = new Date(date);
+                            previousDate.setDate(previousDate.getDate() - 1);
+                            const previousDateString = previousDate.toISOString().split("T")[0];
+
+                            if (!dailyArrangement.morningShift && !dailyArrangement.noonShift && !dailyArrangement.nightShift) {
+                                if (!acc.some(arr => arr.date.toISOString().split("T")[0] === previousDateString && arr.nightShift === worker._id)) {
+                                    selectedEmployee = worker;
+                                    break;
+                                }
+                            } else if (!Object.values(dailyArrangement).includes(worker._id)) {
+                                selectedEmployee = worker;
+                                break;
+                            }
+                        }
+
+                        if (selectedEmployee) {
+                            shiftCounts[selectedEmployee._id]++;
+                            dailyArrangement[shift] = selectedEmployee._id;
+                        }
                     }
                 });
 
                 return [...acc, dailyArrangement];
             }, []);
-            setArrangements(initialArrangements);
+
+            const validateShiftArrangements = (arrangementsToValidate) => {
+                const dayAssignments = {};
+
+                for (const arrangement of arrangementsToValidate) {
+                    const date = arrangement.date.toISOString().split("T")[0];
+                    if (!dayAssignments[date]) {
+                        dayAssignments[date] = {};
+                    }
+
+                    for (const shiftType of ["morningShift", "noonShift", "nightShift"]) {
+                        const employeeId = arrangement[shiftType];
+                        if (employeeId) {
+                            if (!dayAssignments[date][employeeId]) {
+                                dayAssignments[date][employeeId] = {};
+                            }
+
+                            if (Object.keys(dayAssignments[date][employeeId]).length > 0) {
+                                console.log(`Duplicate found: ${employeeId} on ${date} for shift ${shiftType}`);
+                                return false;
+                            }
+
+                            if (shiftType === "morningShift") {
+                                const previousDate = new Date(arrangement.date);
+                                previousDate.setDate(previousDate.getDate() - 1);
+                                const previousDateString = previousDate.toISOString().split("T")[0];
+
+                                if (dayAssignments[previousDateString] && dayAssignments[previousDateString][employeeId]?.nightShift) {
+                                    console.log(`Invalid shift: ${employeeId} assigned to morning shift on ${date} after night shift on ${previousDateString}`);
+                                    return false;
+                                }
+                            }
+
+                            dayAssignments[date][employeeId][shiftType] = true;
+                        }
+                    }
+                }
+                return true;
+            };
+
+            if (validateShiftArrangements(initialArrangements)) {
+                setArrangements(initialArrangements);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    text: "Automatic filling of shifts failed due to invalid assignments.",
+                });
+            }
         }
     }, [loading, error, availableEmployees, weekDates, allEmployees]);
 
+    const validateShiftArrangements = () => {
+        const dayAssignments = {};
+
+        for (const arrangement of arrangements) {
+            const date = arrangement.date.toISOString().split("T")[0];
+            if (!dayAssignments[date]) {
+                dayAssignments[date] = {};
+            }
+
+            for (const shiftType of ["morningShift", "noonShift", "nightShift"]) {
+                const employeeId = arrangement[shiftType];
+                if (employeeId) {
+                    // Ensure dayAssignments[date][employeeId] is an object
+                    if (!dayAssignments[date][employeeId]) {
+                        dayAssignments[date][employeeId] = {};
+                    }
+
+                    // Check if the employee is already assigned to another shift on the same day
+                    if (Object.keys(dayAssignments[date][employeeId]).length > 0) {
+                        console.log(`Duplicate found: ${employeeId} on ${date} for shift ${shiftType}`);
+                        return false; // Duplicate assignment found
+                    }
+
+                    // Check if the employee is assigned a morning shift after a night shift
+                    if (shiftType === "morningShift") {
+                        const previousDate = new Date(arrangement.date);
+                        previousDate.setDate(previousDate.getDate() - 1);
+                        const previousDateString = previousDate.toISOString().split("T")[0];
+
+                        if (dayAssignments[previousDateString] && dayAssignments[previousDateString][employeeId]?.nightShift) {
+                            console.log(`Invalid shift: ${employeeId} assigned to morning shift on ${date} after night shift on ${previousDateString}`);
+                            return false; // Invalid shift assignment
+                        }
+                    }
+
+                    // Store the shift type for the current day
+                    dayAssignments[date][employeeId][shiftType] = true;
+                }
+            }
+        }
+        return true;
+    };
+
+    const validateAllShiftsManned = () => {
+        for (const arrangement of arrangements) {
+            if (!arrangement.morningShift || !arrangement.noonShift || !arrangement.nightShift) {
+                return false;
+            }
+        }
+        return true;
+    };
     const handleSaveChanges = async () => {
+        if (!validateAllShiftsManned()) {
+            Swal.fire({
+                icon: "error",
+                text: "עליך לבחור לפחות עובד אחד לכל משמרת",
+            });
+            return;
+        }
+
+        const isValid = validateShiftArrangements();
+        console.log(`Validation result: ${isValid}`);  // Debugging log
+
+        if (!isValid) {
+            Swal.fire({
+                icon: "error",
+                text: "לא ניתן לשמור סידור בו עובד משוייך ליותר ממשמרת אחת ביום או כאשר עובד משובץ למשמרת בוקר אחרי משמרת לילה ",
+            });
+            return;
+        }
+
         try {
             const response = await fetch(`/saveShiftArrangements/${currentWeek}`, {
                 method: "POST",
@@ -149,7 +285,12 @@ const ShiftArrangement = () => {
     };
 
     const handleDateClick = (date) => {
-        setArrangements((prev) => prev.filter((arr) => arr.date.toISOString().split("T")[0] !== date));
+        setArrangements((prev) => prev.map((arr) => {
+            if (arr.date.toISOString().split("T")[0] === date) {
+                return { ...arr, morningShift: null, noonShift: null, nightShift: null };
+            }
+            return arr;
+        }));
     };
 
     if (loading) return <div className="spinner"></div>;
