@@ -1,176 +1,184 @@
 .employee-shift-schedule {
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 1200px; /* Ensure fixed width */
-    min-width: 700px;
-    min-height: 500px; /* Ensure fixed height */
-    margin: 0 auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 50px;
-    margin-right: 100px;
-    border-radius: 10px;
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 1000px; /* Ensure fixed width */
+  min-width: 700px;
+  max-height: 500px;
+  min-height: 300px; /* Ensure fixed height */
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-right: 150px;
+  border-radius: 10px;
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .employee-shift-schedule h1 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .employee-no-shifts-message {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #080710;
-    font-size: 20px;
-    font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #080710;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .employee-week-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .employee-week-navigation button {
-    background-color: #080710;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: medium;
+  background-color: #080710;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: medium;
 }
 
 .employee-week-navigation button:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .employee-week-navigation span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .employee-shift-table {
-    display: table;
-    width: 100%;
-    border-collapse: collapse;
-    flex-grow: 1;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  flex-grow: 1;
 }
 
-.employee-shift-table-header, .employee-shift-table-row {
-    display: table-row;
+.employee-shift-table-header,
+.employee-shift-table-row {
+  display: table-row;
 }
 
-.employee-shift-table-header-day, .employee-shift-table-row-label, .employee-shift-table-cell {
-    display: table-cell;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    height: 50px; /* Ensures consistent height */
-    vertical-align: middle; /* Ensures vertical alignment */
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+.employee-shift-table-header-day,
+.employee-shift-table-row-label,
+.employee-shift-table-cell {
+  display: table-cell;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  height: 50px; /* Ensures consistent height */
+  vertical-align: middle; /* Ensures vertical alignment */
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .employee-shift-table-header-day {
-    color: black;
-    font-weight: bold;
-    cursor: pointer; /* Make it clear that the days are clickable */
+  color: black;
+  font-weight: bold;
+  cursor: pointer; /* Make it clear that the days are clickable */
 }
 
 .employee-shift-table-header-day:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .employee-shift-table-row-label {
-    font-weight: bold;
-    width: 150px; /* Ensure the label column is wide enough */
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  font-weight: bold;
+  width: 150px; /* Ensure the label column is wide enough */
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .employee-shift-table-cell {
-    width: calc((100% - 150px) / 7); /* Ensure the cell columns fill the remaining space */
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  width: calc(
+    (100% - 150px) / 7
+  ); /* Ensure the cell columns fill the remaining space */
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .employee-shift-table-cell input[type="checkbox"] {
-    transform: scale(1.5); /* Increase the size of the checkbox */
-    margin: 10px; /* Adjust the margin as needed */
+  transform: scale(1.5); /* Increase the size of the checkbox */
+  margin: 10px; /* Adjust the margin as needed */
 }
 
 .employee-button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px; /* Add space between the table and buttons */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px; /* Add space between the table and buttons */
 }
 
-.employee-clear-button, .employee-save-button {
-    padding: 10px 20px;
-    background-color: #080710;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: medium;
+.employee-clear-button,
+.employee-save-button {
+  padding: 10px 20px;
+  background-color: #080710;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: medium;
 }
 
 .employee-clear-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-.employee-clear-button:hover:enabled, .employee-save-button:hover {
-    background-color: #218838;
+.employee-clear-button:hover:enabled,
+.employee-save-button:hover {
+  background-color: #218838;
 }
 
 .employee-no-arrangements-message {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #080710;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #080710;
 }
 
 .employee-shift-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .employee-shift-card {
-    border: 1px solid #ddd;
-    padding: 30px;
-    border-radius: 8px;
-    width: 200px;
-    backdrop-filter: blur(25px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  width: 200px;
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }
 
 .employee-shift-card-date {
-    font-weight: bold;
-    margin-bottom: 8px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .employee-shift-card-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

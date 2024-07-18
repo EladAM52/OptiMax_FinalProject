@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/homePage.css";
 import WelcomeContainer from "./welcomeContainer";
 import HomePendingTasks from "./HomePendingTasks";
+import CurrentWeekShiftsViewer from "./CurrentWeekShiftsViewer";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ function HomePage() {
     <div>
       <WelcomeContainer FirstName={FirstName} userRole={userRole} />
       {userRole === "מנהל" && <HomePendingTasks />}
+      {userRole === "עובד" && <CurrentWeekShiftsViewer />}
     </div>
   );
 }

@@ -562,16 +562,6 @@ app.get('/getShiftArrangements/:week', async (req, res) => {
 });
 
 
-app.get("/getEmployeeShifts/:employeeId/:week", async (req, res) => {
-  const { employeeId, week } = req.params;
-  try {
-      const shift = await ShiftArrangement.findOne({ week });
-      res.json(shift ? shift.shifts : []);
-  } catch (err) {
-      res.status(500).json({ error: err.message });
-  }
-});
-
 
 
 
