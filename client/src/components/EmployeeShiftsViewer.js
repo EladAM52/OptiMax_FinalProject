@@ -84,6 +84,8 @@ const EmployeeShiftsViewer = () => {
         if (!employeeId) return;
 
         const currentMonth = getCurrentMonth();
+        const [year, month] = currentMonth.split('-').map(Number);
+        console.log(currentMonth);
 
         try {
             const response = await fetch(`/getShiftArrangementsForMonth/${currentMonth}`);
@@ -92,14 +94,17 @@ const EmployeeShiftsViewer = () => {
                 setMonthlyShifts([]);
             } else {
                 const data = await response.json();
+                console.log(data);
                 const filteredShifts = [];
 
                 data.arrangements.forEach(week => {
                     week.arrangements.forEach(arrangement => {
+                        const shiftDate = new Date(arrangement.date);
                         if (
-                            (arrangement.morningShift && arrangement.morningShift._id === employeeId) ||
+                            (shiftDate.getFullYear() === year && shiftDate.getMonth() === month - 1) &&
+                            ((arrangement.morningShift && arrangement.morningShift._id === employeeId) ||
                             (arrangement.noonShift && arrangement.noonShift._id === employeeId) ||
-                            (arrangement.nightShift && arrangement.nightShift._id === employeeId)
+                            (arrangement.nightShift && arrangement.nightShift._id === employeeId))
                         ) {
                             filteredShifts.push({
                                 date: arrangement.date,
