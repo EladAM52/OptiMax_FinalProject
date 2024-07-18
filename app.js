@@ -563,7 +563,22 @@ app.get('/getShiftArrangements/:week', async (req, res) => {
 
 
 
+app.get('/getShiftArrangementsForMonth/:yearMonth', async (req, res) => {
+  const { yearMonth } = req.params;
+  const [year, month] = yearMonth.split('-').map(Number);
 
+  try {
+      const arrangements = await ShiftArrangement.find({}).populate('arrangements.morningShift arrangements.noonShift arrangements.nightShift').exec();
+
+      if (!arrangements || arrangements.length === 0) {
+          return res.status(404).json({ message: 'No shift arrangements found for this month.' });
+      }
+
+      res.json({ arrangements });
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+});
 
 
 

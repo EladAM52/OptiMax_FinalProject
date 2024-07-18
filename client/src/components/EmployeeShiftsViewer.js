@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import jsPDF from "jspdf";
 import "../css/EmployeeShiftsViewer.css";
 
 const EmployeeShiftsViewer = () => {
@@ -8,6 +9,7 @@ const EmployeeShiftsViewer = () => {
     const [currentWeek, setCurrentWeek] = useState("");
     const [weekDates, setWeekDates] = useState([]);
     const [employeeId, setEmployeeId] = useState("");
+    const [monthlyShifts, setMonthlyShifts] = useState([]);
 
     useEffect(() => {
         const storedEmployeeId = localStorage.getItem("UserId");
@@ -72,6 +74,55 @@ const EmployeeShiftsViewer = () => {
         }
     }, [currentWeek, employeeId]);
 
+    const getCurrentMonth = () => {
+        const currentDate = new Date();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+        return `${currentDate.getFullYear()}-${month}`;
+    };
+
+    const fetchMonthlyEmployeeShifts = useCallback(async () => {
+        if (!employeeId) return;
+
+        const currentMonth = getCurrentMonth();
+
+        try {
+            const response = await fetch(`/getShiftArrangementsForMonth/${currentMonth}`);
+            if (!response.ok) {
+                setResponseStatus(response.status);
+                setMonthlyShifts([]);
+            } else {
+                const data = await response.json();
+                const filteredShifts = [];
+
+                data.arrangements.forEach(week => {
+                    week.arrangements.forEach(arrangement => {
+                        if (
+                            (arrangement.morningShift && arrangement.morningShift._id === employeeId) ||
+                            (arrangement.noonShift && arrangement.noonShift._id === employeeId) ||
+                            (arrangement.nightShift && arrangement.nightShift._id === employeeId)
+                        ) {
+                            filteredShifts.push({
+                                date: arrangement.date,
+                                morningShift: arrangement.morningShift && arrangement.morningShift._id === employeeId ? arrangement.morningShift : null,
+                                noonShift: arrangement.noonShift && arrangement.noonShift._id === employeeId ? arrangement.noonShift : null,
+                                nightShift: arrangement.nightShift && arrangement.nightShift._id === employeeId ? arrangement.nightShift : null,
+                                morningShiftHours: arrangement.morningShift && arrangement.morningShift._id === employeeId ? "07:00-15:00" : null,
+                                noonShiftHours: arrangement.noonShift && arrangement.noonShift._id === employeeId ? "15:00-23:00" : null,
+                                nightShiftHours: arrangement.nightShift && arrangement.nightShift._id === employeeId ? "23:00-07:00" : null
+                            });
+                        }
+                    });
+                });
+
+                setMonthlyShifts(filteredShifts);
+                setResponseStatus(null);
+            }
+        } catch (err) {
+            setResponseStatus(500);
+            setMonthlyShifts([]);
+        }
+    }, [employeeId]);
+
     useEffect(() => {
         const initialWeek = getCurrentWeek();
         setCurrentWeek(initialWeek);
@@ -84,6 +135,10 @@ const EmployeeShiftsViewer = () => {
         }
     }, [currentWeek, fetchEmployeeShifts]);
 
+    useEffect(() => {
+        fetchMonthlyEmployeeShifts();
+    }, [fetchMonthlyEmployeeShifts]);
+
     const handleWeekChange = (direction) => {
         const [year, week] = currentWeek.split("-").map(Number);
         const newWeek = direction === "next" ? week + 1 : week - 1;
@@ -95,6 +150,45 @@ const EmployeeShiftsViewer = () => {
         setWeekDates(newWeekDates);
         setCurrentWeek(`${newYear}-${validNewWeek.toString().padStart(2, "0")}`);
         setLoading(true);
+    };
+
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        let y = 5;
+
+        doc.setFontSize(16);
+        doc.text("Monthly Shifts Report", 10, y);
+        y += 10;
+        const currentMonth = getCurrentMonth();
+        doc.setFontSize(12);
+        doc.text(`Date Range: ${currentMonth}`, 10, y);
+        y += 10;
+
+        let totalHours = 0;
+        doc.setFontSize(8);
+        monthlyShifts.forEach(shift => {
+            doc.text(`Date: ${new Date(shift.date).toLocaleDateString()}`, 10, y);
+            y += 5;
+            if (shift.morningShift) {
+                doc.text(`Morning Shift: ${shift.morningShiftHours}`, 10, y);
+                y += 3;
+                totalHours += 8;
+            }
+            if (shift.noonShift) {
+                doc.text(`Noon Shift: ${shift.noonShiftHours}`, 10, y);
+                y += 3;
+                totalHours += 8;
+            }
+            if (shift.nightShift) {
+                doc.text(`Night Shift: ${shift.nightShiftHours}`, 10, y);
+                y += 3;
+                totalHours += 8;
+            }
+            y += 3;
+        });
+
+        doc.text(`Total Hours for the Month: ${totalHours}`, 10, y);
+        doc.save("Monthly_Shifts_Report.pdf");
     };
 
     if (loading) return <div className="employee-spinner"></div>;
@@ -117,35 +211,38 @@ const EmployeeShiftsViewer = () => {
             ) : shifts.length === 0 ? (
                 <div className="employee-no-arrangements-message">אין משמרות מוקצות לשבוע זה.</div>
             ) : (
-                <div className="employee-shift-cards-container">
-                    {shifts.map((shift, index) => (
-                        <div key={index} className="employee-shift-card">
-                            <div className="employee-shift-card-date">
-                                {new Date(shift.date).toLocaleDateString()}
+                <>
+                    <div className="employee-shift-cards-container">
+                        {shifts.map((shift, index) => (
+                            <div key={index} className="employee-shift-card">
+                                <div className="employee-shift-card-date">
+                                    {new Date(shift.date).toLocaleDateString()}
+                                </div>
+                                <div className="employee-shift-card-detail">
+                                    {shift.morningShift && (
+                                        <div>
+                                            <div>משמרת בוקר</div>
+                                            <div>{shift.morningShiftHours}</div>
+                                        </div>
+                                    )}
+                                    {shift.noonShift && (
+                                        <div>
+                                            <div>משמרת צהריים</div>
+                                            <div>{shift.noonShiftHours}</div>
+                                        </div>
+                                    )}
+                                    {shift.nightShift && (
+                                        <div>
+                                            <div>משמרת לילה</div>
+                                            <div>{shift.nightShiftHours}</div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className="employee-shift-card-detail">
-                                {shift.morningShift && (
-                                    <div>
-                                        <div>משמרת בוקר</div>
-                                        <div>{shift.morningShiftHours}</div>
-                                    </div>
-                                )}
-                                {shift.noonShift && (
-                                    <div>
-                                        <div>משמרת צהריים</div>
-                                        <div>{shift.noonShiftHours}</div>
-                                    </div>
-                                )}
-                                {shift.nightShift && (
-                                    <div>
-                                        <div>משמרת לילה</div>
-                                        <div>{shift.nightShiftHours}</div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                    <button className="export-pdf-button" onClick={generatePDF}>דוח שעות שבועי</button>
+                </>
             )}
         </div>
     );
