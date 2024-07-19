@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 import "../css/EmployeeShiftsViewer.css";
 
 const EmployeeShiftsViewer = () => {
@@ -103,8 +104,8 @@ const EmployeeShiftsViewer = () => {
                         if (
                             (shiftDate.getFullYear() === year && shiftDate.getMonth() === month - 1) &&
                             ((arrangement.morningShift && arrangement.morningShift._id === employeeId) ||
-                            (arrangement.noonShift && arrangement.noonShift._id === employeeId) ||
-                            (arrangement.nightShift && arrangement.nightShift._id === employeeId))
+                                (arrangement.noonShift && arrangement.noonShift._id === employeeId) ||
+                                (arrangement.nightShift && arrangement.nightShift._id === employeeId))
                         ) {
                             filteredShifts.push({
                                 date: arrangement.date,
@@ -159,42 +160,71 @@ const EmployeeShiftsViewer = () => {
 
     const generatePDF = () => {
         const doc = new jsPDF();
-        let y = 5;
 
+        // Set document properties
+        doc.setProperties({
+            title: 'Monthly Shifts Report',
+            subject: 'Monthly Shifts Report',
+            author: 'Your Company',
+            keywords: 'generated, pdf, javascript',
+            creator: 'Your Company'
+        });
+
+        doc.setFont('Helvetica');
         doc.setFontSize(16);
-        doc.text("Monthly Shifts Report", 10, y);
-        y += 10;
+        doc.text("Monthly Shifts Report", 10, 10);
+        let y = 20;
+
         const currentMonth = getCurrentMonth();
         doc.setFontSize(12);
-        doc.text(`Date Range: ${currentMonth}`, 10, y);
+        doc.text(`Date range: ${currentMonth}`, 10, y);
         y += 10;
 
         let totalHours = 0;
-        doc.setFontSize(8);
+        doc.setFontSize(10);
+
+        // Define table columns and rows
+        const columns = ["Date", "Shift", "Hours"];
+        const rows = [];
+
         monthlyShifts.forEach(shift => {
-            doc.text(`Date: ${new Date(shift.date).toLocaleDateString()}`, 10, y);
-            y += 5;
+            const date = new Date(shift.date).toLocaleDateString();
             if (shift.morningShift) {
-                doc.text(`Morning Shift: ${shift.morningShiftHours}`, 10, y);
-                y += 3;
+                rows.push([date, "Morning shift", shift.morningShiftHours]);
                 totalHours += 8;
             }
             if (shift.noonShift) {
-                doc.text(`Noon Shift: ${shift.noonShiftHours}`, 10, y);
-                y += 3;
+                rows.push([date, "Noon shift", shift.noonShiftHours]);
                 totalHours += 8;
             }
             if (shift.nightShift) {
-                doc.text(`Night Shift: ${shift.nightShiftHours}`, 10, y);
-                y += 3;
+                rows.push([date, "Night shift", shift.nightShiftHours]);
                 totalHours += 8;
             }
-            y += 3;
         });
 
-        doc.text(`Total Hours for the Month: ${totalHours}`, 10, y);
+        // Add table to the document
+        doc.autoTable({
+            head: [columns],
+            body: rows,
+            startY: y,
+            theme: 'grid',
+            styles: {
+                halign: 'left', // Align text to the left
+                font: 'Helvetica', // Set the font to Helvetica
+            },
+            headStyles: {
+                fillColor: [255, 255, 255], // White background for header
+                textColor: [0, 0, 0], // Black text color for header
+            }
+        });
+
+        y = doc.previousAutoTable.finalY + 10; // Update y position after table
+
+        doc.text(`Total monthly hours: ${totalHours}`, 10, y);
         doc.save("Monthly_Shifts_Report.pdf");
     };
+
 
     if (loading) return <div className="employee-spinner"></div>;
 
@@ -246,7 +276,7 @@ const EmployeeShiftsViewer = () => {
                             </div>
                         ))}
                     </div>
-                    <button className="export-pdf-button" onClick={generatePDF}>דוח שעות שבועי</button>
+                    <button className="export-pdf-button" onClick={generatePDF}>דוח שעות חודשי</button>
                 </>
             )}
         </div>
