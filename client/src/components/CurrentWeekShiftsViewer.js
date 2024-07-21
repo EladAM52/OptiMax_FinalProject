@@ -84,13 +84,21 @@ const CurrentWeekShiftsViewer = () => {
         }
     }, [currentWeek, fetchEmployeeShifts]);
 
-    if (loading) return <div className="current-week-spinner"></div>;
+
+
+    if (loading) {
+        return (
+            <div className="spinner-container">
+                <div className="current-week-spinner"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="current-week-shift-schedule" dir="rtl">
             <h1>המשמרות שלי לשבוע זה</h1>
             <div className="current-week-dates">
-            <span>
+                <span>
                     {"משמרות עבור התאריכים: "}{new Date(weekDates[0]).toLocaleDateString()} -{" "}
                     {new Date(weekDates[6]).toLocaleDateString()}
                 </span>

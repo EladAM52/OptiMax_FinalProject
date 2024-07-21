@@ -11,7 +11,7 @@
     margin-top: 50px;
     margin-right: 100px;
     border-radius: 10px;
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(50px);
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
 }

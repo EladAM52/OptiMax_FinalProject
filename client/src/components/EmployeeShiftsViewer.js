@@ -226,7 +226,7 @@ const EmployeeShiftsViewer = () => {
     };
 
 
-    if (loading) return <div className="employee-spinner"></div>;
+    if (loading) return <div className="spinner"></div>;
 
     return (
         <div className="employee-shift-schedule" dir="rtl">
