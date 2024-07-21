@@ -3,6 +3,7 @@ import "../css/uploadDocuments.css";
 import Swal from "sweetalert2";
 
 const FileUpload = () => {
+  const [loading, setLoading] = useState(true);
   const [file, setFile] = useState("");
   const [fileName, setFileName] = useState("");
   const [documents, setDocuments] = useState([]);
@@ -23,8 +24,10 @@ const FileUpload = () => {
             (doc) => doc.uploadedBy.userId === userId
           );
           setDocuments(filteredDocuments);
+          setLoading(false);
         } else {
           setDocuments(data);
+          setLoading(false);
         }
         console.log("Fetched documents:", data);
       } else {
@@ -137,6 +140,8 @@ const FileUpload = () => {
       });
     }
   };
+
+  if (loading) return <div className="spinner"></div>;
 
   return (
     <div className="upload-documents-container" dir="rtl">
