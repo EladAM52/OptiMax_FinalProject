@@ -17,19 +17,19 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//login" element={<Login />} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//homepage" element={<Layout><HomePage /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//getusers" element={<Layout><UsersTable /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//adduser" element={<Layout><AddUserForm /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//UserProfile/:userId" element={<Layout><UserProflie /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//EditProfile/:userId" element={<Layout><EditProfile /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//TaskLog" element={<Layout><TaskLog /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//Documents" element={<Layout><Documents /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//ShiftSchedule" element={<Layout><ShiftSchedule /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//ShiftArrangement" element={<Layout><ShiftArrangement /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//ShiftArrangementViewer" element={<Layout><ShiftArrangementViewer /></Layout>} />
-          <Route path="https://lemon-rock-074234210.5.azurestaticapps.net//EmployeeShiftsViewer" element={<Layout><EmployeeShiftsViewer /></Layout>} />
-          <Route path="/" element={<Navigate replace to="https://lemon-rock-074234210.5.azurestaticapps.net//login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/homepage" element={<Layout><HomePage /></Layout>} />
+          <Route path="/getusers" element={<Layout><UsersTable /></Layout>} />
+          <Route path="/adduser" element={<Layout><AddUserForm /></Layout>} />
+          <Route path="/UserProfile/:userId" element={<Layout><UserProflie /></Layout>} />
+          <Route path="/EditProfile/:userId" element={<Layout><EditProfile /></Layout>} />
+          <Route path="/TaskLog" element={<Layout><TaskLog /></Layout>} />
+          <Route path="/Documents" element={<Layout><Documents /></Layout>} />
+          <Route path="/ShiftSchedule" element={<Layout><ShiftSchedule /></Layout>} />
+          <Route path="/ShiftArrangement" element={<Layout><ShiftArrangement /></Layout>} />
+          <Route path="/ShiftArrangementViewer" element={<Layout><ShiftArrangementViewer /></Layout>} />
+          <Route path="/EmployeeShiftsViewer" element={<Layout><EmployeeShiftsViewer /></Layout>} />
+          <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </div>
     </Router>
