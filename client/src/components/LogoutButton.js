@@ -1,7 +1,7 @@
 import React from "react";
 
 const handleLogout = () => {
-  fetch("/logout", {
+  fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/logout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ const handleLogout = () => {
     .then((data) => {
       if (data.success) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = "https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/login";
       }
     })
     .catch((error) => {

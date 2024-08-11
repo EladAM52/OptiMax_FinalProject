@@ -32,7 +32,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const response = await fetch("/getuserprofile", {
+      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getuserprofile", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const EditProfile = () => {
   const onSubmit = async (data) => {
     if(data.role==="עובד"?  localStorage.setItem("UserRole", data.role): localStorage.setItem("UserRole", "מנהל"));
 
-    const endpoint = "/updateuserprofile";
+    const endpoint = "https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/updateuserprofile";
     const options = {
       method: "PUT",
       headers: {
@@ -79,7 +79,7 @@ const EditProfile = () => {
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
-          navigate(`/UserProfile/${userId}`);
+          navigate(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/UserProfile/${userId}`);
         });
       } else {
         console.error(responseData.message);

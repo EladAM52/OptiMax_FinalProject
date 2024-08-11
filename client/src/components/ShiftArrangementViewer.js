@@ -35,7 +35,7 @@ const ShiftArrangementViewer = () => {
 
     const fetchArrangements = useCallback(async () => {
         try {
-            const response = await fetch(`/getShiftArrangements/${currentWeek}`);
+            const response = await fetch(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getShiftArrangements/${currentWeek}`);
             if (!response.ok) {
                 setResponseStatus(response.status);
                 setArrangements([]);
