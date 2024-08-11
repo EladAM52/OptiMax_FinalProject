@@ -11,7 +11,7 @@ const HomePendingTasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("/getTasks"); // Replace with your endpoint
+      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getTasks"); // Replace with your endpoint
       const data = await response.json();
       setTasks(data.filter((task) => !task.completed));
     } catch (error) {

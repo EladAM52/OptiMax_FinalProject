@@ -13,7 +13,7 @@ const Navbar = ({ userRole }) => {
     setIsMenuOpen(!isMenuOpen);
   };
   const handleMenuHomePage = () => {
-    navigate("/homepage");
+    navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/homepage");
   };
   return (
     <nav className="navbar">

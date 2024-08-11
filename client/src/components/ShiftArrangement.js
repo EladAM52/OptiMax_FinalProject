@@ -13,7 +13,7 @@ const ShiftArrangement = () => {
 
     const fetchAllEmployees = useCallback(async () => {
         try {
-            const response = await fetch("/getusers");
+            const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getusers");
             const data = await response.json();
             setAllEmployees(data);
         } catch (err) {
@@ -50,7 +50,7 @@ const ShiftArrangement = () => {
 
     const fetchAvailableEmployees = useCallback(async () => {
         try {
-            const response = await fetch(`/getAvailableEmployees/${currentWeek}`);
+            const response = await fetch(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getAvailableEmployees/${currentWeek}`);
             const data = await response.json();
             setAvailableEmployees(data);
             setLoading(false);
@@ -237,7 +237,7 @@ const ShiftArrangement = () => {
         }
 
         try {
-            const response = await fetch(`/saveShiftArrangements/${currentWeek}`, {
+            const response = await fetch(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/saveShiftArrangements/${currentWeek}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
