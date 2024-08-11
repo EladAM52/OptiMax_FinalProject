@@ -23,7 +23,7 @@ const TaskLog = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getTasks"); // Replace with your endpoint
+      const response = await fetch("/getTasks"); // Replace with your endpoint
       const data = await response.json();
       setTasks(data);
     } catch (error) {
@@ -41,7 +41,7 @@ const TaskLog = () => {
       return;
     }
 
-    const endpoint = "https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/newTask";
+    const endpoint = "/newTask";
     const options = {
       method: "POST",
       headers: {
@@ -87,7 +87,7 @@ const TaskLog = () => {
   };
 
   const deleteTask = async (taskId) => {
-    const endpoint = `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/deleteTask/${taskId}`;
+    const endpoint = `/deleteTask/${taskId}`;
     const options = {
       method: "DELETE",
       headers: {
@@ -137,7 +137,7 @@ const TaskLog = () => {
       });
       return;
     }
-    const endpoint = `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/editTask/${task._id}`;
+    const endpoint = `/editTask/${task._id}`;
     const options = {
       method: "PUT",
       headers: {
@@ -180,7 +180,7 @@ const TaskLog = () => {
   };
 
   const markTaskAsDone = async (taskId) => {
-    const endpoint = `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/editTask/${taskId}`;
+    const endpoint = `/editTask/${taskId}`;
     const options = {
       method: "PUT",
       headers: {

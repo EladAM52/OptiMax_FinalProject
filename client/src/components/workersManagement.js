@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const UsersTable = () => {
   const navigate = useNavigate();
   const navigateToAddUser = () => {
-    navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/adduser");
+    navigate("/adduser");
   };
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ const UsersTable = () => {
 
   const fetchUsers = () => {
     setIsLoading(true);
-    fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getusers")
+    fetch("/getusers")
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
@@ -30,11 +30,11 @@ const UsersTable = () => {
   };
 
   const navigateTouserprofile = (userid) => {
-    navigate(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/UserProfile/${userid}`);
+    navigate(`/UserProfile/${userid}`);
   };
 
   const deleteUser = async (userid) => {
-    const endpoint = `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/deleteUser/${userid}`;
+    const endpoint = `/deleteUser/${userid}`;
     const options = {
       method: "DELETE",
       headers: {

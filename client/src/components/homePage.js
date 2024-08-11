@@ -21,7 +21,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/homepage")
+    fetch("/homepage")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -33,12 +33,12 @@ function HomePage() {
         if (data.success) {
           setAuthorized(true);
         } else {
-          navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/login");
+          navigate("/login");
         }
       })
       .catch((error) => {
         console.error("Error:", error);
-        navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/login");
+        navigate("/login");
       });
   });
 

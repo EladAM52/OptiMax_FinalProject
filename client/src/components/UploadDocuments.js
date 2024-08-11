@@ -14,7 +14,7 @@ const FileUpload = () => {
   const fetchDocuments = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getfiles?role=${userRole}&userId=${userId}`
+        `/getfiles?role=${userRole}&userId=${userId}`
       );
       const data = await response.json();
 
@@ -66,7 +66,7 @@ const FileUpload = () => {
     formData.append("userId", localStorage.getItem("UserId"));
 
     try {
-      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/upload-files", {
+      const response = await fetch("/upload-files", {
         method: "POST",
         body: formData,
       });
@@ -110,7 +110,7 @@ const FileUpload = () => {
 
   const handleDelete = async (docId) => {
     try {
-      const response = await fetch(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/deleteDocument/${docId}`, {
+      const response = await fetch(`/deleteDocument/${docId}`, {
         method: "DELETE",
       });
 
@@ -205,7 +205,7 @@ const FileUpload = () => {
                   className="watch-button"
                   onClick={() =>
                     handleOpenDocument(
-                      `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/files/${doc.fileName}`
+                      `http://localhost:3000/files/${doc.fileName}`
                     )
                   }
                 >

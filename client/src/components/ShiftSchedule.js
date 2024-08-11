@@ -52,7 +52,7 @@ const ShiftSchedule = () => {
     const fetchShifts = useCallback(async () => {
         try {
             const response = await fetch(
-                `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getEmployeeShifts/${employeeId}/${currentWeek}`
+                `/getEmployeeShifts/${employeeId}/${currentWeek}`
             );
             const data = await response.json();
             if (data.length === 0) {
@@ -137,7 +137,7 @@ const ShiftSchedule = () => {
             if (shiftsExistInDb) {
                 try {
                     const response = await fetch(
-                        `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/deleteShifts/${employeeId}/${currentWeek}`,
+                        `/deleteShifts/${employeeId}/${currentWeek}`,
                         {
                             method: "DELETE",
                         }
@@ -187,7 +187,7 @@ const ShiftSchedule = () => {
 
         try {
             const response = await fetch(
-                `https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/updateShifts/${employeeId}/${currentWeek}`,
+                `/updateShifts/${employeeId}/${currentWeek}`,
                 {
                     method: "POST",
                     headers: {
