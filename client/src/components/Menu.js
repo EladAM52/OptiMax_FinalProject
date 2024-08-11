@@ -24,7 +24,7 @@ const Menu = ({ isOpen }) => {
       <div className="sidebar-logo"></div>
       <ul>
         <li>
-          <Link to={`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/UserProfile/${localStorage.getItem("UserId")}`}>
+          <Link to={`/UserProfile/${localStorage.getItem("UserId")}`}>
             <FontAwesomeIcon icon={faUser} />
             פרופיל אישי
           </Link>
@@ -38,23 +38,23 @@ const Menu = ({ isOpen }) => {
               </Link>
             </li> */}
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/TaskLog">
+              <Link to="/TaskLog">
                 <FontAwesomeIcon icon={faTasks} /> יומן משימות
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getusers">
+              <Link to="/getusers">
                 <FontAwesomeIcon icon={faUsers} />
                 ניהול עובדים
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/Documents">
+              <Link to="/Documents">
                 <FontAwesomeIcon icon={faFileImport} /> ניהול מסמכים
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/ShiftArrangement">
+              <Link to="/ShiftArrangement">
                 <FontAwesomeIcon icon={faCalendarDays} />
                 סידור עבודה
               </Link>
@@ -64,22 +64,22 @@ const Menu = ({ isOpen }) => {
         {userrole === "עובד" && (
           <>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/ShiftSchedule">
+              <Link to="/ShiftSchedule">
                 <FontAwesomeIcon icon={faClipboard} /> אילוצים
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/ShiftArrangementViewer">
+              <Link to="/ShiftArrangementViewer">
                 <FontAwesomeIcon icon={faCalendarDays} /> סידור עבודה
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/EmployeeShiftsViewer">
+              <Link to="/EmployeeShiftsViewer">
                 <FontAwesomeIcon icon={faCalendarDays} />  המשמרות שלי
               </Link>
             </li>
             <li>
-              <Link to="https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/Documents">
+              <Link to="/Documents">
                 <FontAwesomeIcon icon={faFileImport} /> העלאת מסמכים
               </Link>
             </li>

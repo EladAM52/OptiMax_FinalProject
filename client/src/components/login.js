@@ -45,7 +45,7 @@ function Login() {
       return;
     }
     setIsLoading(true);
-    const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/login", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

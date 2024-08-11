@@ -14,7 +14,7 @@ const Profile = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getuserprofile", {
+    fetch("/getuserprofile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const editprofile = () => {
-    navigate(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/EditProfile/${userId}`);
+    navigate(`/EditProfile/${userId}`);
   };
 
   if (isLoading) {

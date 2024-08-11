@@ -57,7 +57,7 @@ function VerificationCodeInput() {
     event.preventDefault();
     const fullCode = digits.join("");
     try {
-      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/verifyCode", {
+      const response = await fetch("/verifyCode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function VerificationCodeInput() {
 
       if (data.success) {
         console.log(data.message);
-        navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/homepage");
+        navigate("/homepage");
       } else {
         Swal.fire({
           icon: "error",
@@ -89,7 +89,7 @@ function VerificationCodeInput() {
   const handleResendCode = async () => {
     try {
       setIsResendDisabled(true);
-      const response = await fetch("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/resendCode", {
+      const response = await fetch("/resendCode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

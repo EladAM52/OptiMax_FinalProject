@@ -22,7 +22,7 @@ const AddUserForm = () => {
   };
 
   const onSubmit = async (data) => {
-    const endpoint = "https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/adduser";
+    const endpoint = "/adduser";
     const options = {
       method: "POST",
       headers: {
@@ -44,7 +44,7 @@ const AddUserForm = () => {
           timer: 2000,
         }).then(() => {
           reset(); // Reset the form after successful submission
-          navigate("https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getusers");
+          navigate("/getusers");
         });
       } else {
         console.error(responseData.message);

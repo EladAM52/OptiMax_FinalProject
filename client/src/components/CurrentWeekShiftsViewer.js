@@ -43,7 +43,7 @@ const CurrentWeekShiftsViewer = () => {
         if (!employeeId) return;
 
         try {
-            const response = await fetch(`https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net/getShiftArrangements/${currentWeek}`);
+            const response = await fetch(`/getShiftArrangements/${currentWeek}`);
             if (!response.ok) {
                 setResponseStatus(response.status);
                 setShifts([]);
