@@ -53,5 +53,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://optimax-dqfzcydeh3hce2fh.israelcentral-01.azurewebsites.net"
+  "proxy": "http://localhost:3000"
 }
