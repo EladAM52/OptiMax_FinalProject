@@ -87,6 +87,7 @@ const ShiftArrangement = () => {
                 shifts.forEach(shift => {
                     const availableWorkers = availableEmployees[date]?.[shift] || [];
                     if (availableWorkers.length > 0) {
+                        availableWorkers.sort((a, b) => shiftCounts[a._id] - shiftCounts[b._id]);
                         let selectedEmployee = null;
 
                         for (const worker of availableWorkers) {
